@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>000HelloWorld</title>
+</head>
+
+<body>
+<div id="app">{{message}}</div>
+</body>
+<script src="bower_components/vue/dist/vue.js"></script>
+<script>
+    var data={
+        message: "Hello Vue!"
+    }
+    //HelloWorld
+    new Vue({
+        el: "#app",
+        data:data
+    })
+
+    //再浏览器上调试修改data.message的值，双向绑定仍会起作用
+    //原理剖析 js setter getter
+    //define方式1
+    var obj={
+        data3:1,
+        get data(){
+            return ++this.data3;
+        },
+        set data(val){
+            this.data3=val;
+        }
+    }
+    //删除get set
+    //delete obj.data
+
+    //define方式2
+    var obj2={a:0}
+    Object.defineProperty(obj2,"data",{
+        get:function () {
+             return ++this.a
+        },
+        set:function(val) {
+            this.a=val;
+        }
+    })
+</script>
+
+</html>

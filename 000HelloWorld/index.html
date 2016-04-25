@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>000HelloWorld</title>
+</head>
+
+<body>
+<div id="app">{{message}}</div>
+
+<div id="app1">
+    <input type="text" v-model="message">
+    <span>{{message}}</span>
+</div>
+
+<div id="app2">
+    <ul>
+        <li v-for="todo in todos">
+            {{todo.text}}
+        </li>
+    </ul>
+</div>
+
+<div id="app3">
+    <p>{{message}}</p>
+    <button v-on:click="reverseMsg">reversMsg</button>
+</div>
+
+
+<div id="app4">
+    <input type="text" v-model="newTodo" v-on:keyup.enter="addTodo">
+    <ul>
+        <li v-for="todo in todos"><span>{{todo.text}}</span>
+            <button v-on:click="removeTodo($index)">X</button>
+        </li>
+    </ul>
+</div>
+</body>
+<script src="bower_components/vue/dist/vue.js"></script>
+<script>
+    //HelloWorld
+    new Vue({
+        el: "#app",
+        data: {
+            message: "Hello Vue!"
+        }
+    });
+
+    //双向bind
+    new Vue({
+        el: "#app1",
+        data: {
+            message: "Hello Vue!"
+        }
+    });
+
+    //输出列表
+    new Vue({
+        el: "#app2",
+        data: {
+            todos: [{text: "learn vue"}, {text: "use vue"}]
+        }
+    });
+
+    //处理用户事件
+    new Vue({
+        el: "#app3",
+        data: {
+            message: "use vue"
+        },
+        methods: {
+            reverseMsg: function () {
+                this.message = this.message.split("").reverse().join("");
+            }
+        }
+    });
+
+    //综合
+    new Vue({
+        el: "#app4",
+        data: {
+            newTodo: "",
+            todos: [{text: "learn vue"}, {text: "use vue"}]
+        }
+        , methods: {
+            addTodo: function () {
+                var text = this.newTodo.trim();
+                if (text) {
+                    this.todos.push({text: text});
+                    this.newTodo = "";
+                }
+            }, removeTodo: function (index) {
+                this.todos.splice(index,1);
+            }
+        }
+    });
+
+</script>
+
+</html>
