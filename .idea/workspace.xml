@@ -2,16 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="12884be3-6f5f-4434-9721-8e0e05bb4c51" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/002grammar-test/03Class 与 Style.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/002grammar-test/05数组变动检测.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/002grammar-test/06方法与事件处理器.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/002grammar-test/07表单控件绑定.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/002grammar-test/08过渡.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/002grammar-test/09组件.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/002grammar-test/css/animate.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/002grammar-test/Class 与 Style.html" afterPath="$PROJECT_DIR$/002grammar-test/04条件渲染.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/002grammar-test/数据绑定语法.html" afterPath="$PROJECT_DIR$/002grammar-test/00数据绑定语法.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/002grammar-test/计算属性.html" afterPath="$PROJECT_DIR$/002grammar-test/01计算属性.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/002grammar-test/09组件.html" afterPath="$PROJECT_DIR$/002grammar-test/09组件.html" />
     </list>
     <ignored path="vue-study.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -45,8 +36,8 @@
       <file leaf-file-name="09组件.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/002grammar-test/09组件.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="331">
-              <caret line="36" column="45" selection-start-line="36" selection-start-column="45" selection-end-line="36" selection-end-column="45" />
+            <state relative-caret-position="427">
+              <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -286,12 +277,12 @@
       <workItem from="1461551587182" duration="4297000" />
       <workItem from="1461565125753" duration="13062000" />
       <workItem from="1461636923790" duration="2000" />
-      <workItem from="1461636943586" duration="17053000" />
+      <workItem from="1461636943586" duration="17608000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="34414000" />
+    <option name="totallyTimeSpent" value="34969000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -523,8 +514,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/002grammar-test/09组件.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="331">
-          <caret line="36" column="45" selection-start-line="36" selection-start-column="45" selection-end-line="36" selection-end-column="45" />
+        <state relative-caret-position="427">
+          <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
           <folding />
         </state>
       </provider>

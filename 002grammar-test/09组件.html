@@ -8,49 +8,61 @@
     <script src="bower_components/vue/dist/vue.js"></script>
 </head>
 <body>
-    <div id="app">
-        <my-component></my-component>
-    </div>
-    <script>
-        //我们可以用 Vue.extend() 创建一个组件构造器：
-        var MyComponent=Vue.extend({
-            template:"<div>custom component!</div>"
-        })
+<div id="app">
+    <my-component></my-component>
+</div>
+<script>
+    //我们可以用 Vue.extend() 创建一个组件构造器：
+    var MyComponent = Vue.extend({
+        template: "<div>custom component!</div>"
+    })
 
-        //要把这个构造器用作组件，需要用 Vue.component(tag, constructor) 注册
+    //要把这个构造器用作组件，需要用 Vue.component(tag, constructor) 注册
 
-        //对于自定义标签名字，Vue.js 不强制要求遵循 W3C 规则（小写，并且包含一个短杠）
-        // ，尽管遵循这个规则比较好
-        Vue.component("my-component",MyComponent)
+    //对于自定义标签名字，Vue.js 不强制要求遵循 W3C 规则（小写，并且包含一个短杠）
+    // ，尽管遵循这个规则比较好
+    Vue.component("my-component", MyComponent)
 
-        //注意组件的模板替换了自定义元素，自定义元素的作用只是作为一个挂载点。
-        // 这可以用实例选项 replace 改变
+    //注意组件的模板替换了自定义元素，自定义元素的作用只是作为一个挂载点。
+    // 这可以用实例选项 replace 改变
 
-        var vm=new Vue({
-            el:"#app"
-        })
-    </script>
+    var vm = new Vue({
+        el: "#app"
+    })
+</script>
 
-    <div id="app2">
-        <my-parent-compo>
-            parent
-            <my-child-compo></my-child-compo>
-        </my-parent-compo>
-    </div>
-    <script>
-        var Child=Vue.extend({
-            template:"<span>child component 无需注册</span>"
-        })
-        var Parent=Vue.extend({
-            components:{
-                "my-child-compo":Child
-            }
-        })
-        Vue.component("my-parent-compo",Parent)
-        var vm=new Vue({
-            el:"#app2"
-        })
-    </script>
+<div id="app2">
+    <my-child-compo></my-child-compo>
+</div>
+<script>
+    var Child = Vue.extend({
+        template: "<span>child component 无需注册</span>"
+    })
+    var Parent = Vue.extend({
+        components: {
+            "my-child-compo": Child
+        }
+    })
+    var vm = new Parent({
+        el: "#app2"
+    })
+</script>
+
+<!--
+传入 Vue 构造器的多数选项也可以用在 Vue.extend() 中，
+不过有两个特例： data and el。试想如果我们简单地把一个对象作为 data 选项传给 Vue.extend()
+这么做的问题是 MyComponent 所有的实例将共享同一个 data 对象！
+这基本不是我们想要的，因此我们应当使用一个函数作为 data 选项，函数返回一个新对象：
+-->
+<!--
+var MyComponent = Vue.extend({
+  data: function () {
+    return { a: 1 }
+  }
+})
+-->
+
+
 </body>
 </html>
 
