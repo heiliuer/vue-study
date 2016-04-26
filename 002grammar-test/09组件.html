@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>000HelloWorld</title>
+    <link rel="stylesheet" href="css/animate.css">
+    <style></style>
+    <script src="bower_components/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <my-component></my-component>
+    </div>
+    <script>
+        //我们可以用 Vue.extend() 创建一个组件构造器：
+        var MyComponent=Vue.extend({
+            template:"<div>custom component!</div>"
+        })
+
+        //要把这个构造器用作组件，需要用 Vue.component(tag, constructor) 注册
+
+        //对于自定义标签名字，Vue.js 不强制要求遵循 W3C 规则（小写，并且包含一个短杠）
+        // ，尽管遵循这个规则比较好
+        Vue.component("my-component",MyComponent)
+
+        //注意组件的模板替换了自定义元素，自定义元素的作用只是作为一个挂载点。
+        // 这可以用实例选项 replace 改变
+
+        var vm=new Vue({
+            el:"#app"
+        })
+    </script>
+
+    <div id="app2">
+        <my-parent-compo>
+            parent
+            <my-child-compo></my-child-compo>
+        </my-parent-compo>
+    </div>
+    <script>
+        var Child=Vue.extend({
+            template:"<span>child component 无需注册</span>"
+        })
+        var Parent=Vue.extend({
+            components:{
+                "my-child-compo":Child
+            }
+        })
+        Vue.component("my-parent-compo",Parent)
+        var vm=new Vue({
+            el:"#app2"
+        })
+    </script>
+</body>
+</html>
+
