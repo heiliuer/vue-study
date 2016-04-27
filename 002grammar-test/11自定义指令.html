@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>000HelloWorld</title>
+    <link rel="stylesheet" href="css/animate.css">
+    <style>
+        body > div {
+            border: 1px solid #000000;
+            margin: 4px;
+            padding: 4px;
+        }
+    </style>
+    <script src="bower_components/vue/dist/vue.js"></script>
+</head>
+<body>
+<!--
+除了内置指令，Vue.js 也允许注册自定义指令。自定义指令提供一种机制将数据的变化映射为 DOM 行为。
+可以用 Vue.directive(id, definition) 方法注册一个全局自定义指令，
+它接收两个参数指令 ID 与定义对象。也可以用组件的 directives 选项注册一个局部自定义指令。-->
+<div id="app">
+    <span v-my-directive:hello.a.b="msg"></span>
+</div>
+<script>
+    Vue.directive("my-directive", {
+        bind: function () {
+            // 准备工作
+            // 例如，添加事件处理器或只需要运行一次的高耗任务
+            this.el.innerHTML = this.el.innerHTML || "this contennt" + " is my-directive";
+            /*所有的钩子函数将被复制到实际的指令对象中，钩子内 this 指向这个指令对象。
+             这个对象暴露了一些有用的属性：
+             el: 指令绑定的元素。 =span
+             vm: 拥有该指令的上下文 ViewModel。=Vue
+             expression: 指令的表达式，不包括参数和过滤器。  =msg
+             arg: 指令的参数。=hello
+             name: 指令的名字，不包含前缀。=my-directive
+             modifiers: 一个对象，包含指令的修饰符。{a:true,b:true}
+             descriptor: 一个对象，包含指令的解析结果。*/
+        },
+        update: function (newValue, oldValue) {
+            // 值更新时的工作
+            // 也会以初始值为参数调用一次
+            console.log(newValue, oldValue)//hello
+        },
+        unbind: function () {
+            // 清理工作
+            // 例如，删除 bind() 添加的事件监听器
+        }
+    })
+
+    new Vue({el: "#app", data: {msg: "hello"}})
+    /*当只需要 update 函数时，可以传入一个函数替代定义对象：*/
+    /*Vue.directive('my-directive', function (value) {
+     // 这个函数用作 update()
+     })*/
+
+</script>
+
+<div id="app2">
+    <span v-my-directive2.literal="foo bar baz"></span>
+    <span v-my-directive3="{a:'c',b:'d'}"></span>
+</div>
+<script>
+    Vue.directive("my-directive2", function (val) {
+        /*当指令使用了字面修饰符，它的值将按普通字符串处理并传递给 update 方法。
+         update 方法将只调用一次，因为普通字符串不能响应数据变化。*/
+        console.log(val)
+    })
+    Vue.directive("my-directive3", function (val) {
+        /*如果指令需要多个值，可以传入一个 JavaScript 对象字面量。
+         记住，指令可以使用任意合法的 JavaScript 表达式*/
+        console.log(val.a)//c
+    })
+    new Vue({el: "#app2"})
+</script>
+
+<!--
+有时我们想以自定义元素的形式使用指令，而不是以特性的形式。
+这与 Angular 的 “E” 指令非常相似。
+元素指令可以看做是一个轻量组件。可以像下面这样注册一个自定义元素指令
+-->
+<!--
+有时我们想以自定义元素的形式使用指令，而不是以特性的形式。
+这与 Angular 的 “E” 指令非常相似。元素指令可以看做是一个轻量组件。
+可以像下面这样注册一个自定义元素指令
+-->
+<div id="app3">
+    <my-directive3></my-directive3>
+</div>
+<script>
+    Vue.elementDirective("my-directive3", {
+        bind: function () {
+            console.log("directive3")
+        }
+    })
+    new Vue({
+        el: "#app3"
+    })
+</script>
+
+<div id="app4">
+    <input type="text" v-model="msg">
+    <span v-my-directive5="obj" :a="msg"></span>
+</div>
+<script>
+    Vue.directive("my-directive5", {
+        //如果自定义指令用在一个对象上，
+        // 当对象内部属性变化时要触发 update，则在指令定义对象中指定
+        deep: true,
+        update: function (obj) {
+            console.log(obj)
+        },
+        params: ["a"],
+        paramWatchers: {
+            a: function (val, oldVal) {
+                console.log(val, oldVal)
+            }
+        }
+    })
+    var vm = new Vue({el: "#app4", data: {msg: "Hello", obj: {c: "hello new"}}})
+    vm.obj.c = "Hello new"
+</script>
+
+<!--
+如果指令想向 Vue 实例写回数据，则在指令定义对象中指定 twoWay: true 。
+该选项允许在指令中使用 this.set(value):
+Vue.directive('example', {
+  twoWay: true,
+  bind: function () {
+    this.handler = function () {
+      // 将数据写回 vm
+      // 如果指令这样绑定 v-example="a.b.c"
+      // 它将用给定值设置 `vm.a.b.c`
+      this.set(this.el.value)
+    }.bind(this)
+    this.el.addEventListener('input', this.handler)
+  },
+  unbind: function () {
+    this.el.removeEventListener('input', this.handler)
+  }
+})
+-->
+
+<!--
+terminal
+1.0.19+
+Vue 通过递归遍历 DOM 树来编译模块。
+但是当它遇到 terminal 指令时会停止遍历这个元素的后代元素。
+这个指令将接管编译这个元素及其后代元素的任务。v-if 和 v-for 都是 terminal 指令
+-->
+
+<!--
+priority
+
+可以给指令指定一个优先级。如果没有指定，普通指令默认是 1000，
+ terminal 指令默认是 2000。同一个元素上优先级高的指令会比其它指令处理得早一些。
+ 优先级一样的指令按照它在元素特性列表中出现的顺序依次处理，但是不能保证这个顺序在不同的浏览器中是一致的。
+可以在 API 中查看内置指令的优先级。另外，流程控制指令 v-if 和 v-for 在编译过程中始终拥有最高的优先级。
+-->
+</body>
+</html>
+

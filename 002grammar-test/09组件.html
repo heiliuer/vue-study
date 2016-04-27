@@ -4,7 +4,21 @@
     <meta charset="UTF-8">
     <title>000HelloWorld</title>
     <link rel="stylesheet" href="css/animate.css">
-    <style></style>
+    <style>
+        body > div {
+            border: 1px solid #000000;
+            margin: 4px;
+            padding: 4px;
+        }
+
+        .fade-transition {
+            transition: opacity .3s ease;
+        }
+
+        .fade-enter, .fade-leave {
+            opacity: 0;
+        }
+    </style>
     <script src="bower_components/vue/dist/vue.js"></script>
 </head>
 <body>
@@ -90,6 +104,440 @@ tr 只能直接包含 th 和 td
     <tr>Odd row</tr>
   </tbody>
 </table>
+-->
+
+<!--
+组件实例的作用域是孤立的。这意味着不能并且不应该在子组件的模板内直接引用父组件的数据。
+可以使用 props 把数据传给子组件。
+“prop” 是组件数据的一个字段，期望从父组件传下来。子组件需要显式地用
+HTML 特性不区分大小写。名字形式为 camelCase 的 prop 用作特性时，
+需要转为 kebab-case（短横线隔开）：
+-->
+<div id="app3">
+    <child my-msg="hello"></child>
+</div>
+<script>
+    Vue.component("child", {
+        props: ["myMsg"],
+        template: "<span>{{myMsg}}</span>"
+    })
+    var vm = new Vue({
+        el: "#app3",
+        data: {}
+    })
+</script>
+
+<!--
+类似于绑定一个普通的特性到一个表达式，也可以用 v-bind 绑定动态 Props 到父组件的数据。
+每当父组件的数据变化时，也会传导给子组件
+-->
+<div id="app4">
+    <input type="text" v-model="parentMsg">
+    <br>
+    <child2 :my-message="parentMsg"></child2>
+</div>
+<script>
+    Vue.component("child2", {
+        props: ["myMessage"],
+        template: "<span>{{myMessage}}</span>"
+    })
+    var vm = new Vue({
+        el: "#app4",
+        data: {
+            parentMsg: "Hello"
+        }
+    })
+</script>
+
+<!-- 传递了一个字符串 "1" -->
+<!--<comp some-prop="1"></comp>-->
+<!-- 传递实际的数字  -->
+<!--<comp :some-prop="1"></comp>-->
+
+<!--
+prop 默认是单向绑定：当父组件的属性变化时，将传导给子组件，
+但是反过来不会。这是为了防止子组件无意修改了父组件的状态——这会让应用的数据流难以理解。
+不过，也可以使用 .sync 或 .once 绑定修饰符显式地强制双向或单次绑定
+-->
+<!--
+注意如果 prop 是一个对象或数组，是按引用传递。
+在子组件内修改它会影响父组件的状态，不管是使用哪种绑定类型。
+-->
+<div id="app5">
+    <input type="text" v-model="parentMsg">
+    <child3 :my-message="parentMsg" name="单向"></child3>
+    <child3 :my-message.sync="parentMsg" name="sync"></child3>
+    <child3 :my-message.once="parentMsg" name="once"></child3>
+</div>
+<script>
+    Vue.component("child3", {
+        props: ["myMessage", "name"],
+        template: '{{name}}<input type="text" v-model="myMessage">'
+    })
+    var vm = new Vue({
+        el: "#app5",
+        data: {
+            parentMsg: "Hello"
+        }
+    })
+</script>
+
+<!--
+组件可以为 props 指定验证要求。当组件给其他人使用时这很有用，因为这些验证要求构成了组件的 API，
+确保其他人正确地使用组件。此时 props 的值是一个对象，包含验证要求：
+-->
+<!--
+Vue.component('example', {
+  props: {
+    // 基础类型检测 （`null` 意思是任何类型都可以）
+    propA: Number,
+    // 多种类型 (1.0.21+)
+    propM: [String, Number],
+    // 必需且是字符串
+    propB: {
+      type: String,
+      required: true
+    },
+    // 数字，有默认值
+    propC: {
+      type: Number,
+      default: 100
+    },
+    // 对象/数组的默认值应当由一个函数返回
+    propD: {
+      type: Object,
+      default: function () {
+        return { msg: 'hello' }
+      }
+    },
+    // 指定这个 prop 为双向绑定
+    // 如果绑定类型不对将抛出一条警告
+    propE: {
+      twoWay: true
+    },
+    // 自定义验证函数
+    propF: {
+      validator: function (value) {
+        return value > 10
+      }
+    },
+    // 转换函数（1.0.12 新增）
+    // 在设置值之前转换值
+    propG: {
+      coerce: function (val) {
+        return val + '' // 将值转换为字符串
+      }
+    },
+    propH: {
+      coerce: function (val) {
+        return JSON.parse(val) // 将 JSON 字符串转换为对象
+      }
+    }
+  }
+})
+-->
+
+<!--
+子组件可以用 this.$parent 访问它的父组件。根实例的后代可以用 this.$root 访问它。父组件有一个数组 this.$children，包含它所有的子元素。
+
+尽管可以访问父链上任意的实例，不过子组件应当避免直接依赖父组件的数据，尽量显式地使用 props 传递数据。另外，在子组件中修改父组件的状态是非常糟糕的做法，因为：
+
+这让父组件与子组件紧密地耦合；
+
+只看父组件，很难理解父组件的状态。因为它可能被任意子组件修改！理想情况下，只有组件自己能修改它的状态
+-->
+
+
+<!--
+
+Vue 实例实现了一个自定义事件接口，用于在组件树中通信。这个事件系统独立于原生 DOM 事件，做法也不同。
+
+每个 Vue 实例都是一个事件触发器：
+
+使用 $on() 监听事件；
+
+使用 $emit() 在它上面触发事件；
+
+使用 $dispatch() 派发事件，事件沿着父链冒泡；
+
+使用 $broadcast() 广播事件，事件向下传导给所有的后代。
+
+不同于 DOM 事件，Vue 事件在冒泡过程中第一次触发回调之后自动停止冒泡，除非回调明确返回 true。
+-->
+
+
+<template id="child-template">
+    <input type="text" v-model="cmsg">
+    <button @click="sendMsg">发送</button>
+</template>
+<div id="app6">
+    <span>parent</span>
+    <input type="text" v-model="pmsg">
+    <button @click="sendMsg">发送</button>
+    <!--
+    尽管有 props 和 events，但是有时仍然需要在 JavaScript 中直接访问子组件。
+    为此可以使用 v-ref 为子组件指定一个索引 ID。例如：vm.$refs.my_child
+    v-ref 和 v-for 一起用时，ref 是一个数组或对象，包含相应的子组件
+    -->
+    <child4 v-ref:my_child></child4>
+    <!--vm.$refs.my_child=[Child4...]-->
+    <child4 v-ref:my_child v-for="n in 10"></child4>
+
+</div>
+<script>
+    Vue.component("child4", {
+        template: "#child-template",
+        data: function () {
+            return {cmsg: "Hello"}
+        },
+        events: {
+            "parentMsg": function (msg) {
+                this.cmsg = msg
+            }
+        },
+        methods: {
+            sendMsg: function () {
+                this.$dispatch("childMsg", this.cmsg)
+            }
+        }
+    })
+    var vm = new Vue({
+        el: "#app6",
+        data: {
+            pmsg: ""
+        },
+        events: {
+            "childMsg": function (msg) {
+                this.pmsg = msg
+            }
+        },
+        methods: {
+            sendMsg: function () {
+                this.$broadcast("parentMsg", this.pmsg)
+            }
+        }
+    })
+</script>
+
+<!--
+上例非常好，不过看着父组件的代码， "child-msg" 事件来自哪里不直观。
+如果我们在模板中子组件用到的地方声明事件处理器会更好。为了做到这点，子组件可以用 v-on 监听自定义事件：
+<child v-on:child-msg="handleIt"></child>
+-->
+
+<!--
+在深入内容分发 API 之前，我们先明确内容的编译作用域。假定模板为：
+<child-component>
+  {{ msg }}
+</child-component>
+msg 应该绑定到父组件的数据，还是绑定到子组件的数据？答案是父组件。组件作用域简单地说是：
+-->
+
+<!--
+如果要绑定子组件内的指令到一个组件的根节点，应当在它的模板内这么做：
+
+Vue.component('child-component', {
+  // 有效，因为是在正确的作用域内
+  template: '<div v-show="someChildProperty">Child</div>',
+  data: function () {
+    return {
+      someChildProperty: true
+    }
+  }
+})
+类似地，分发内容是在父组件作用域内编译
+-->
+
+
+<!--
+父组件的内容将被抛弃，除非子组件模板包含 <slot>。
+如果只有一个没有特性的 slot，整个内容将被插到它所在的地方，替换 slot。
+<slot> 标签的内容视为回退内容。回退内容在子组件的作用域内编译，
+只有当宿主元素为空并且没有内容供插入时显示。
+
+假定 my-component 组件有下面模板：
+-->
+
+<template id="my_component">
+    <div>
+        <h1>this is my compo {{cname}} {{cage}}</h1>
+        <slot>this is slot</slot>
+    </div>
+</template>
+
+<div id="app7">
+    <my-component>
+        <p>this is one p {{cname}}</p>
+        <p>this is two p {{cage}}</p>
+    </my-component>
+</div>
+<script>
+    Vue.component("my-component", {
+        template: "#my_component",
+        data: function () {
+            return {cname: "hello", cage: 15}
+        }
+    })
+    var vm = new Vue({
+        el: "#app7"
+    })
+</script>
+
+
+<!--
+<slot> 元素有一个特殊特性 name，用于配置如何分发内容。
+多个 slot 可以有不同的名字。命名 slot 将匹配有对应 slot 特性的内容片断。
+也可以有一个未命名 slot，它是默认 slot，
+作为找不到匹配内容的回退插槽。如果没有默认的 slot，不匹配内容将被抛弃。
+
+例如，假定我们有一个 multi-insertion 组件，它的模板为：
+-->
+
+<!--
+在组合组件时，内容分发 API 是非常有用的机制。
+-->
+<template id="my_component2">
+    <div>
+        <slot></slot>
+        <slot name="one">this is one</slot>
+        <slot name="two">this is two</slot>
+    </div>
+</template>
+
+<div id="app8">
+    <my-component2>
+        <p slot="one">one {{one}}</p>
+        <p slot="two">two {{two}}</p>
+        <p>default</p>
+    </my-component2>
+</div>
+<script>
+    Vue.component("my-component2", {
+        template: "#my_component2"
+    })
+    var vm = new Vue({
+        el: "#app8",
+        data:{
+            one:"hello one",
+            two:"hello two"
+        }
+    })
+</script>
+
+<!--
+多个组件可以使用同一个挂载点，然后动态地在它们之间切换。
+使用保留的 <component> 元素，动态地绑定到它的 is 特性：
+-->
+<!--
+如果把切换出去的组件保留在内存中，可以保留它的状态或避免重新渲染。
+为此可以添加一个 keep-alive 指令参数
+-->
+<!--
+transition-mode 特性用于指定两个动态组件之间如何过渡。
+在默认情况下，进入与离开平滑地过渡。这个特性可以指定另外两种模式：
+in-out：新组件先过渡进入，等它的过渡完成之后当前组件过渡出去。
+out-in：当前组件先过渡出去，等它的过渡完成之后新组件过渡进入
+-->
+<div id="app9">
+    <select v-model="currentView">
+        <option value="home">home</option>
+        <option value="detail">detail</option>
+    </select>
+    <component :is="currentView" keep-alive transition="fade" transition-mode="out-in"></component>
+</div>
+<script>
+    var vm = new Vue({
+        el: "#app9",
+        data: {
+            currentView: "home"
+        },
+        components: {
+            home: {
+                template: "<span>this is home</span>",
+                activate: function (done) {//测试没有效果
+                    /*在切换组件时，切入组件在切入前可能需要进行一些异步操作。
+                     为了控制组件切换时长，给切入组件添加 activate 钩子：*/
+                    //var self = this
+                    //loadDataAsync(function (data) {
+                    //self.someData = data
+                    console.log("activate home");
+                    done()
+                    //})
+                }
+            },
+            detail: {
+                template: "<span>this is detail</span>"
+            }
+        }
+    })
+
+    //测试无效
+    Vue.component("home", {
+        activate: function (done) {
+            /*在切换组件时，切入组件在切入前可能需要进行一些异步操作。
+             为了控制组件切换时长，给切入组件添加 activate 钩子：*/
+            //var self = this
+            //loadDataAsync(function (data) {
+            //self.someData = data
+            console.log("activate home");
+            done()
+            //})
+        }
+    })
+</script>
+
+
+<!--
+Vue.js 组件 API 来自三部分——prop，事件和 slot：
+
+prop 允许外部环境传递数据给组件；
+事件 允许组件触发外部环境的 action；
+slot 允许外部环境插入内容到组件的视图结构内。
+-->
+
+
+
+<!--
+在大型应用中，我们可能需要将应用拆分为小块，只在需要时才从服务器下载。
+为了让事情更简单，Vue.js 允许将组件定义为一个工厂函数，动态地解析组件的定义。
+Vue.js 只在组件需要渲染时触发工厂函数，并且把结果缓存起来，用于后面的再次渲染。例如：
+
+Vue.component('async-example', function (resolve, reject) {
+  setTimeout(function () {
+    resolve({
+      template: '<div>I am async!</div>'
+    })
+  }, 1000)
+})
+工厂函数接收一个 resolve 回调，在收到从服务器下载的组件定义时调用。
+也可以调用 reject(reason) 指示加载失败。这里 setTimeout 只是为了演示。
+怎么获取组件完全由你决定。推荐配合使用 Webpack 的代码分割功能：
+
+Vue.component('async-webpack-example', function (resolve) {
+  // 这个特殊的 require 语法告诉 webpack
+  // 自动将编译后的代码分割成不同的块，
+  // 这些块将通过 ajax 请求自动下载。
+  require(['./my-async-component'], resolve)
+})
+
+-->
+
+
+<!--
+ES6 对象字面量缩写 也没问题：
+
+// PascalCase
+import TextBox from './components/text-box';
+import DropdownMenu from './components/dropdown-menu';
+
+export default {
+  components: {
+    // 在模板中写作 <text-box> 和 <dropdown-menu>
+    TextBox,
+    DropdownMenu
+  }
+}
+
 -->
 </body>
 </html>
