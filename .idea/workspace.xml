@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="12884be3-6f5f-4434-9721-8e0e05bb4c51" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/002grammar-test/14插件.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/002grammar-test/15构建大型应用.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/002grammar-test/12混合.html" afterPath="$PROJECT_DIR$/002grammar-test/12混合.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/002grammar-test/12自定义过滤器.html" afterPath="$PROJECT_DIR$/002grammar-test/13自定义过滤器.html" />
-    </list>
+    <list default="true" id="12884be3-6f5f-4434-9721-8e0e05bb4c51" name="Default" comment="" />
     <ignored path="vue-study.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -271,7 +265,7 @@
       <workItem from="1461808775920" duration="8769000" />
       <workItem from="1461826698832" duration="532000" />
       <workItem from="1461829353893" duration="9983000" />
-      <workItem from="1461914515780" duration="9103000" />
+      <workItem from="1461914515780" duration="9904000" />
     </task>
     <task id="LOCAL-00001" summary="完成 基于weui，vue的todos">
       <created>1461923990097</created>
@@ -284,7 +278,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="81472000" />
+    <option name="totallyTimeSpent" value="82273000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
