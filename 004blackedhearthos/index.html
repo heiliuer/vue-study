@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>莆田系查询</title>
+    <link rel="stylesheet" href="bower_components/weui/dist/style/weui.min.css">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <style>
+        .todo__title___3xjQ7 {
+            margin: 10px 0;
+            font-weight: 400;
+            font-size: 34px;
+            color: #3cc51f;
+            text-align: center
+        }
+
+        .margin_t {
+            margin-top: 10px;
+            display: block;
+        }
+
+        #top {
+            position: fixed;
+            bottom: 2%;
+            right: 2%;
+            background: #333232;
+            color: #FFF;
+            padding: 4px;
+            cursor: pointer;
+        }
+
+        #vue_app {
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 2%;
+        }
+
+        .muted_text {
+            color: #989898;
+        }
+
+        .invisiable {
+            display: none;
+        }
+
+        .average_3 {
+            width: 32%;
+            display: inline-block;
+        }
+
+        #vue_app ul {
+            list-style: none;
+        }
+    </style>
+</head>
+<body>
+<div id="vue_app" class="invisiable">
+
+    <!--<h1 class="todo__title___3xjQ7">莆田系</h1>-->
+
+    <div class="weui_cells weui_cells_form weui_cells_checkbox">
+        <div class="weui_cell  weui_cell_primary">
+            <input v-model="key" @keyup.enter="addTodo" autofocus autocomplete="off"
+                   placeholder="输入关键字查询"
+                   class="weui_input" debounce="300">
+        </div>
+    </div>
+
+    <div>
+        <span class="muted_text margin_t" v-if="filteredHOSS[0]">地区或管理体系</span>
+        <div class="margin_t">
+            <a href="#loc_{{hoss.location}}" v-if="hoss.location.length<=6" v-for="hoss in filteredHOSS">
+                {{hoss.location}} </a>
+        </div>
+    </div>
+
+
+    <span class="muted_text margin_t" v-if="filteredHOSS[0]">医院列表（{{sum}}所）</span>
+    <ul v-for="hoss in filteredHOSS">
+        <li>
+            <b class="margin_t" id="loc_{{hoss.location}}">{{hoss.location}}</b>
+            <ul v-for="hos in hoss.hoss">
+                <li><span @click="showDetail(hos.name)">{{hos.name}}</span></li>
+            </ul>
+        </li>
+    </ul>
+
+    <div class="weui_dialog_alert invisiable" id="detail">
+        <div class="weui_mask"></div>
+        <div class="weui_dialog">
+            <div class="weui_dialog_hd"><strong class="weui_dialog_title">{{currentHos}}</strong></div>
+            <div class="weui_dialog_bd">
+                <a class="average_3" target="_blank" href="https://www.baidu.com/s?wd={{currentHos|encodeURI}}">百度</a>
+                <a class="average_3" target="_blank"
+                   href="http://www.sogou.com/web?query={{currentHos|encodeURI}}">搜狗</a>
+                <a class="average_3" target="_blank"
+                   href="http://www.zhihu.com/search?type=content&q={{currentHos|encodeURI}}">知乎</a>
+            </div>
+            <div class="weui_dialog_ft">
+                <a href="javascript:;" class="weui_btn_dialog primary">确定</a>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<div id="top">返回顶部</div>
+
+</body>
+<script src="bower_components/vue/dist/vue.min.js"></script>
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="hoss.js"></script>
+<script>
+    Vue.filter("encodeURI", function (value) {
+        return encodeURI(value)
+    })
+    var vm = new Vue({
+        el: "#vue_app",
+        data: {
+            HOSS: HOSS,
+            key: "",
+            currentHos: ""
+        },
+        methods: {
+            showDetail: function (hos) {
+                this.currentHos = hos
+                $("#detail").show()
+            }
+        },
+        computed: {
+            sum: function () {
+                var sum = 0
+                for (var i in this.filteredHOSS) {
+                    sum += this.filteredHOSS[i].hoss.length
+                }
+                return sum
+            },
+            filteredHOSS: function () {
+                var datas = $.extend(true, {}, this.HOSS)
+                if (this.key != "") {
+                    var datasR = []
+                    for (var i in datas) {
+                        var del = true
+                        var data = datas[i]
+                        if (data.location.length > 6) {
+                            continue
+                        }
+                        if (data.location.indexOf(this.key) != -1) {
+                            del = false
+                        } else {
+                            var hoss = [];
+                            for (var j in data.hoss) {
+                                if (data.hoss[j].name.indexOf(this.key) != -1) {
+                                    hoss.push(data.hoss[j])
+                                }
+                            }
+                            data.hoss = hoss
+                            del = data.hoss.length == 0
+                        }
+                        if (!del) {
+                            datasR.push(data)
+                        }
+                    }
+                    return datasR
+                }
+                return datas;
+            }
+        }
+    })
+
+
+    $("#top").click(function () {
+        $("html, body").animate({scrollTop: 0}, "fast");
+        return false;
+    })
+
+    $(window).scroll(function () {
+        var $top = $("#top")
+        var hide = $top.is(":hidden")
+        return function () {
+            if (document.body.scrollTop < 400 && !hide) {
+                $top.hide(100,function () {
+                    hide=true
+                })
+            }
+            if (document.body.scrollTop >= 400 && hide) {
+                $top.show(100,function () {
+                    hide=false
+                })
+            }
+        }
+    }()).trigger("scroll")
+
+    $("#vue_app").show()
+
+    $("#detail .weui_btn_dialog").click(function () {
+        $("#detail").hide()
+    })
+
+</script>
+</html>
