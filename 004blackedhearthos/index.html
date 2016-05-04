@@ -26,7 +26,6 @@
             background: #333232;
             color: #FFF;
             padding: 4px;
-            cursor: pointer;
         }
 
         #vue_app {
@@ -51,18 +50,35 @@
         #vue_app ul {
             list-style: none;
         }
+        .cursor_pointer{
+            cursor: pointer;
+        }
+
+        .float_r {
+            display: inline-block;
+            float: right;
+            position: relative;
+            right: 2%;
+        }
     </style>
 </head>
 <body>
 <div id="vue_app" class="invisiable">
 
     <!--<h1 class="todo__title___3xjQ7">莆田系</h1>-->
+    <div>
+        <div class="float_r muted_text cursor_pointer" @click="showQrcode">分享</div>
+        <div style="clear: both"></div>
+    </div>
 
     <div class="weui_cells weui_cells_form weui_cells_checkbox">
         <div class="weui_cell  weui_cell_primary">
-            <input v-model="key" @keyup.enter="addTodo" autofocus autocomplete="off"
+            <input v-model="key" autofocus autocomplete="off"
                    placeholder="输入关键字查询"
                    class="weui_input" debounce="300">
+
+            <i class="weui_icon_cancel" @click="clearKey"></i>
+
         </div>
     </div>
 
@@ -102,10 +118,24 @@
         </div>
     </div>
 
+    <div class="weui_dialog_alert invisiable" id="qrcode">
+        <div class="weui_mask"></div>
+        <div class="weui_dialog">
+            <div class="weui_dialog_hd"><strong class="weui_dialog_title">扫一扫分享网页</strong></div>
+            <div class="weui_dialog_bd">
+                <img width="90%" src="http://qr.liantu.com/api.php?text={{currentUrl|encodeURI}}" alt="">
+            </div>
+            <div class="weui_dialog_ft">
+                <a href="javascript:;" class="weui_btn_dialog primary">确定</a>
+            </div>
+        </div>
+    </div>
+
+
 
 </div>
 
-<div id="top">返回顶部</div>
+<div id="top" class="cursor_pointer">返回顶部</div>
 
 </body>
 <script src="bower_components/vue/dist/vue.min.js"></script>
@@ -120,12 +150,19 @@
         data: {
             HOSS: HOSS,
             key: "",
-            currentHos: ""
+            currentHos: "",
+            currentUrl:location.href
         },
         methods: {
             showDetail: function (hos) {
                 this.currentHos = hos
                 $("#detail").show()
+            },
+            showQrcode:function () {
+                $("#qrcode").show()
+            },
+            clearKey:function () {
+                this.key=""
             }
         },
         computed: {
@@ -196,6 +233,9 @@
 
     $("#detail .weui_btn_dialog").click(function () {
         $("#detail").hide()
+    })
+    $("#qrcode .weui_btn_dialog").click(function () {
+        $("#qrcode").hide()
     })
 
 </script>
