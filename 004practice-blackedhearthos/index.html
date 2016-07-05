@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>莆田系查询</title>
-    <link rel="stylesheet" href="bower_components/weui/dist/style/weui.min.css">
+    <link rel="stylesheet" href="../vendor/weui.css">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <style>
         .todo__title___3xjQ7 {
@@ -138,12 +138,11 @@
 <div id="top" class="cursor_pointer">返回顶部</div>
 
 </body>
-<script src="bower_components/vue/dist/vue.min.js"></script>
-<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="../vendor/vue.js"></script>
+<script src="../vendor/jquery.js"></script>
 <script src="hoss.js"></script>
 <script>
     Vue.filter("encodeURI", function (value) {
-        return encodeURI(value)
     })
     var vm = new Vue({
         el: "#vue_app",
