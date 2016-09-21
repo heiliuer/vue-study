@@ -50,7 +50,8 @@
         #vue_app ul {
             list-style: none;
         }
-        .cursor_pointer{
+
+        .cursor_pointer {
             cursor: pointer;
         }
 
@@ -132,7 +133,6 @@
     </div>
 
 
-
 </div>
 
 <div id="top" class="cursor_pointer">返回顶部</div>
@@ -150,18 +150,18 @@
             HOSS: HOSS,
             key: "",
             currentHos: "",
-            currentUrl:location.href
+            currentUrl: location.href
         },
         methods: {
             showDetail: function (hos) {
                 this.currentHos = hos
                 $("#detail").show()
             },
-            showQrcode:function () {
+            showQrcode: function () {
                 $("#qrcode").show()
             },
-            clearKey:function () {
-                this.key=""
+            clearKey: function () {
+                this.key = ""
             }
         },
         computed: {
@@ -216,13 +216,13 @@
         var hide = $top.is(":hidden")
         return function () {
             if (document.body.scrollTop < 400 && !hide) {
-                $top.hide(100,function () {
-                    hide=true
+                $top.hide(100, function () {
+                    hide = true
                 })
             }
             if (document.body.scrollTop >= 400 && hide) {
-                $top.show(100,function () {
-                    hide=false
+                $top.show(100, function () {
+                    hide = false
                 })
             }
         }
