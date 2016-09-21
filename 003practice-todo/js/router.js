@@ -3,7 +3,7 @@
  */
 (function (app, Router) {
     var router = new Router();
-        ['all', 'active', 'completed'].forEach(function (visibility) {
+    ['all', 'active', 'completed'].forEach(function (visibility) {
         router.on(visibility, function () {
             app.visibility = visibility;
         });
