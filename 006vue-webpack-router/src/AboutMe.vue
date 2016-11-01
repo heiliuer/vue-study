@@ -1,19 +1,20 @@
 <template>
-    <div class="header">
+    <div class="bottom">
         {{msg}}
     </div>
 </template>
 <style>
-    .header{
-        background-color:#00ff00;
+    .bottom{
+        background-color:#222;
     }
+
 
 </style>
 <script>
     export default{
         data(){
             return{
-                msg:'i am header!'
+                msg:'create by Heiliuer!'
             }
         }
     }

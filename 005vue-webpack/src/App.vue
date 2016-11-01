@@ -1,19 +1,28 @@
 <template>
-    <h1>{{ msg }}</h1>
+    <div>
+        <header-component></header-component>
+        <div>{{msg}}</div>
+        <bottom-component></bottom-component>
+    </div>
 </template>
-
-<script>
-export default {
-  data () {
-    return {
-      msg: 'Hello Vue!'
+<style>
+    body{
+        background-color:#ff0000;
     }
-  }
-}
-</script>
-
-<style scoped>
-h1 {
-  color: red;
-}
 </style>
+<script>
+    import BottomComponent from './Bottom.vue'
+    import HeaderComponent from './Header.vue'
+    export default{
+        data(){
+            return{
+                msg:'hello vue'
+            }
+        },
+        components:{
+            BottomComponent,
+            HeaderComponent,
+        }
+    }
+
+</script>

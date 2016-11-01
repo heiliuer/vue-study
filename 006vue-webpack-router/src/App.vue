@@ -2,7 +2,7 @@
     <div>
         <header-component></header-component>
         <div>{{msg}}</div>
-        <header-component></header-component>
+        <bottom-component></bottom-component>
     </div>
 </template>
 <style>
@@ -19,10 +19,16 @@
                 msg:'hello vue'
             }
         },
+        ready(){
+            console.log("ready  11");
+        },
+
         components:{
             BottomComponent,
             HeaderComponent,
-        }
+        },
+        template:"h1"
+
     }
 
 </script>
