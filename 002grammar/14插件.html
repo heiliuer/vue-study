@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>000HelloWorld</title>
+    <link rel="stylesheet" href="css/animate.css">
+    <style></style>
+    <script src="../vendor/vue.js"></script>
+</head>
+<body>
+<script>
+    var MyPlugin = function () {
+    }
+    MyPlugin.install = function (Vue, options) {
+        // 1. 添加全局方法或属性
+        //Vue.myGlobalMethod = ...
+        // 2. 添加全局资源
+        //Vue.directive('my-directive', {})
+        // 3. 添加实例方法
+        //Vue.prototype.$myMethod = ...
+    }
+
+    //通过 Vue.use() 全局方法使用插件：
+    Vue.use(MyPlugin)
+    //一些插件，如 vue-router，如果 Vue 是全局变量则自动调用 Vue.use()。
+    // 不过在模块环境中应当始终显式调用 Vue.use()
+
+    // 通过 Browserify 或 Webpack 使用 CommonJS 兼容模块
+    //var Vue = require('vue')
+    //Vue.use(MyPlugin, { someOption: true })
+    //var VueRouter = require('vue-router')
+    // 不要忘了调用此方法
+    //Vue.use(VueRouter)
+
+</script>
+</body>
+</html>
+

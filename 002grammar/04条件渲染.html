@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title>000HelloWorld</title>
+    <style>
+        #app>span{
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+<div id="app">
+
+    <span v-if="print">Hello</span>
+    <!--v-else 元素必须立即跟在 v-if 或 v-show 元素的后面——否则它不能被识别-->
+    <span v-else>No Hello</span>
+
+    <!--有问题 始终是true-->
+    {{#if print=='true'}}
+        <span>Hello2</span>
+    {{/if}}
+
+    <!--包裹标签-->
+    <template v-if="print">
+        <span>Hello3</span>
+    </template>
+
+    <!--影藏-->
+    <span v-show="!print">Hello4</span>
+
+</div>
+
+</body>
+<script src="../vendor/vue.js"></script>
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            print:true
+        }
+    })
+</script>
+
+</html>

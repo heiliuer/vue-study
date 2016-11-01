@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title>000HelloWorld</title>
+    <link rel="stylesheet" href="css/animate.css">
+    <style></style>
+    <script src="../vendor/vue.js"></script>
+</head>
+<body>
+
+<!--
+混合以一种灵活的方式为组件提供分布复用功能。
+混合对象可以包含任意的组件选项。
+当组件使用了混合对象时，混合对象的所有选项将被“混入”组件自己的选项中
+-->
+<script>
+    var myMixin = {
+        created: function () {
+            this.hello()
+        },
+        methods: {
+            hello: function () {
+                console.log("hello")
+            }
+        }
+    }
+    var MixinCompo = Vue.extend({mixins: [myMixin]})
+
+    new MixinCompo()
+</script>
+
+
+<!--
+当混合对象与组件包含同名选项时，这些选项将以适当的策略合并。
+例如，同名钩子函数被并入一个数组，因而都会被调用。另外，混合的钩子将在组件自己的钩子之前调用
+-->
+<script>
+    var mixin = {
+        created: function () {
+            console.log("mixin called")
+        }
+    }
+    new Vue({
+        mixins: [mixin],
+        created: function () {
+            console.log("compo called")
+        }
+    })
+</script>
+
+<!--
+值为对象的选项，如 methods, components 和 directives 将合并到同一个对象内。
+如果键冲突则组件的选项优先
+-->
+<script>
+    var mixin = {
+        methods: {
+            foo: function () {
+                console.log("foo")
+            },
+            conflicting: function () {
+                console.log("conflicting");
+            }
+        }
+    }
+    var vm = new Vue({
+        mixins: [mixin],
+        methods: {
+            bar: function () {
+                console.log("bar")
+            },
+            conflicting: function () {
+                console.log("from compo")
+            }
+        }
+    })
+    vm.foo()
+    vm.bar()
+    vm.conflicting()
+</script>
+
+<!--在合并自定义选项时，默认的合并策略是简单地覆盖已有值。
+如果想用自定义逻辑合并自定义选项，则向 Vue.config.optionMergeStrategies 添加一个函数-->
+<script>
+    Vue.config.optionMergeStrategies.theOption=function (toVal, fromVal) {
+        console.log("theOption strategy call ",toVal,fromVal)
+    }
+
+    /*对于多数值为对象的选项，可以简单地使用 methods 所用的合并策略*/
+    //    var strategies=Vue.config.optionMergeStrategies
+    //    strategies.theOption=strategies.methods
+</script>
+
+
+<!--
+也可以全局注册混合。小心使用！一旦全局注册混合，它会影响所有之后创建的 Vue 实例。
+如果使用恰当，可以为自定义选项注入处理逻辑
+-->
+<!--
+慎用全局混合，因为它影响到每个创建的 Vue 实例，包括第三方组件。
+在大多数情况下，它应当只用于自定义选项，就像上面示例一样
+-->
+<script>
+    Vue.mixin({
+        created: function () {
+            var myOption = this.$options.myOption
+            if (myOption) {
+                console.log(myOption)
+            }
+        }
+    })
+    new Vue({
+        mixins:[{theOption:"Hello"}],
+        myOption: "Hello"
+    })
+</script>
+
+
+</body>
+</html>
+

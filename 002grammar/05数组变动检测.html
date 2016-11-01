@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title>000HelloWorld</title>
+    <style>
+        #app>span{
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+<div id="app">
+
+    <!--在 v-for 块内我们能完全访问父组件作用域内的属性，另有一个特殊变量 $index，
+    正如你猜到的，它是当前数组元素的索引：-->
+    <!--从 1.0.17 开始可以使用 of 分隔符，更接近 JavaScript 遍历器语法-->
+    <ul v-for="p in persons">
+        <li><span>{{$index+1}}</span>  {{p.name}}</li>
+    </ul>
+    <ul v-for="p of persons">
+        <li><span>{{$index+1}}</span>  {{p.name}}</li>
+    </ul>
+
+    <!--然后在替换数组 items 时，
+    如果 Vue.js 遇到一个包含 _uid: '88f869d' 的新对象，
+    它知道它可以复用这个已有对象的作用域与 DOM 元素。-->
+    <ul v-for="p of personsUUId" track-by="uuid">
+        <li><span>{{$index+1}}</span>  {{p.name}}</li>
+    </ul>
+
+    <!--如果没有唯一的键供追踪，可以使用 track-by="$index"，
+    它强制让 v-for 进入原位更新模式：片断不会被移动，
+    而是简单地以对应索引的新值刷新。这种模式也能处理数据数组中重复的值。-->
+
+    <!--这让数据替换非常高效，但是也会付出一定的代价。
+    因为这时 DOM 节点不再映射数组元素顺序的改变，
+    不能同步临时状态（比如 <input> 元素的值）以及组件的私有状态。
+    因此，如果 v-for 块包含 <input> 元素或子组件，要小心使用-->
+    <ul v-for="p of personsUUId" track-by="$index">
+        <li><span>{{$index+1}}</span>  {{p.name}}</li>
+    </ul>
+
+    <!--在遍历对象时，是按 Object.keys() 的结果遍历，
+    但是不能保证它的结果在不同的 JavaScript 引擎下是一致的。-->
+    <table border="1px">
+        <tr v-for="d of heiliuerDetail">
+            <td>{{$key}}</td><td>{{d}}</td>
+        </tr>
+    </table>
+    <table border="1px">
+        <tr v-for="(item,val) in heiliuerDetail">
+            <td>{{item}}</td><td>{{val}}</td>
+        </tr>
+    </table>
+    <!--也可以接收一个整数，此时它将重复模板数次-->
+    <table border="1px">
+        <tr>
+            <td v-for="n in 10">{{$index+1}}</td>
+        </tr>
+    </table>
+
+</div>
+
+</body>
+<script src="../vendor/vue.js"></script>
+<script>
+    var persons=[{name:"chenwenlin"},{name:"yangwenyu",isBG:true},{name:"heiliuer"}]
+    var personsUUId=[{uuid:"11",name:"chenwenlin"},{uuid:"121",name:"yangwenyu",isBG:true},{uuid:"131",name:"heiliuer"}]
+    var heiliuerDetail={age:23,master:"java android h5+js c51 javaweb"}
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            persons:persons,
+            personsUUId:personsUUId,
+            heiliuerDetail:heiliuerDetail
+        }
+    })
+
+    /*  Vue.js 包装了被观察数组的变异方法，故它们能触发视图更新。被包装的方法有：
+        push()
+        pop()
+        shift()
+        unshift()
+        splice()
+        sort()
+        reverse()*/
+    setInterval(function () {
+       // persons.push({name:Math.floor(Math.random()*1000+1000)+""});
+    },1000);
+
+    /*变异方法，如名字所示，修改了原始数组。
+    相比之下，也有非变异方法，
+    如 filter(), concat() 和 slice()，
+    不会修改原始数组而是返回一个新数组。
+    在使用非变异方法时，可以直接用新数组替换旧数组.
+     Vue可能你觉得这将导致 Vue.js
+     弃用已有 DOM 并重新渲染整个列表——幸运的是并非如此。
+     Vue.js 实现了一些启发算法，以最大化复用 DOM 元素，
+     因而用另一个数组替换数组是一个非常高效的操作。*/
+    vm.persons=persons.filter(function (p) {
+        return p.isBG;
+    });
+
+    /*有时需要用全新对象（例如通过 API 调用创建的对象）替换数组。
+    因为 v-for 默认通过数据对象的特征来决定对已有作用域和 DOM 元素的复用程度，
+    这可能导致重新渲染整个列表。但是，如果每个对象都有一个唯一 ID 的属性，
+    便可以使用 track-by 特性给 Vue.js 一个提示，
+    Vue.js 因而能尽可能地复用已有实例。*/
+
+
+    /*因为 JavaScript 的限制，Vue.js 不能检测到下面数组变化：
+    直接用索引设置元素，如 vm.items[0] = {}；
+    修改数据的长度，如 vm.items.length = 0。
+    解决问题1：example1.items.$set(0, { childMsg: 'Changed!'})
+            与 `example1.items[0] = ...` 相同，但是能触发视图更新
+    解决问题2：只需用一个空数组替换 items
+
+    也增加$remove方法，可以不必用变异方法splice
+    this.items.$remove(item)
+    */
+
+
+    /*有时我们想显示过滤/排序过的数组，同时不实际修改或重置原始数据。有两个办法：
+    创建一个计算属性，返回过滤/排序过的数组；
+    使用内置的过滤器 filterBy 和 orderBy。
+    计算属性有更好的控制力，也更灵活，因为它是全功能 JavaScript。但是通常过滤器更方便，详细见
+     http://cn.vuejs.org/api/#filterBy*/
+
+
+</script>
+
+</html>

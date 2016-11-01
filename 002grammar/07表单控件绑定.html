@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title>000HelloWorld</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+<div id="app">
+    <fieldset>
+        <legend>Msg:{{msg}}</legend>
+        <input type="text" name="" v-model="msg" id="">
+    </fieldset>
+
+    <fieldset>
+        <input type="checkbox"  name="" v-model="checked" id="checkbox">
+        <label for="checkbox">{{checked}}</label>
+    </fieldset>
+
+    <fieldset>
+        <input type="checkbox"  value="cwl" name="" v-model="checkedPersons" id="cwl">
+        <label for="cwl">cwl</label>
+        <input type="checkbox"  value="ywy" name="" v-model="checkedPersons" id="ywy">
+        <label for="ywy">ywy</label>
+        <input type="checkbox"  value="heiliuer" name="" v-model="checkedPersons" id="heiliuer">
+        <label for="heiliuer">heiliuer</label>
+        <span>{{checkedPersons|json}}</span>
+    </fieldset>
+
+    <fieldset>
+        <!--这里没有定义相同的name，但是单选凑效，是因为vue，通过v-model指令，内部做了处理-->
+        <input type="radio" name="" id="one" value="one" v-model="picked">
+        <input type="radio" name="" id="two" value="two" v-model="picked">
+        <input type="radio" name="" id="three" value="three" v-model="picked">
+        <input type="radio" name="" id="four" value="four" v-model="picked">
+        <span>{{picked}}</span>
+    </fieldset>
+
+    <div>
+        <select v-model="selected" multiple>
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+        <span>{{selected|json}}</span>
+    </div>
+
+    <div>
+        <select  v-model="selected2">
+            <option v-for="opt in options" :value="opt.value">
+                {{opt.text}}
+            </option>
+        </select>
+        <span>{{selected2}}</span>
+    </div>
+
+    <!--但是有时我们想绑定值到 Vue 实例一个动态属性上。可以用 v-bind 做到。
+     而且 v-bind 允许绑定输入框的值到非字符串值。-->
+    <input type="checkbox" v-model="toggle" :true-value="a" :false-value="b">
+    <select v-model="selected3">
+        <option :value="{number:123}">123</option>
+    </select>
+    <span>{{selected3.number}}</span>
+
+    <!--在默认情况下，v-model 在input 事件中同步输入框值与数据，
+    可以添加一个特性 lazy，从而改到在 change 事件中同步：-->
+    <input type="text"  v-model="change_val" lazy>
+    <span>{{change_val}}</span>
+
+    <input type="text" v-model="number_val" number>
+
+    <!--debounce 设置一个最小的延时，在每次敲击之后延时同步输入框的值与数据。
+    如果每次更新都要进行高耗操作（例如在输入提示中 Ajax 请求），它较为有用-->
+    <input v-model="debounce" debounce="500">
+    <span>{{debounce}}</span>
+</div>
+
+</body>
+<script src="../vendor/vue.js"></script>
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            msg: "",
+            checked:false,
+            checkedPersons:[],
+            picked:"",
+            selected:[],
+            selected2:"B",
+            options:[
+                {text:"one",value:"A"},
+                {text:"two",value:"B"},
+                {text:"three",value:"C"}
+            ],
+            toggle:true,
+            a:true,
+            b:false,
+            selected3:{},
+            change_val:"Hello",
+            number_val:"",
+            debounce:""
+        }
+    })
+    vm.toggle=vm.a
+    setTimeout(function () {
+        vm.toggle=vm.b
+    },2000);
+</script>
+</html>

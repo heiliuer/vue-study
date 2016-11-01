@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title>000HelloWorld</title>
+    <style>
+        #app span{
+            display:block;
+        }
+    </style>
+</head>
+
+<body>
+<!--在模板中表达式非常便利，但是它们实际上只用于简单的操作。
+模板是为了描述视图的结构。在模板中放入太多的逻辑会让模板过重且难以维护。
+这就是为什么 Vue.js 将绑定表达式限制为一个表达式。
+如果需要多于一个表达式的逻辑，应当使用计算属性-->
+<!--Vue.js 提供了一个方法 $watch，它用于观察 Vue 实例上的数据变动。
+当一些数据需要根据其它数据变化时， $watch 很诱人 —— 特别是如果你来自 AngularJS。
+不过，通常更好的办法是使用计算属性而不是一个命令式的 $watch 回调。-->
+<!--计算属性默认只是 getter，不过在需要时你也可以提供一个 setter-->
+<div id="app">
+    <input v-model="firstName" type="text" name="" id="">
+    <input v-model="lastName" type="text" name="" id="">
+    <input v-model="fullName" type="text" name="" id="">
+    <input v-model="fullName_s" type="text" name="" id="">
+    <span>fullName {{fullName}}</span>
+    <span>fullName_s {{fullName_s}}</span>
+</div>
+
+</body>
+<script src="../vendor/vue.js"></script>
+<script>
+    var vm=new Vue({
+        el: "#app",
+        data: {firstName: "wang",lastName:"wei"},
+        computed:{
+            fullName:function () {
+                return this.firstName+" "+this.lastName
+            },
+            fullName_s:{
+                get:function () {
+                    return this.firstName+" "+this.lastName
+                },
+                set:function (val) {
+                    var names = val.split(' ')
+                    this.firstName = names[0]
+                    this.lastName = names[1]||""
+                }
+            }
+        }
+    })
+</script>
+
+</html>
