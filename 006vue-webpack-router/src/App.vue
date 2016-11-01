@@ -1,5 +1,6 @@
 <template>
     <div>
+        <router-link to="/about">Go to About</router-link>
         <header-component></header-component>
         <div>{{msg}}</div>
         <bottom-component></bottom-component>
