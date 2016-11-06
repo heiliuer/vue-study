@@ -1,0 +1,24 @@
+{
+  "song": [
+    {
+      "bitrate_fee": "{\"0\":\"0|0\",\"1\":\"0|0\"}",
+      "yyr_artist": "0",
+      "songname": "埋葬冬天",
+      "artistname": "汪苏浅,阿悄",
+      "control": "0000000000",
+      "songid": "22086424",
+      "has_mv": "0",
+      "encrypted_songid": "1907151031809571f0e1fL"
+    }
+  ],
+  "order": "song,album",
+  "error_code": 22000,
+  "album": [
+    {
+      "albumname": "埋葬冬天 （单曲）",
+      "artistpic": "http:\/\/qukufile2.qianqian.com\/data2\/pic\/b5a70385f96c8cc0102ff797ef54db10\/261992802\/261992802.jpg",
+      "albumid": "22086411",
+      "artistname": "汪苏泷"
+    }
+  ]
+}
