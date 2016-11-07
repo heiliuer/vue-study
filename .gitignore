@@ -1,3 +1,6 @@
 /.idea
 /node_modules
 /bower_components
+/006vue-webpack-router/node_modules
+/005vue-webpack/node_modules
+/007vue-webpack-music/node_modules
