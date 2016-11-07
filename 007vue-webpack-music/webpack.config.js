@@ -19,6 +19,10 @@ var loaders = [
     {
         'test': /\.vue?$/,
         'loader': 'vue'
+    },
+    {
+        test: /\.less$/,
+        loader: "style!css!less"
     }
 ];
 
@@ -46,6 +50,9 @@ module.exports = {
     ],
     module: {
         loaders: loaders
+    },
+    vue: {
+        less: "css!less"
     },
     /*解决 不能使用template模板的问题*/
     resolve: {

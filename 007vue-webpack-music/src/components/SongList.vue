@@ -2,7 +2,7 @@
     <div>
         <!--<div class="content-block-title">歌曲列表</div>-->
 
-        <h6 v-if="!songs||songs.length==0" class="text-center text-muted">空</h6>
+        <h6 v-if="!songs||songs.length==0" class="text-center text-muted"><!--空--></h6>
 
         <div v-for="song in songs" class="card demo-card-header-pic">
             <router-link :to="{name: 'player',query:{songId:song.songid}}" replace>

@@ -2,7 +2,7 @@
     <div>
         <!--<div class="content-block-title">专辑列表</div>-->
 
-        <h6 v-if="!albums||albums.length==0" class="text-center text-muted">空</h6>
+        <h6 v-if="!albums||albums.length==0" class="text-center text-muted"><!--空--></h6>
         <div v-for="album in albums" class="card">
             <div class="card-content">
                 <div class="list-block media-list">

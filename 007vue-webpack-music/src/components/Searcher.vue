@@ -11,7 +11,7 @@
     </div>
 
 </template>
-<style>
+<style lang="less">
     .search-input .icon-remove {
         right: 0.3rem;
         left: auto;

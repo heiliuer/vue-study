@@ -2,13 +2,10 @@
     <div v-title="title">
         <header class="bar bar-nav">
             <router-link class="icon icon-settings pull-right" :to="{path: '/about'}"></router-link>
-
-            <a @click="showPlayer" class="icon icon-down pull-left"></a>
+            <!--<a @click="showPlayer" class="icon icon-down pull-left"></a>-->
             <h1 class="title">播放列表</h1>
-
         </header>
         <searcher></searcher>
-
         <div class="content">
             <div class="search-content-wrapper">
                 <div class="buttons-tab">
@@ -23,7 +20,6 @@
                         <album-list :albums="listData.album"></album-list>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -32,7 +28,6 @@
     .search-content-wrapper {
         /*padding: 2.5rem 0;*/
     }
-
 </style>
 <script>
     //埋葬冬天
@@ -58,8 +53,7 @@
         methods: {
             fetchData(){
                 var vm = this;
-                var key = vm.$route.query.key;
-//                console.log(key, key == "");
+                var key = vm.$route.query.key
                 if (key == "") {
                     vm.listData = {}
                 } else {
@@ -70,7 +64,6 @@
             },
             showPlayer(){
                 PlayerHandler.getHandler().showPlayer()
-
             }
         },
         mounted(){

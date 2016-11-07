@@ -1,14 +1,10 @@
 <template>
-    <div class="page-group">
-        <div class="page" :class="{'page-current':playerShow}">
-            <player :player-show="playerShow" ref="player"></player>
-        </div>
-
+    <player :player-show="playerShow" ref="player">
         <div class="page" :class="{'page-current':!playerShow}">
             <router-view></router-view>
             <!--<bottom-tab v-if="$route.name!='player'"></bottom-tab>-->
         </div>
-    </div>
+    </player>
 </template>
 <style>
     .text-muted {

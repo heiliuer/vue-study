@@ -10,6 +10,8 @@
     "copy-webpack-plugin": "^4.0.0",
     "css-loader": "^0.25.0",
     "html-webpack-plugin": "1.6.1",
+    "less": "^2.7.1",
+    "less-loader": "^2.2.3",
     "vue": "^2.0.3",
     "vue-html-loader": "^1.2.3",
     "vue-loader": "8.2.1",
