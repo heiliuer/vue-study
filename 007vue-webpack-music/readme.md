@@ -1,6 +1,6 @@
-## vue-router
+## vue-router-music
 
-> [参考文档](http://router.vuejs.org/zh-cn/essentials/getting-started.html)
+> 基于百度音乐接口的简单音乐播放器
 
 1. 安装依赖
 
@@ -10,10 +10,6 @@
     
     `npm install webpack-dev-server -g`
     
-2. 启动webpack-dev-server
+2. 启动webpack-dev-server 并自动编译打包改动的文件
 
-    `webpack-dev-server`
-    
-3. 启动文件编写监测自动编译配置
-
-    `webpack --watch`
+    `webpack-dev-server --watch`

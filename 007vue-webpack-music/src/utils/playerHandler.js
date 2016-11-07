@@ -16,7 +16,7 @@ var proto = Handler.prototype;
 
 proto.init = function () {
     this._$appVm = this._options.$appVm
-    this._$player = this._$appVm.$refs.player
+    // this._$player = this._$appVm.$refs.player
     this._src = ""
 }
 
@@ -54,16 +54,11 @@ proto.pause = function () {
     this._audio.pause()
 }
 proto.isSong = function (song) {
-    // try {
-    //     return song.songinfo.song_id == this._song.songinfo.song_id;
-    // } catch (e) {
-    // }
-    // return false;
-
-
+    try {
+        return song.songinfo.song_id == this._song.songinfo.song_id;
+    } catch (e) {
+    }
     return false
-
-
 }
 
 proto.showPlayer = function () {

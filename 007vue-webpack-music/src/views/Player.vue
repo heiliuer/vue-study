@@ -131,6 +131,9 @@
             hidePlayer(){
                 this.$parent.playerShow = false
             },
+            showPlayer(){
+                this.$parent.playerShow = true
+            },
             routeIn(to){
                 this.loadSong(to.query)
             },
@@ -140,6 +143,12 @@
                     var vm = this
                     api.getDetail(songId).then(function (song) {
                         var handler = PlayerHandler.getHandler();
+                        console.log("handler.getSong():", handler.getSong());
+
+                        if (!handler.getSong()) {
+                            vm.showPlayer()
+                            console.log("showPlayer");
+                        }
                         handler.setSong(song)
                         handler.play()
                         vm.song = song
@@ -160,7 +169,6 @@
             console.log("player mounted");
             ROUTER.beforeEach((to, from, next) => {
                 console.log("player beforeEach");
-
                 if (to.name == "player") {
                     vm.routeIn(to)
                 } else {

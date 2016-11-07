@@ -1,7 +1,8 @@
 <template>
     <div v-title="title">
         <header class="bar bar-nav">
-            <!--<a class="icon icon-menu pull-right"></a>-->
+            <router-link class="icon icon-settings pull-right" :to="{path: '/about'}"></router-link>
+
             <a @click="showPlayer" class="icon icon-down pull-left"></a>
             <h1 class="title">播放列表</h1>
 
@@ -31,6 +32,7 @@
     .search-content-wrapper {
         /*padding: 2.5rem 0;*/
     }
+
 </style>
 <script>
     //埋葬冬天
@@ -76,4 +78,5 @@
         },
         components: {SongList, Searcher, AlbumList}
     }
+
 </script>
