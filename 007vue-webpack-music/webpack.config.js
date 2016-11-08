@@ -34,7 +34,7 @@ module.exports = {
         sourceMap: false,
         pathinfo: false,
         path: path.resolve('build'),
-        filename: '[name].js',
+        filename: '[name].[hash].js',
         publicPath: ''
     },
     plugins: [
