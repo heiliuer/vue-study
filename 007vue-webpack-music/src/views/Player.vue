@@ -4,6 +4,7 @@
 
         <!-- 工具栏 -->
         <nav class="bar bar-tab bar-tab-status" @click="showPlayer">
+            <div class="s_img" :style="{backgroundImage:bgImg}"></div>
             <p class="s_title" v-text="songinfo.title"></p>
             <p class="s_sub-title" v-text="songinfo.album_title"></p>
         </nav>
@@ -127,6 +128,8 @@
         margin: 0 auto;
     }
 
+
+
     .page {
         display: block;
         z-index: 12;
@@ -148,17 +151,28 @@
         }
         .s_title {
             font-size: 0.8rem;
-            margin-top: 0.3rem;
+            line-height: 1.5rem;
         }
         .s_sub-title {
             font-size: 0.6rem;
             color: #828282;
+        }
+
+        .s_img{
+            height: 2.3rem;
+            width: 2.3rem;
+            margin:.1rem .5rem;
+            float: left;
+            background-size: cover;
+            border-radius: 50%;
         }
     }
 
     .page-current + .bar-tab-status {
         z-index: 15;
     }
+
+
 
 </style>
 <script>
