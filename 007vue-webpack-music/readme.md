@@ -12,4 +12,4 @@
     
 2. 启动webpack-dev-server 并自动编译打包改动的文件
 
-    `webpack-dev-server --watch`
+    `webpack-dev-server`
