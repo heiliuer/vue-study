@@ -29,7 +29,10 @@ var loaders = [
 module.exports = {
     devtool: 'eval-source-map',
     entry: path.resolve('src', 'app.js'),
+    debug: false,
     output: {
+        sourceMap: false,
+        pathinfo: false,
         path: path.resolve('build'),
         filename: '[name].js',
         publicPath: ''
@@ -46,7 +49,25 @@ module.exports = {
         new CopyWebpackPlugin([
             {from: 'vendor/**'},
             {from: 'src/sm-config.js'},
-        ])
+        ]), new webpack.optimize.UglifyJsPlugin({
+            sourceMap: false,
+            compress: {
+                sequences: true,
+                dead_code: true,
+                conditionals: true,
+                booleans: true,
+                unused: true,
+                if_return: true,
+                join_vars: true,
+                drop_console: true
+            },
+            mangle: {
+                except: ['$super', '$', 'exports', 'require']
+            },
+            output: {
+                comments: false
+            }
+        })
     ],
     module: {
         loaders: loaders
