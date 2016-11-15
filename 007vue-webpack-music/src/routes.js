@@ -3,9 +3,18 @@
  */
 import AboutMe from "./views/AboutMe.vue";
 import Home from "./views/Home.vue";
-import Player from "./views/Player.vue"
+import PanelRank from "./views/PanelRank.vue";
+import PanelSearch from "./views/PanelSearch.vue"
+import RankDetail from "./views/RankDetail.vue"
+
 export default [
     {path: '/', redirect: {name: 'home'}},
-    {name: "home", path: '/home', component: Home},
+    {
+        name: "home", path: '/home', component: Home,
+        children: [
+            {path: '', components: {tab1: PanelSearch, tab2: PanelRank}},
+            {path: 'rankDetail', components: {tab1: PanelSearch, tab2: RankDetail}}
+        ]
+    },
     {path: '/about', component: AboutMe}
 ]

@@ -7,13 +7,12 @@
         <div v-for="song in songs" class="card demo-card-header-pic">
             <router-link :to="{name: 'player',query:{songId:song.songid}}" replace>
                 <div class="card-content">
-                    <div class="list-block media-list">
+                    <div class="list-block media-list media-list-song">
                         <ul>
                             <li class="item-content">
-                                <!-- <div class="item-media">
-                                     <img src="http://gqianniu.alicdn.com/bao/uploaded/i4//tfscom/i3/TB10LfcHFXXXXXKXpXXXXXXXXXX_!!0-item_pic.jpg_250x250q60.jpg"
-                                          width="44">
-                                 </div>-->
+                                <div class="item-media item-action-play">
+                                    <i class="iconfont icon-player"></i>
+                                </div>
                                 <div class="item-inner">
                                     <div class="item-title-row">
                                         <div class="item-title" v-text="song.artistname"></div>
@@ -28,15 +27,23 @@
         </div>
     </div>
 </template>
-<style>
+<style lang="less">
+    .item-action-play {
+        .iconfont {
+            width: 1rem;
+            font-size: 1.3rem;
+        }
+    }
+
+    .media-list-song {
+        color: #5f646e;
+    }
 </style>
 <script>
     export default{
         data(){
             return {}
         },
-        props: ['songs'],
-        created(){
-        }
+        props: ['songs']
     }
 </script>

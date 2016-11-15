@@ -4,9 +4,12 @@
 
         <!-- 工具栏 -->
         <nav class="bar bar-tab bar-tab-status" @click="showPlayer">
+            <i class="icon icon-right s_icon_in"></i>
+                <div class="s_info">
+                    <p class="s_title" v-text="songinfo.title||'---'"></p>
+                    <p class="s_sub-title" v-text="songinfo.album_title||'---'"></p>
+                </div>
             <div class="s_img" :style="{backgroundImage:bgImg}"></div>
-            <p class="s_title" v-text="songinfo.title"></p>
-            <p class="s_sub-title" v-text="songinfo.album_title"></p>
         </nav>
 
         <div class="page">
@@ -50,10 +53,15 @@
         }
 
         .icon {
+            @margin:0.3rem;
+            margin: @margin;
             @height: 1.1rem;
             line-height: @height;
             font-size: @height;
-            padding: (2.5 - @height)/2rem 1rem;
+            @padding:(2.5 - @height) / 2rem - @margin;
+            padding: @padding @padding;
+            border-radius: 50%;
+            background-color: rgba(251, 251, 251, 0.28);
             color: @colorTxt;
         }
     }
@@ -128,8 +136,6 @@
         margin: 0 auto;
     }
 
-
-
     .page {
         display: block;
         z-index: 12;
@@ -149,6 +155,9 @@
             padding: 0 1rem;
             margin: 0;
         }
+        .s_info{
+            display: inline-block;
+        }
         .s_title {
             font-size: 0.8rem;
             line-height: 1.5rem;
@@ -158,20 +167,26 @@
             color: #828282;
         }
 
-        .s_img{
+        .s_img {
             height: 2.3rem;
             width: 2.3rem;
-            margin:.1rem .5rem;
+            margin: .1rem .5rem;
             float: left;
             background-size: cover;
             border-radius: 50%;
+            display: inline-block;
+        }
+        .s_icon_in{
+            float: right;
+            margin-top: 0.15rem;
+            margin-right: 0.5rem;
+            font-size: 0.6rem;
         }
     }
 
     .page-current + .bar-tab-status {
         z-index: 15;
     }
-
 
 
 </style>
@@ -187,7 +202,7 @@
     }
 
     function getBg(url) {
-        if (url == "") {
+        if (!url) {
             return "none"
         } else {
             return "url('" + url + "')"
@@ -248,7 +263,7 @@
             );
             //拦截路由
             var vm = this;
-            console.log("player mounted");
+            //console.log("player mounted");
             ROUTER.beforeEach((to, from, next) => {
                 console.log("player beforeEach");
                 if (to.name == "player") {
@@ -259,6 +274,7 @@
             })
         }
     }
+
 
 
 
