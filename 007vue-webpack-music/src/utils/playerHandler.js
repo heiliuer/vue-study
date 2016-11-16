@@ -47,6 +47,7 @@ proto.loadSrc = function () {
 }
 
 proto.play = function () {
+    this.pause()
     this._audio.play()
 }
 

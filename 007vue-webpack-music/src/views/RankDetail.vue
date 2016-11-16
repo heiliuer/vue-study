@@ -40,7 +40,7 @@
                 songs: [],
                 loading: false,
                 page: 1,
-                hasMore:true
+                hasMore: true
             }
         },
         methods: {
@@ -49,45 +49,31 @@
                 this.typeName = query.name
                 var type = query.type
                 var vm = this
-                console.log(type, this.typeName)
+//                console.log(type, this.typeName)
                 vm.loading = true;
                 if (typeof type != 'undefined') {
                     api.getOnline(type, vm.page).then(function (data) {
-                        console.log("load page ", vm.page)
-                        vm.hasMore=!!(data.song_list || []).length
-                        vm.songs=vm.songs.concat(data.song_list || [])
-//                        vm.songs = data.song_list || []
+//                        console.log("load page ", vm.page)
+                        vm.hasMore = !!(data.song_list || []).length
+                        vm.songs = vm.songs.concat(data.song_list || [])
                         vm.page++
                         vm.loading = false
                         $.refreshScroller()
-                        if(!vm.hasMore){
+                        if (!vm.hasMore) {
                             $.detachInfiniteScroll($('.infinite-scroll'))
                             $('.infinite-scroll-preloader').remove()
                         }
                     })
                 }
-            },
-            initInfint(){
-                var vm = this;
-                console.log("initInfint")
-                $(document).on('infinite', '.infinite-scroll-bottom', function () {
-                    console.log("infinite");
-                    // 如果正在加载，则退出
-                    if (vm.loading) return;
-                    // 设置flag
-                    vm.fetch()
-                });
             }
-        },
-        watch: {
-            "$route": fetch
         },
         mounted(){
             this.fetch()
-            this.initInfint()
+            var vm = this;
+            $(document).on('infinite', '.infinite-scroll-bottom', function () {
+                if (!vm.loading) vm.fetch()
+            })
         },
         components: {SongList}
     }
-
-
 </script>
