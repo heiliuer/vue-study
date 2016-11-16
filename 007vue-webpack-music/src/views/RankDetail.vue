@@ -1,38 +1,30 @@
 <template>
     <div>
         <h6 v-if="!songs||songs.length==0" class="text-center text-muted"><!--空--></h6>
-
-        <div class="content infinite-scroll infinite-scroll-bottom" data-distance="200">
-            <div>
-                <div v-for="song in songs" class="card demo-card-header-pic">
-                    <router-link :to="{name: 'player',query:{songId:song.song_id}}" replace>
-                        <div class="card-content">
-                            <div class="list-block media-list media-list-song">
-                                <ul>
-                                    <li class="item-content">
-                                        <div class="item-media item-action-play">
-                                            <i class="iconfont icon-player"></i>
-                                        </div>
-                                        <div class="item-inner">
-                                            <div class="item-title-row">
-                                                <div class="item-title" v-text="song.author"></div>
-                                            </div>
-                                            <div class="item-subtitle" v-text="song.title"></div>
-                                        </div>
-                                    </li>
-                                </ul>
+        <div v-for="song in songs" track-by="song_id" class="card">
+            <div class="card-content">
+                <div class="list-block media-list">
+                    <ul>
+                        <router-link class="item-content" :to="{name: 'player',query:{songId:song.song_id}}" append>
+                            <div class="item-media">
+                                <img width="44" :src="song.pic_big">
                             </div>
-                        </div>
-                    </router-link>
+                            <div class="item-inner">
+                                <div class="item-title-row">
+                                    <div class="item-title" v-text="song.title"></div>
+                                </div>
+                                <div class="item-subtitle" v-text="song.author"></div>
+                            </div>
+                        </router-link>
+                    </ul>
                 </div>
-            </div>
-
-            <!-- 加载提示符 -->
-            <div class="infinite-scroll-preloader">
-                <div class="preloader"></div>
             </div>
         </div>
 
+        <!-- 加载提示符 -->
+        <div class="infinite-scroll-preloader" v-show="hasMore">
+            <div class="preloader"></div>
+        </div>
 
     </div>
 </template>
@@ -43,66 +35,59 @@
     import SongList from '../components/SongList.vue'
     export default{
         data(){
-            return{
-                typeName:"",
-                songs:[],
-                loading:false,
-
-                page:1
+            return {
+                typeName: "",
+                songs: [],
+                loading: false,
+                page: 1,
+                hasMore:true
             }
         },
-        methods:{
+        methods: {
             fetch(){
-                var tp=this.$route.query.type
-                this.typeName=tp.name
-                var type=tp.type
+                var query = this.$route.query;
+                this.typeName = query.name
+                var type = query.type
                 var vm = this
-                console.log("mouted")
-                console.log(type,tp.typeName)
-                if(typeof type!='undefined'){
-
-                    api.getOnline(type,vm.page).then(function(data){
-                        console.log("load page ",vm.page)
-
-                        vm.songs=data.song_list||[]
+                console.log(type, this.typeName)
+                vm.loading = true;
+                if (typeof type != 'undefined') {
+                    api.getOnline(type, vm.page).then(function (data) {
+                        console.log("load page ", vm.page)
+                        vm.hasMore=!!(data.song_list || []).length
+                        vm.songs=vm.songs.concat(data.song_list || [])
+//                        vm.songs = data.song_list || []
                         vm.page++
-                        vm.loading=false
+                        vm.loading = false
                         $.refreshScroller()
-
-                         // 加载完毕，则注销无限加载事件，以防不必要的加载
-                         // $.detachInfiniteScroll($('.infinite-scroll'));
-                          // 删除加载提示符
-                         // $('.infinite-scroll-preloader').remove();
+                        if(!vm.hasMore){
+                            $.detachInfiniteScroll($('.infinite-scroll'))
+                            $('.infinite-scroll-preloader').remove()
+                        }
                     })
                 }
             },
             initInfint(){
-                    var vm=this;
-                    $(document).on('infinite', '.infinite-scroll-bottom',function() {
-                        console.log("infinite");
-                      // 如果正在加载，则退出
-                      if (vm.loading) return;
-
-                      // 设置flag
-                      vm.loading = true;
-
-
-                      vm.fetch()
-
-                  });
+                var vm = this;
+                console.log("initInfint")
+                $(document).on('infinite', '.infinite-scroll-bottom', function () {
+                    console.log("infinite");
+                    // 如果正在加载，则退出
+                    if (vm.loading) return;
+                    // 设置flag
+                    vm.fetch()
+                });
             }
         },
-        watch:{
-            "$route":fetch
+        watch: {
+            "$route": fetch
         },
         mounted(){
             this.fetch()
             this.initInfint()
         },
-         components: {SongList}
+        components: {SongList}
     }
-
-
 
 
 </script>

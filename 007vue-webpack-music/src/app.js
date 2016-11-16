@@ -26,11 +26,11 @@ window.ROUTER = router
 const app = new Vue({
     router: router,
     components: {App},
-    ready(){
+    mounted(){
         //初始化
         $.init()
     }
-}).$mount("#app")
+}).$mount("#app");
 
 
 

@@ -1,5 +1,5 @@
 <template>
-    <div v-title="title">
+    <div v-title="title" class="panel-search">
         <searcher></searcher>
         <song-list :songs="listData.song"></song-list>
     </div>
@@ -17,9 +17,14 @@
             <album-list :albums="listData.album"></album-list>
         </div>
     </div>
-</div>-->
+    </div>-->
 </template>
-<style>
+<style lang="less">
+    .panel-search{
+        .bar-header-secondary{
+            position: static;
+        }
+    }
 </style>
 <script>
         //埋葬冬天

@@ -2,7 +2,6 @@
     <player :player-show="playerShow" ref="player">
         <div class="page" :class="{'page-current':!playerShow}">
             <router-view></router-view>
-            <!--<bottom-tab v-if="$route.name!='player'"></bottom-tab>-->
         </div>
     </player>
 </template>
@@ -22,9 +21,6 @@
         },
         components: {
             BottomTab, Player
-        },
-        methods: {},
-        mounted(){
         }
     }
 </script>
