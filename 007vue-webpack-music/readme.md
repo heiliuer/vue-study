@@ -6,6 +6,7 @@
 - [vue route 2.x](http://router.vuejs.org/zh-cn/index.html)
 - [sui mobile](http://m.sui.taobao.org/components/)
 - [less](http://lesscss.cn/) 
+
 ----
 
 
@@ -21,11 +22,8 @@
 
     `webpack-dev-server`
     
-    
----
 
-![](screenshots/4.png)
 
-![](screenshots/3.png)
+![](screenshots/4.png) ![](screenshots/3.png)
 
 
