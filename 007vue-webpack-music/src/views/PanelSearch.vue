@@ -1,5 +1,5 @@
 <template>
-    <div v-title="title" class="panel-search">
+    <div class="panel-search">
         <searcher></searcher>
         <song-list :songs="listData.song"></song-list>
     </div>
@@ -37,7 +37,6 @@
     export default{
         data(){
             return {
-                title: '搜索',
                 listData: {
                     album: [],
                     song: []

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <header class="bar bar-nav">
+        <header v-title="title" class="bar bar-nav">
             <router-link class="icon iconfont icon-ttpodicon pull-right" :to="{path: '/about'}"></router-link>
             <!--<a @click="showPlayer" class="icon icon-down pull-left"></a>-->
             <h1 class="title">歌曲库</h1>
@@ -41,7 +41,7 @@
     export default{
         data(){
             return {
-                title: '主页',
+                title:"歌曲库"
             }
         }
     }

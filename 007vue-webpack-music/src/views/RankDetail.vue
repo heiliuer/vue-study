@@ -3,9 +3,9 @@
         <h6 v-if="!songs||songs.length==0" class="text-center text-muted"><!--空--></h6>
         <div v-for="song in songs" track-by="song_id" class="card">
             <div class="card-content">
-                <div class="list-block media-list">
+                <div class="list-block media-list media-list-song">
                     <ul>
-                        <router-link class="item-content" :to="{name: 'player',query:{songId:song.song_id}}" append>
+                        <router-link class="item-content" :to="{name: 'player',query:{songId:song.song_id}}" tag="li" append>
                             <div class="item-media">
                                 <img width="44" :src="song.pic_big">
                             </div>
@@ -28,7 +28,10 @@
 
     </div>
 </template>
-<style>
+<style lang="less">
+    .media-list-song {
+        color: #5f646e;
+    }
 </style>
 <script>
     import api from '../utils/api'
