@@ -46,14 +46,19 @@ var getOnline = (type, paged) => {
         offset: limit * (paged - 1),
         size: limit
     }).then(data => {
-        data.billboard.pic_s210 = hackImg(data.billboard.pic_s210)
-        data.billboard.pic_s260 = hackImg(data.billboard.pic_s260)
-        data.billboard.pic_s444 = hackImg(data.billboard.pic_s444)
-        data.billboard.pic_s640 = hackImg(data.billboard.pic_s640)
-        data.song_list.forEach(item => {
-            item.pic_big = hackImg(item.pic_big);
-            item.pic_small = hackImg(item.pic_small);
-        })
+        data=data||{}
+        if(data.billboard){
+            data.billboard.pic_s210 = hackImg(data.billboard.pic_s210)
+            data.billboard.pic_s260 = hackImg(data.billboard.pic_s260)
+            data.billboard.pic_s444 = hackImg(data.billboard.pic_s444)
+            data.billboard.pic_s640 = hackImg(data.billboard.pic_s640)
+        }
+        if(data.song_list){
+            data.song_list.forEach(item => {
+                item.pic_big = hackImg(item.pic_big);
+                item.pic_small = hackImg(item.pic_small);
+            })
+        }
         return data;
     })
 }
