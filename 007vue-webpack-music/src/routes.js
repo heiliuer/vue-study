@@ -8,7 +8,8 @@ import PanelSearch from "./views/PanelSearch.vue"
 import RankDetail from "./views/RankDetail.vue"
 
 export default [
-    {path: '/', redirect: {name: 'home'}},
+    {path: '', redirect: {path: '/home'}},
+    {path: '/', redirect: {path: '/home'}},
     {
         name: "home", path: '/home', component: Home,
         children: [

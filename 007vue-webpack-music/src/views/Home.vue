@@ -2,7 +2,7 @@
     <div>
         <header v-title="title" class="bar bar-nav">
             <router-link class="icon iconfont icon-ttpodicon pull-right" :to="{path: '/about'}"></router-link>
-            <!--<a @click="showPlayer" class="icon icon-down pull-left"></a>-->
+            <router-link class="icon icon-home pull-left" :to="{path: '/'}"></router-link>
             <h1 class="title">歌曲库</h1>
         </header>
 
