@@ -34,7 +34,8 @@ module.exports = {
         sourceMap: false,
         pathinfo: false,
         path: path.resolve('build'),
-        filename: '[name].[hash].js',
+        // filename: '[name].[hash].js',//hash 后悔
+        filename: '[name].js',
         publicPath: ''
     },
     plugins: [
@@ -49,7 +50,8 @@ module.exports = {
         new CopyWebpackPlugin([
             {from: 'vendor/**'},
             {from: 'src/sm-config.js'},
-        ]), new webpack.optimize.UglifyJsPlugin({
+        ]),
+        new webpack.optimize.UglifyJsPlugin({
             sourceMap: false,
             compress: {
                 sequences: true,
@@ -94,13 +96,10 @@ module.exports = {
                 secure: false,
                 changeOrigin: true,
                 rewrite: function (req, proxyOptions) {
-                    console.log("#####proxy:" + proxyOptions.target);
                     // console.log(JSON.stringify(req));
                     delete req.headers.referer;
                     //百度referer不为空时，请求403
-                    // req.headers['user-agent'] = "";
-                    // req.headers.cookie = "";
-                    console.log(req.headers);
+                    // console.log(req.headers);
                 }
             }
         },

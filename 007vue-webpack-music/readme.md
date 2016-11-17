@@ -22,6 +22,14 @@
 
     `webpack-dev-server`
     
+3. 部署
+
+    `cd server-src`
+    `node app.js`
+    
+    > 访问 `http://localhost:8080/`
+    
+    
 
 
 ![](screenshots/4.png) ![](screenshots/3.png)
