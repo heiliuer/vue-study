@@ -14,6 +14,9 @@ const router = new VueRouter({
     routes
 })
 
+
+
+
 router.beforeEach((to, from, next) => {
     // console.log("beforeEach", to, from, next);
     next();
@@ -29,8 +32,9 @@ const app = new Vue({
     mounted(){
         //初始化
         $.init()
+
     }
-}).$mount("#app");
+}).$mount("#app")
 
 
 

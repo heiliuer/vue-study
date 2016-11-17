@@ -6,7 +6,7 @@ var OPTIONS_DEFAULTS = {
     audio: ""
 }
 var Handler = function (options) {
-    this._options = Zepto.extend({}, OPTIONS_DEFAULTS, options, true)
+    this._options = Zepto.extend({}, OPTIONS_DEFAULTS, options || {}, true)
     this.init()
     this.initAudio()
     handleSinglon = this;
@@ -47,7 +47,7 @@ proto.loadSrc = function () {
 }
 
 proto.play = function () {
-    this.pause()
+    // this.pause()
     this._audio.play()
 }
 
@@ -68,6 +68,11 @@ proto.showPlayer = function () {
 
 proto.hidePlayer = function () {
     this._$appVm.playerShow = false
+}
+
+
+proto.getCurrent = function () {
+
 }
 
 export  default {

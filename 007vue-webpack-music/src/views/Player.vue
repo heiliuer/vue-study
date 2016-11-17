@@ -48,6 +48,7 @@
     import api from "../utils/api"
     import Vue from "vue"
     import PlayerHandler from "../utils/playerHandler"
+    import SyncCtrl from '../utils/SyncCtrl'
 
     function filterSrc(src) {
         if (src == "") {
@@ -55,6 +56,7 @@
         }
         return src.split("http://yinyueshiting.baidu.com")[1] || src;
     }
+
 
     function getBg(url) {
         if (!url) {
@@ -116,13 +118,26 @@
                         audio: this.$el.querySelectorAll('audio')[0]
                     }
             );
-            //拦截路由
             var vm = this;
+            var syncCtrl = SyncCtrl.init();
+            syncCtrl.onmessage(function (event) {
+                var data=event.data
+                if(typeof data=="string"){
+                    data=JSON.parse(data)
+                }
+                console.log("event.data:",event.data);
+
+                if(data&&data.songId){
+                    vm.loadSong(data)
+                }
+            })
+            //拦截路由
             //console.log("player mounted");
             ROUTER.beforeEach((to, from, next) => {
 //                console.log("player beforeEach");
                 if (to.name == "player") {
                     vm.routeIn(to)
+                    syncCtrl.send(JSON.stringify(to.query))
                 } else {
                     next();
                 }
@@ -147,7 +162,7 @@
             @height: 1.1rem;
             line-height: @height;
             font-size: @height;
-            @padding: (2.5 - @height) / 2rem - @margin;
+            @padding: (2.5rem - @height) / 2 - @margin;
             padding: @padding @padding;
             border-radius: 50%;
             background-color: rgba(251, 251, 251, 0.28);
