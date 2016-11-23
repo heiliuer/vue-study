@@ -53,7 +53,7 @@
                 var key = vm.$route.query.key
                 //console.log("key:",key);
 
-                if (!(key in vm.$route.query)||key == "") {
+                if (!('key' in vm.$route.query)||key == "") {
                     vm.listData = {}
                 } else {
                     api.search(key).then(function (data) {

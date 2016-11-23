@@ -30,6 +30,6 @@
     
     > 访问 [http://localhost:8080/](http://localhost:8080/)
     
-![](screenshots/4.png) ![](screenshots/3.png)
+![](screenshots/1.png) ![](screenshots/3.png)
 
 
