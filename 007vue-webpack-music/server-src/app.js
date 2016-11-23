@@ -44,10 +44,10 @@ wsServer.on('request', function (request) {
         connection.send(JSON.stringify(song))
     }
 
-    console.log((new Date()) + ' Connection accepted.');
+    //console.log((new Date()) + ' Connection accepted.');
     connection.on('message', function (message) {
         if (message.type === 'utf8') {
-            console.log('Received Message: ' + message.utf8Data);
+            //console.log('Received Message: ' + message.utf8Data);
             var data = JSON.parse(message.utf8Data);
             if (data) {
                 song = data
@@ -60,7 +60,7 @@ wsServer.on('request', function (request) {
             connection.sendUTF(message.utf8Data);
         }
         else if (message.type === 'binary') {
-            console.log('Received Binary Message of ' + message.binaryData.length + ' bytes');
+            //console.log('Received Binary Message of ' + message.binaryData.length + ' bytes');
             connection.sendBytes(message.binaryData);
         }
 
