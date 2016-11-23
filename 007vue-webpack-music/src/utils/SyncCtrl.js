@@ -31,11 +31,11 @@ proto.initSocket = function () {
 
     mSocket.onclose = function () {
         that.connecting = false
-        console.log("close");
+        //console.log("close");
     }
 
     mSocket.onmessage = function (event) {
-        console.log("receive:",event.data);
+        //console.log("receive:",event.data);
         that.messageHandlers.forEach(function (handler) {
             handler.call(that, event);
         })
@@ -51,7 +51,7 @@ proto.onmessage = function (func) {
 proto.send = function (str) {
     if (this.connecting) {
         this.mSocket.send(str);
-        console.log("send str:",str);
+        //console.log("send str:",str);
     }
 }
 

@@ -51,7 +51,9 @@
             fetchData(){
                 var vm = this;
                 var key = vm.$route.query.key
-                if (key == "") {
+                //console.log("key:",key);
+
+                if (!(key in vm.$route.query)||key == "") {
                     vm.listData = {}
                 } else {
                     api.search(key).then(function (data) {

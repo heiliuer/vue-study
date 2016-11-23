@@ -125,7 +125,7 @@
                 if(typeof data=="string"){
                     data=JSON.parse(data)
                 }
-                console.log("event.data:",event.data);
+                //console.log("event.data:",event.data);
 
                 if(data&&data.songId){
                     vm.loadSong(data)

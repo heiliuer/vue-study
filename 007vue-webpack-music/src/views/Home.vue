@@ -6,7 +6,7 @@
             <h1 class="title">歌曲库</h1>
         </header>
 
-        <div class="content content-home infinite-scroll infinite-scroll-bottom" data-distance="200">
+        <div class="content content-home infinite-scroll infinite-scroll-bottom" data-distance="50">
             <div class="buttons-tab">
                 <a href="#tab1" class="tab-link active button">搜索</a>
                 <a href="#tab2" class="tab-link button">榜单</a>
