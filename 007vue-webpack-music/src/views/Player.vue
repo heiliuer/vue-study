@@ -49,6 +49,7 @@
     import Vue from "vue"
     import PlayerHandler from "../utils/playerHandler"
     import SyncCtrl from '../utils/SyncCtrl'
+    import config from '../config'
 
     function filterSrc(src) {
         if (src == "") {
@@ -117,27 +118,34 @@
                         $appVm: this.$parent,
                         audio: this.$el.querySelectorAll('audio')[0]
                     }
-            );
-            var vm = this;
-            var syncCtrl = SyncCtrl.init();
-            syncCtrl.onmessage(function (event) {
-                var data=event.data
-                if(typeof data=="string"){
-                    data=JSON.parse(data)
-                }
-                //console.log("event.data:",event.data);
+            )
 
-                if(data&&data.songId){
-                    vm.loadSong(data)
-                }
-            })
+            var vm = this
+
+            if(config.enableSyncCtrl){
+                var syncCtrl = SyncCtrl.init();
+                syncCtrl.onmessage(function (event) {
+                    var data=event.data
+                    if(typeof data=="string"){
+                        data=JSON.parse(data)
+                    }
+                    //console.log("event.data:",event.data);
+
+                    if(data&&data.songId){
+                        vm.loadSong(data)
+                    }
+                })
+            }
+
             //拦截路由
             //console.log("player mounted");
             ROUTER.beforeEach((to, from, next) => {
 //                console.log("player beforeEach");
                 if (to.name == "player") {
                     vm.routeIn(to)
-                    syncCtrl.send(JSON.stringify(to.query))
+                    if(config.enableSyncCtrl){
+                        syncCtrl.send(JSON.stringify(to.query))
+                    }
                 } else {
                     next();
                 }

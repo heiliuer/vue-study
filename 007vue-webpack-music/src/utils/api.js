@@ -1,7 +1,6 @@
-// var baseUrl = "http://tingapi.ting.baidu.com/v1/restserver/ting"
+import config from "../config"
 
-//Proxy
-var baseUrl = "/v1/restserver/ting"
+var baseUrl = config.proxyTingapi?"/v1/restserver/ting":"http://tingapi.ting.baidu.com/v1/restserver/ting"
 
 var apiMethod = {
     search: 'baidu.ting.search.catalogSug',
