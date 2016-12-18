@@ -1,0 +1,78 @@
+.picker-calendar-day.sign_success span {
+  border: 2px solid #15ff3f
+}
+
+.picker-calendar-day.sign_failed span {
+  border: 2px solid #ff455b
+}
+
+.msg {
+  width: 100%;
+  font-size: 12px;
+  color: #888;
+  text-align: center
+}
+
+.msg.msg-success {
+  color: #1aad19
+}
+
+.msg.msg-warn {
+  color: #ffeebc
+}
+
+.msg.msg-error {
+  color: #e64c32
+}
+
+.weui-icon-checked[data-v-6bde6bda] {
+  float: right;
+  vertical-align: middle;
+  height: 1.41176471em
+}
+
+.weui-icon-checked[data-v-6bde6bda]:before {
+  display: inline-block;
+  content: "\EA08";
+  color: #09bb07;
+  font-size: 16px;
+  vertical-align: middle
+}
+
+.fixed-bottom[data-v-6bde6bda] {
+  position: fixed;
+  width: 100%;
+  bottom: 0
+}
+
+.cell-all-no-border[data-v-6bde6bda]:after, .cell-all-no-border [data-v-6bde6bda]:after, .cell-all-no-border[data-v-6bde6bda]:before, .cell-all-no-border [data-v-6bde6bda]:before {
+  border: none
+}
+
+.weui-btn_primary[data-v-6bde6bda] {
+  width: 100%
+}
+
+.panel-login[data-v-d4254236] {
+  margin-top: 10px
+}
+
+.cell-logo[data-v-d4254236] {
+  background-image: url(/static/img/logo.1ce4602.png);
+  background-position: 50%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 100px;
+  margin: 50px 0
+}
+
+.cell-no-top-border[data-v-d4254236]:before, .cells-no-border[data-v-d4254236]:after, .cells-no-border[data-v-d4254236]:before {
+  border: none
+}
+
+.weui-label[data-v-d4254236] {
+  width: 4em;
+  color: #656565
+}
+
+/*# sourceMappingURL=app.3bc0f50a7f38b9539bdb8e923929971d.css.map*/

@@ -1,0 +1,88 @@
+
+
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0" name="viewport" /><meta content="yes" name="apple-mobile-web-app-capable" /><meta content="black" name="apple-mobile-web-app-status-bar-style" /><meta content="telephone=no" name="format-detection" /><link href="../../../../favicon.ico" rel="shortcut icon" type="image/x-icon" /><title>
+  早安福大
+</title><link rel="stylesheet" type="text/css" href="/lib/Hui/css/H-ui.min.css" /><link rel="stylesheet" type="text/css" href="/static/fonts/font-awesome/font-awesome.min.css" /><link rel="stylesheet" type="text/css" href="/static/fonts/iconfont1.0.8/iconfont.css" /><link rel="stylesheet" type="text/css" href="/static/fonts/iconfont2.2/iconfont.css" /><link rel="stylesheet" type="text/css" href="/static/css/App.css" />
+
+  <script type="text/javascript" src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/layer/2.4/layer.js"></script>
+  <script type="text/javascript" src="/lib/Hui/js/H-ui.js"></script>
+  <script type="text/javascript" src="/lib/Secode/Secode.js"></script>
+</head>
+<body>
+<div class=" mm-wrapper" id="page">
+  <div class="push-menu ">
+    <form method="post" action="" id="ctl01">
+      <div class="aspNetHidden">
+        <input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKLTIzNjUwNTQ2MQ8WBB4JUGFnZV9Jbml0Zx4MU2VjdXJpdHlDb2RlBVBmMTcyZjNmMDA3MDc4ODViMzc2OWQ4M2Q1Yjc1NGY3OTlmZTdkYTBjMGE0N2IwOTFhYzdhNDY5NWUyMzI1YmFmNjhjYmU2ZjMwODYwOGRiMRYCZg8PFgQeD19fQW50aVhzcmZUb2tlbgUgYThlMTMyN2E4MmFlNDQ0OThlNjZkZGYyOWY1NGEwOWYeEl9fQW50aVhzcmZVc2VyTmFtZWVkZGQeSuG3gYZRZbjVZFe47yp3AFkCz2D2L979NzfZOdkkkg==" />
+      </div>
+
+      <div id="body">
+
+
+
+
+        <style>
+          .ui-loader {
+            display: none;
+          }
+        </style>
+
+        <script src="/lib/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+        <script src="/lib/PictureVerification/js/diy_code.js"></script>
+
+
+        <a id="dian" onclick="Sign();" style="box-shadow: 0px 1px 3px rgba(34, 25, 25, 0.2); position: fixed; background-color: rgba(246,148,45,0.7); border: 1px solid #eee; text-align: center; color: rgba(235,20,20,0.7); font-weight: bold;" data-ripple>早安</a>
+
+        <input type="text" name="Second" id="Second" style="display: none;">
+        <input type="text" name="Wrong" id="Wrong" style="display: none;">
+
+        <script>
+          $(function () {
+            var base = window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth;
+
+            base = base * 0.618;
+
+            $('#dian').css({ "margin-left": (window.innerWidth / 2 - base / 2) + "px", "margin-top": (window.innerHeight / 2 - base / 2) + "px", "width": base + "px", "line-height": base + "px", "height": base + "px", "font-size": (base * 0.618 * 0.3) + "px", "border-radius": (base / 2) + "px" });
+          });
+
+          function Sign() {
+            //参数：第一个为图片路径，第二个为成功回调函数，第三个为失败回调函数。
+
+            H_testcode.ready("/static/images/Verification/9.jpg", function (e, x) {
+              document.getElementById('Second').value = (Math.floor(e * 10));
+              document.getElementById('Wrong').value = (Math.floor(x * 10));
+              document.forms[0].submit();
+            }, function (e, x) {
+              alert("签到失败！误差" + x + "像素，太大啦~~~再试试吧~~~");
+            });
+          };
+
+          function confirm(msg) {
+            layer.confirm(msg, function () {
+              window.parent.location.href = "/App/Account/User/LuckDraw";
+            });
+          }
+
+          function confirmerror(msg) {
+            layer.confirm(msg, function () {
+              window.parent.location.reload();
+              window.close();
+            });
+          }
+        </script>
+
+
+
+
+
+      </div>
+
+      <script language="javascript">show('请使用微信签到！')</script></form>
+  </div>
+</div>
+</body>
+</html>
+
