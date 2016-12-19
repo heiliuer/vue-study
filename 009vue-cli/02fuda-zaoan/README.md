@@ -1,4 +1,4 @@
-# fuda-zaoan
+# fuda-zaoan 福大早安签到程序（需要嵌入到安卓app中使用）
 
 > fuda-zaoan
 

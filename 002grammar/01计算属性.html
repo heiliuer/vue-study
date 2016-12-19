@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>000HelloWorld</title>
     <style>
-        #app span{
-            display:block;
+        #app span {
+            display: block;
         }
     </style>
 </head>
 
 <body>
+
 <!--在模板中表达式非常便利，但是它们实际上只用于简单的操作。
 模板是为了描述视图的结构。在模板中放入太多的逻辑会让模板过重且难以维护。
 这就是为什么 Vue.js 将绑定表达式限制为一个表达式。
@@ -31,21 +32,21 @@
 </body>
 <script src="../vendor/vue.js"></script>
 <script>
-    var vm=new Vue({
+    var vm = new Vue({
         el: "#app",
-        data: {firstName: "wang",lastName:"wei"},
-        computed:{
-            fullName:function () {
-                return this.firstName+" "+this.lastName
+        data: {firstName: "wang", lastName: "wei"},
+        computed: {
+            fullName: function () {
+                return this.firstName + " " + this.lastName
             },
-            fullName_s:{
-                get:function () {
-                    return this.firstName+" "+this.lastName
+            fullName_s: {
+                get: function () {
+                    return this.firstName + " " + this.lastName
                 },
-                set:function (val) {
+                set: function (val) {
                     var names = val.split(' ')
                     this.firstName = names[0]
-                    this.lastName = names[1]||""
+                    this.lastName = names[1] || ""
                 }
             }
         }

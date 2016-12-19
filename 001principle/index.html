@@ -1,49 +1,71 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>000HelloWorld</title>
 </head>
-
 <body>
-<div id="app">{{message}}</div>
+
+<fieldset>
+    <legend>app</legend>
+    <div id="app">{{message}}</div>
+</fieldset>
+
 </body>
 <script src="../vendor/vue.js"></script>
 <script>
-    var data={
+    var data = {
         message: "Hello Vue!"
     }
+
     //HelloWorld
     new Vue({
         el: "#app",
-        data:data
+        data: data
     })
 
-    //再浏览器上调试修改data.message的值，双向绑定仍会起作用
-    //原理剖析 js setter getter
+    //在浏览器上调试修改data.message的值，双向绑定仍会起作用
+    //原理剖析 利用了 js setter getter 语法特性
+    console.log("%cvue数据双向绑定原理剖析 利用了 js setter getter 语法特性","color:#f09");
+
     //define方式1
-    var obj={
-        data3:1,
-        get data(){
+    var obj = {
+        data3: 1,
+        get data() {
             return ++this.data3;
         },
-        set data(val){
-            this.data3=val;
+        set data(val) {
+            this.data3 = val;
         }
     }
+
+    console.log("####define1#####");
+
+    console.log("obj.data get", obj.data)
+    console.log("obj.data3==", obj.data3, " after obj.data get");
+    console.log("obj.data set ", obj.data = 3)
+    console.log("obj.data3==", obj.data3, " after obj.data set");
+
     //删除get set
     //delete obj.data
 
     //define方式2
-    var obj2={a:0}
-    Object.defineProperty(obj2,"data",{
-        get:function () {
-             return ++this.a
+    obj = {data3: 1}
+    Object.defineProperty(obj, "data", {
+        get: function () {
+            return ++this.data3
         },
-        set:function(val) {
-            this.a=val;
+        set: function (val) {
+            this.data3 = val;
         }
     })
+
+    console.log("####define2#####");
+
+    console.log("obj.data get", obj.data)
+    console.log("obj.data3==", obj.data3, " after obj.data get");
+    console.log("obj.data set ", obj.data = 3)
+    console.log("obj.data3==", obj.data3, " after obj.data set");
 </script>
 
 </html>

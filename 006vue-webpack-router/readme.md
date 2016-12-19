@@ -1,4 +1,4 @@
-## vue-router
+## vue2.0 & vue-router webpack
 
 > [参考文档](http://router.vuejs.org/zh-cn/essentials/getting-started.html)
 

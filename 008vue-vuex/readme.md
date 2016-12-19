@@ -1,6 +1,14 @@
-## vue-router
+## vue-vuex
 
-> [参考文档](http://router.vuejs.org/zh-cn/essentials/getting-started.html)
+> [参考文档](https://github.com/vuejs/vuex)
+> [参考文档](http://vuex.vuejs.org/zh-cn/)
+
+#### 此版块未完成
+
+
+1. 盗图
+
+    ![](references/vuex.png)
 
 1. 安装依赖
 

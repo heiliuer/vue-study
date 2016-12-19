@@ -6,38 +6,57 @@
 </head>
 
 <body>
-<div id="app">{{message}}</div>
 
-<div id="app1">
-    <input type="text" v-model="message">
-    <span>{{message}}</span>
-</div>
+<fieldset>
+    <legend>app</legend>
+    <div id="app">{{message}}</div>
+</fieldset>
 
-<div id="app2">
-    <ul>
-        <li v-for="todo in todos">
-            {{todo.text}}
-        </li>
-    </ul>
-</div>
+<fieldset>
+    <legend>app1</legend>
+    <div id="app1">
+        <input type="text" v-model="message">
+        <span>{{message}}</span>
+    </div>
+</fieldset>
 
-<div id="app3">
-    <p>{{message}}</p>
-    <button v-on:click="reverseMsg">reversMsg</button>
-</div>
+<fieldset>
+    <legend>app2</legend>
+    <div id="app2">
+        <ul>
+            <li v-for="todo in todos">
+                {{todo.text}}
+            </li>
+        </ul>
+    </div>
+</fieldset>
+
+<fieldset>
+    <legend>app3</legend>
+    <div id="app3">
+        <p>{{message}}</p>
+        <button v-on:click="reverseMsg">reversMsg</button>
+    </div>
+</fieldset>
+
+<fieldset>
+    <legend>app4</legend>
+    <div id="app4">
+        <input type="text" v-model="newTodo" v-on:keyup.enter="addTodo">
+        <ul>
+            <li v-for="todo in todos"><span>{{todo.text}}</span>
+                <button v-on:click="removeTodo($index)">X</button>
+            </li>
+        </ul>
+    </div>
+
+</fieldset>
 
 
-<div id="app4">
-    <input type="text" v-model="newTodo" v-on:keyup.enter="addTodo">
-    <ul>
-        <li v-for="todo in todos"><span>{{todo.text}}</span>
-            <button v-on:click="removeTodo($index)">X</button>
-        </li>
-    </ul>
-</div>
 </body>
 <script src="../vendor/vue.js"></script>
 <script>
+
     //HelloWorld
     new Vue({
         el: "#app",
