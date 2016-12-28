@@ -11,7 +11,7 @@
     </div>
 
 </template>
-<style lang="less">
+<style lang="less" rel="stylesheet/less">
     .search-input .s_remove {
         right: 0.3rem;
         left: auto;
@@ -39,8 +39,4 @@
             }
         }
     }
-
-
-
-
 </script>

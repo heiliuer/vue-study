@@ -1,7 +1,7 @@
 <template>
     <div class="panel-search">
         <searcher></searcher>
-        <song-list :songs="listData.song"></song-list>
+        <song-list :songs="listData.song" :songss="songsMore"></song-list>
     </div>
 
     <!--<div class="search-content-wrapper">
@@ -19,15 +19,8 @@
     </div>
     </div>-->
 </template>
-<style lang="less">
-    .panel-search{
-        .bar-header-secondary{
-            position: static;
-        }
-    }
-</style>
 <script>
-        //埋葬冬天
+    //埋葬冬天
     import SongList from '../components/SongList.vue'
     import AlbumList from '../components/AlbumList.vue'
     import Searcher from '../components/Searcher.vue'
@@ -40,7 +33,8 @@
                 listData: {
                     album: [],
                     song: []
-                }
+                },
+                songsMore: []
             }
         },
         watch: {
@@ -53,12 +47,20 @@
                 var key = vm.$route.query.key
                 //console.log("key:",key);
 
-                if (!('key' in vm.$route.query)||key == "") {
+                if (!('key' in vm.$route.query) || key == "") {
                     vm.listData = {}
+                    vm.songsMore = []
                 } else {
                     api.search(key).then(function (data) {
                         vm.listData = data
                     });
+                    api.searchSuggest(key).then(function (data) {
+                        function sug(data) {
+                            vm.songsMore = data.data.song;
+                        }
+
+                        eval(data)
+                    })
                 }
             },
             showPlayer(){
@@ -70,5 +72,11 @@
         },
         components: {SongList, Searcher, AlbumList}
     }
-
 </script>
+<style lang="less" rel="stylesheet/less">
+    .panel-search {
+        .bar-header-secondary {
+            position: static;
+        }
+    }
+</style>

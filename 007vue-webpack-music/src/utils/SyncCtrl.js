@@ -21,7 +21,7 @@ proto.init = function () {
 
 proto.initSocket = function () {
     var that = this
-    var url = "ws://" + location.hostname + ":" + location.port;
+    var url = "ws://" + location.hostname + ":" + location.port+"/sync";
     var mSocket = new WebSocket(url, "echo-protocol");
     this.mSocket=mSocket;
     mSocket.onopen = function (event) {

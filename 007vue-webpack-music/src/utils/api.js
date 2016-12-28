@@ -1,6 +1,7 @@
 import config from "../config"
 
-var baseUrl = config.proxyTingapi?"/v1/restserver/ting":"http://tingapi.ting.baidu.com/v1/restserver/ting"
+var tingApiBaseUrl = config.proxyTingapi ? "/v1/restserver/ting" : "http://tingapi.ting.baidu.com/v1/restserver/ting"
+var suggestBaseUrl = config.proxyTingapi ? "/info/suggestion" : "http://sug.music.baidu.com/info/suggestion"
 
 var apiMethod = {
     search: 'baidu.ting.search.catalogSug',
@@ -11,26 +12,40 @@ var apiMethod = {
     list: 'baidu.ting.billboard.billList'
 }
 
-var query = option => ({
-    formate: 'json'
-})
-
 var hackImg = url => 'http://www.beihaiw.com/pic.php?url=' + url
 
-var request = data => new Promise((resolve, reject) => {
-    $.ajax({
-        url: baseUrl,
-        data: data,
-        success: (data) => {
-            resolve(data);
-        },
-        error: err => {
-            reject(err)
-        }
-    })
+function getRequest(url) {
+    return data => new Promise((resolve, reject) => {
+        $.ajax({
+            url: url,
+            data: data,
+            success: (data) => {
+                resolve(data);
+            },
+            error: err => {
+                if(err.status==200){
+                    resolve(err.responseText);
+                }
+                reject(err)
+            }
+        })
+    });
+}
+var requestTingApi = getRequest(tingApiBaseUrl)
+var requestSuggest = getRequest(suggestBaseUrl)
+
+var searchSuggest = (keyword) => requestSuggest({
+    format: 'json',
+    word: keyword,
+    version: 2,
+    from: 0,
+    callback: "sug",
+    third_type: 0,
+    client_type: 0
 })
 
-var search = (keyword) => request({
+
+var search = (keyword) => requestTingApi({
     method: apiMethod['search'],
     query: keyword
 })
@@ -40,7 +55,7 @@ var limit = 12;
 // type = 1-新歌榜,2-热歌榜,11-摇滚榜,12-爵士,16-流行,21-欧美金曲榜,22-经典老歌榜,23-情歌对唱榜,24-影视金曲榜,25-网络歌曲榜
 var getOnline = (type, paged) => {
 
-    return request({
+    return requestTingApi({
         method: apiMethod['list'],
         type: type,
         offset: limit * (paged - 1),
@@ -63,7 +78,7 @@ var getOnline = (type, paged) => {
     })
 }
 
-var getDetail = id => request({
+var getDetail = id => requestTingApi({
     method: apiMethod['detail'],
     songid: id
 })
@@ -72,8 +87,9 @@ export default {
     getOnline,
     getDetail,
     search,
-    request,
+    requestTingApi,
     apiMethod,
+    searchSuggest,
     config: {
         limit
     }

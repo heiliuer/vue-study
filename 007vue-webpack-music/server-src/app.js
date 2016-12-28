@@ -2,7 +2,18 @@
  * Created by Administrator on 2016/11/17.
  */
 
-var PORT = 8080;
+
+
+var args = process.argv.splice(2);
+
+var PORT = 5369;
+
+try {
+    PORT = args.length && args[0];
+} catch (e) {
+}
+PORT = PORT || 5369;
+
 
 var WebSocketServer = require('websocket').server;
 var express = require('express');
@@ -15,8 +26,17 @@ app.use(express.static(__dirname + '/../build'));
 
 //代理
 var request_m = require('request');
+
 app.use('/v1/restserver/ting', function (req, res) {
-    url = "http://tingapi.ting.baidu.com" + req.originalUrl;
+    var url = "http://tingapi.ting.baidu.com" + req.originalUrl;
+    req.pipe(request_m(url)).pipe(res);
+});
+
+app.use('/info/suggestion', function (req, res) {
+    var url = "http://sug.music.baidu.com" + req.originalUrl;
+    // console.log("url:",url)
+    req.header["host"] = "sug.music.baidu.com"
+    req.header["Upgrade-Insecure-Requests"] = "1"
     req.pipe(request_m(url)).pipe(res);
 });
 

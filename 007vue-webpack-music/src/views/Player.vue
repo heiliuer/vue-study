@@ -115,23 +115,23 @@
         components: {},
         mounted(){
             PlayerHandler.initHandler({
-                        $appVm: this.$parent,
-                        audio: this.$el.querySelectorAll('audio')[0]
-                    }
+                    $appVm: this.$parent,
+                    audio: this.$el.querySelectorAll('audio')[0]
+                }
             )
 
             var vm = this
 
-            if(config.enableSyncCtrl){
+            if (config.enableSyncCtrl) {
                 var syncCtrl = SyncCtrl.init();
                 syncCtrl.onmessage(function (event) {
-                    var data=event.data
-                    if(typeof data=="string"){
-                        data=JSON.parse(data)
+                    var data = event.data
+                    if (typeof data == "string") {
+                        data = JSON.parse(data)
                     }
                     //console.log("event.data:",event.data);
 
-                    if(data&&data.songId){
+                    if (data && data.songId) {
                         vm.loadSong(data)
                     }
                 })
@@ -143,7 +143,7 @@
 //                console.log("player beforeEach");
                 if (to.name == "player") {
                     vm.routeIn(to)
-                    if(config.enableSyncCtrl){
+                    if (config.enableSyncCtrl) {
                         syncCtrl.send(JSON.stringify(to.query))
                     }
                 } else {
@@ -157,12 +157,12 @@
 </script>
 
 
-<style lang="less">
+<style lang="less" rel="stylesheet/less">
     @colorTxt: #dcdcdc;
     .bar-player-bottom {
         background-color: transparent;
         &:before {
-         content: none !important;
+            content: none !important;
         }
         .icon {
             @margin: 0.3rem;
@@ -187,37 +187,37 @@
         height: 100%;
         position: relative;
 
-    .player-bg {
-        position: absolute;
-        left: 0;
-        right: 0;
-        width: 100%;
-        height: 100%;
-        background-size: cover;
-        -webkit-filter: blur(10px); /* Chrome, Opera */
-        filter: blur(10px);
-    }
+        .player-bg {
+            position: absolute;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            -webkit-filter: blur(10px); /* Chrome, Opera */
+            filter: blur(10px);
+        }
 
-    .bar-nav {
-        background-color: transparent;
-        /*background: -webkit-linear-gradient(rgba(234, 234, 234, 0.4), rgba(234, 234, 234, 0));*/
-    }
+        .bar-nav {
+            background-color: transparent;
+            /*background: -webkit-linear-gradient(rgba(234, 234, 234, 0.4), rgba(234, 234, 234, 0));*/
+        }
 
-    .bar-nav .title {
-        color: @colorTxt;
-    }
+        .bar-nav .title {
+            color: @colorTxt;
+        }
 
-    .content .text-muted {
-        color: @colorTxt;
-    }
+        .content .text-muted {
+            color: @colorTxt;
+        }
 
-    .bar-nav:after {
-        content: none;
-    }
+        .bar-nav:after {
+            content: none;
+        }
 
-    .bar-nav .icon {
-        color: @colorTxt;
-    }
+        .bar-nav .icon {
+            color: @colorTxt;
+        }
 
     }
 
@@ -255,55 +255,55 @@
         display: block;
         z-index: 12;
 
-    &.page-current {
-         z-index: 13;
+        &.page-current {
+            z-index: 13;
 
-    .content {
-        padding-bottom: 2.5rem;
-    }
+            .content {
+                padding-bottom: 2.5rem;
+            }
 
-    }
+        }
     }
 
     .bar-tab-status {
         position: absolute;
         z-index: 12;
 
-    .s_title, .s_sub-title {
-        padding: 0 1rem;
-        margin: 0;
-    }
+        .s_title, .s_sub-title {
+            padding: 0 1rem;
+            margin: 0;
+        }
 
-    .s_info {
-        display: inline-block;
-    }
+        .s_info {
+            display: inline-block;
+        }
 
-    .s_title {
-        font-size: 0.8rem;
-        line-height: 1.5rem;
-    }
+        .s_title {
+            font-size: 0.8rem;
+            line-height: 1.5rem;
+        }
 
-    .s_sub-title {
-        font-size: 0.6rem;
-        color: #828282;
-    }
+        .s_sub-title {
+            font-size: 0.6rem;
+            color: #828282;
+        }
 
-    .s_img {
-        height: 2.3rem;
-        width: 2.3rem;
-        margin: .1rem .5rem;
-        float: left;
-        background-size: cover;
-        border-radius: 50%;
-        display: inline-block;
-    }
+        .s_img {
+            height: 2.3rem;
+            width: 2.3rem;
+            margin: .1rem .5rem;
+            float: left;
+            background-size: cover;
+            border-radius: 50%;
+            display: inline-block;
+        }
 
-    .s_icon_in {
-        float: right;
-        margin-top: 0.15rem;
-        margin-right: 0.5rem;
-        font-size: 0.6rem;
-    }
+        .s_icon_in {
+            float: right;
+            margin-top: 0.15rem;
+            margin-right: 0.5rem;
+            font-size: 0.6rem;
+        }
 
     }
 
