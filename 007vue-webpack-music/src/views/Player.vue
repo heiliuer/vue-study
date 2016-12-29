@@ -16,6 +16,7 @@
                 <!--磨砂背景 >30px 卡顿-->
                 <div class="player-bg" :style="{backgroundImage:bgImg}"></div>
 
+
                 <header class="bar bar-nav">
                     <h1 class="title" v-text="songinfo.title">></h1>
                 </header>
@@ -25,8 +26,21 @@
                     <h5 class="text-center">
 
                     </h5>
-                    <div class="img-song" :style="{backgroundImage:bgImg}"></div>
+                    <!--<div class="img-song" :style="{backgroundImage:bgImg}"></div>-->
 
+                    <div class="comments">
+                        <ul>
+                            <li class="comment" v-for="comment in comments">
+                                <p>
+                                    <span v-text="comment.time"></span>
+                                    <span v-text="comment.name"></span>
+                                </p>
+                                <p>
+                                    <span v-text="comment.content"></span>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
 
                     <div class="audio-wrapper">
                         <audio class="audio-controls" controls="controls" autoplay="autoplay" width="100%"></audio>
@@ -35,14 +49,64 @@
                 </div>
 
                 <nav class="bar bar-tab bar-player-bottom">
-                    <a class="icon icon-menu pull-right" @click="hidePlayer()"></a>
+                    <form class="form-comment" @submit="comment" onsubmit="return false">
+                        <input v-model="commentContent" type="text" name="" placeholder="说点什么吧" id="">
+                    </form>
+                    <a class="icon icon-menu" @click="hidePlayer()"></a>
                 </nav>
-
             </div>
         </div>
 
     </div>
 </template>
+
+<style lang="less" rel="stylesheet/less">
+    .bar-player-bottom {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        .form-comment {
+            flex: 1;
+            padding: 4px 11px;
+            input {
+                width: 100%;
+                border: none;
+                background-color: rgba(255, 255, 255, 0.68);
+                padding: 4px;
+            }
+        }
+    }
+
+    .comments {
+        background-color: rgba(255, 255, 255, 0.68);
+        max-height: 250px;
+        overflow: scroll;
+        width: 100%;
+        overflow-x: hidden;
+        padding: 8px;
+        > ul {
+            -webkit-margin-start: 0;
+            -webkit-margin-before: 0;
+            list-style: none;
+            -webkit-margin-after: 0;
+            -webkit-padding-start: 0;
+        }
+        li.comment {
+            color: #111;
+            font-size: 13px;
+            p{
+                -webkit-margin-before: 0em;
+                -webkit-margin-after: 0em;
+                -webkit-margin-start: 0px;
+                -webkit-margin-end: 0px;
+                &:first-of-type{
+                    color: #999;
+                }
+            }
+        }
+    }
+
+</style>
 
 <script>
     import api from "../utils/api"
@@ -69,7 +133,7 @@
 
     export default{
         data(){
-            return {song: {}}
+            return {song: {}, commentContent: "", comments: []};
         },
         computed: {
             songinfo(){
@@ -83,6 +147,10 @@
             }
         },
         methods: {
+            comment(){
+                SyncCtrl.get().send(JSON.stringify({type: "comment", data: {"content": this.commentContent}}));
+                this.commentContent = ""
+            },
             hidePlayer(){
                 this.$parent.playerShow = false
             },
@@ -131,8 +199,10 @@
                     }
                     //console.log("event.data:",event.data);
 
-                    if (data && data.songId) {
-                        vm.loadSong(data)
+                    if (data.type == "song") {
+                        vm.loadSong(data.data)
+                    } else if (data.type == "comments") {
+                        vm.comments = data.data;
                     }
                 })
             }
@@ -144,7 +214,7 @@
                 if (to.name == "player") {
                     vm.routeIn(to)
                     if (config.enableSyncCtrl) {
-                        syncCtrl.send(JSON.stringify(to.query))
+                        syncCtrl.send(JSON.stringify({type: "song", data: to.query}))
                     }
                 } else {
                     next();
@@ -225,7 +295,7 @@
         width: 100%;
         text-align: center;
         position: absolute;
-        bottom: 5rem;
+        bottom: 3rem;
         left: 0;
     }
 
@@ -239,16 +309,16 @@
     }
 
     .img-song {
-        animation: rotation 10s linear infinite;
-        -moz-animation: rotation 10s linear infinite;
-        -webkit-animation: rotation 10s linear infinite;
-        -o-animation: rotation 10s linear infinite;
         width: 10rem;
         height: 10rem;
         border-radius: 50%;
         border: none;
         outline: none;
         margin: 0 auto;
+    }
+
+    .s_img, .img-song {
+        animation: rotation 10s linear infinite;
     }
 
     .page {

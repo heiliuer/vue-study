@@ -1,7 +1,7 @@
 /**
  * Created by Administrator on 2016/11/17.
  */
-
+require("./DateFormater")
 
 
 var args = process.argv.splice(2);
@@ -48,7 +48,29 @@ function originIsAllowed(origin) {
 
 var connections = []
 var song;
-// the rest of your code
+var comments = []//{"time":"","name":"","content":"hahaha"}
+
+function pushcomment(connection, content) {
+    if (comments.length > 50) {
+        comments.shift()
+    }
+    var comment = {
+        "time": (new Date().format("yyyy-MM-dd hh:mm:ss")),
+        "name": connection.name || "匿名用户",
+        "content": content
+    }
+    comments.push(comment)
+}
+
+function sendStrExclude(str, excludeConn) {
+    var t_conns = connections.slice();
+    if(excludeConn){
+        t_conns.splice(t_conns.indexOf(excludeConn), 1);
+    }
+    t_conns.forEach(function (t_conn) {
+        t_conn.send(str)
+    })
+}
 wsServer.on('request', function (request) {
     if (!originIsAllowed(request.origin)) {
         request.reject();
@@ -56,26 +78,32 @@ wsServer.on('request', function (request) {
         return;
     }
     var connection = request.accept('echo-protocol', request.origin);
+
     if (connections.indexOf(connection) == -1) {
         connections.push(connection)
     }
 
     if (song) {
-        connection.send(JSON.stringify(song))
+        connection.send(JSON.stringify({type: "song", data: song}))
     }
+
+    connection.send(JSON.stringify({type: "comments", data: comments}))
+
+    console.log((new Date().format("yyyy-MM-dd hh:mm:ss")) + ' Peer ' + connection.remoteAddress + ' connected.');
+
 
     //console.log((new Date()) + ' Connection accepted.');
     connection.on('message', function (message) {
         if (message.type === 'utf8') {
             //console.log('Received Message: ' + message.utf8Data);
             var data = JSON.parse(message.utf8Data);
-            if (data) {
-                song = data
-                var t_conns = connections.slice();
-                t_conns.splice(t_conns.indexOf(connection), 1);
-                t_conns.forEach(function (t_conn) {
-                    t_conn.send(JSON.stringify(data))
-                })
+            if (data.type == "song") {
+                song = data.data;
+                sendStrExclude(JSON.stringify({type: "song", data: song}), connection)
+
+            } else if (data.type == "comment") {
+                pushcomment(connection, data.data.content)
+                sendStrExclude(JSON.stringify({type: "comments", data: comments}), null)
             }
             connection.sendUTF(message.utf8Data);
         }
@@ -86,7 +114,7 @@ wsServer.on('request', function (request) {
 
     });
     connection.on('close', function (reasonCode, description) {
-        console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
+        console.log((new Date().format("yyyy-MM-dd hh:mm:ss")) + ' Peer ' + connection.remoteAddress + ' disconnected.');
         var id = connections.indexOf(connection);
         if (id != -1) {
             connections.splice(id, 1)

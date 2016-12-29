@@ -56,7 +56,11 @@
                     });
                     api.searchSuggest(key).then(function (data) {
                         function sug(data) {
-                            vm.songsMore = data.data.song;
+                            if ("data" in data) {
+                                vm.songsMore = data.data.song;
+                            } else {
+                                console.log("search failed and msg", data.error_message || "unknown")
+                            }
                         }
 
                         eval(data)
