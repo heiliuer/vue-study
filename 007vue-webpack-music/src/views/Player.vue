@@ -80,6 +80,7 @@
     .comments {
         background-color: rgba(255, 255, 255, 0.68);
         max-height: 250px;
+        min-height: 200px;
         overflow: scroll;
         width: 100%;
         overflow-x: hidden;
