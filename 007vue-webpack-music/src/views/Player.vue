@@ -94,12 +94,12 @@
         li.comment {
             color: #111;
             font-size: 13px;
-            p{
+            p {
                 -webkit-margin-before: 0em;
                 -webkit-margin-after: 0em;
                 -webkit-margin-start: 0px;
                 -webkit-margin-end: 0px;
-                &:first-of-type{
+                &:first-of-type {
                     color: #999;
                 }
             }
@@ -203,6 +203,10 @@
                         vm.loadSong(data.data)
                     } else if (data.type == "comments") {
                         vm.comments = data.data;
+                        let $comments = $(".comments");
+                        vm.$nextTick(function () {
+                            $comments.scrollTop($comments[0].scrollHeight - $comments.height() + 10000)
+                        })
                     }
                 })
             }
