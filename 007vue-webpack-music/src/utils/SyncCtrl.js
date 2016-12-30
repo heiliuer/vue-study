@@ -52,6 +52,8 @@ proto.send = function (str) {
     if (this.connecting) {
         this.mSocket.send(str);
         //console.log("send str:",str);
+    }else{
+        console.warn("send str:",str,"but connecting is false");
     }
 }
 

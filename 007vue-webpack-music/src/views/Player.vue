@@ -27,9 +27,13 @@
 
                     <div class="comments">
                         <p class="comments-title">
+                            <span>用户：<input maxlength="5" type="text" name="" v-model="user.name"></span>
                             <span>在线 <b v-text="connInfo.size"></b></span>
-                            <span>直播: <a href="javascript:void(0)" @click="switchOnline" v-text="onlineSong.name"></a></span>
                             <span class="s_btn" @click="sendOnline">推送</span>
+                        </p>
+                        <p class="comments-title">
+                            <span>直播: <a href="javascript:void(0)" @click="switchOnline"
+                                         v-text="onlineSong.name"></a></span>
                         </p>
                         <ul>
                             <li class="comment" v-for="comment in comments">
@@ -72,7 +76,7 @@
         overflow-x: hidden;
 
         position: absolute;
-        bottom: ~'calc(55% - 150px)';
+        bottom: ~'calc(55% - 170px)';
 
         .comments-title {
             -webkit-margin-before: 0em;
@@ -86,9 +90,18 @@
                 display: inline-block;
                 margin: 0 5px;
             }
+            input{
+                border: 1px solid rgba(169, 169, 169, 0.59);
+                background: transparent;
+                padding: 2px;
+                width: 4em
+            }
+            &:first-of-type{
+                padding-bottom: 0;
+            }
         }
-        .s_btn:active{
-            color: darken(#757575,50%);
+        .s_btn:active {
+            color: darken(#757575, 50%);
         }
         .form-comment {
             flex: 1;
@@ -154,7 +167,7 @@
 
     export default{
         data(){
-            return {song: {}, commentContent: "", comments: [], connInfo: {}, onlineSong: {}};
+            return {song: {}, user: {}, commentContent: "", comments: [], connInfo: {}, onlineSong: {}};
         },
         computed: {
             songinfo(){
@@ -170,7 +183,7 @@
         methods: {
             sendOnline(){
                 let songOnline = {"songId": this.songinfo.song_id, "name": this.songinfo.title};
-                this.onlineSong=songOnline
+                this.onlineSong = songOnline
                 SyncCtrl.get().send(JSON.stringify({
                     type: "song",
                     data: songOnline
@@ -219,6 +232,16 @@
         },
         props: ['playerShow'],
         components: {},
+        watch:{
+            "user.name":function () {
+                let vm=this
+                SyncCtrl.get().send(JSON.stringify({
+                    type: "setUser",
+                    data: vm.user
+                }));
+                localStorage.setItem("user",JSON.stringify(vm.user))
+            }
+        },
         mounted(){
             PlayerHandler.initHandler({
                     $appVm: this.$parent,
@@ -248,6 +271,12 @@
                         vm.scrollCToBottom();
                     } else if (data.type == "connChange") {
                         vm.connInfo = data.data;
+                    }else if(data.type == "init"){
+                        vm.user = JSON.parse(localStorage.getItem("user")) || {'name': ''+(Math.floor(Math.random() * 10000))}
+                        SyncCtrl.get().send(JSON.stringify({
+                            type: "setUser",
+                            data: vm.user
+                        }));
                     }
                 })
             }
@@ -259,12 +288,12 @@
                 if (to.name == "player") {
                     vm.routeIn(to)
                     if (config.enableSyncCtrl) {
-
                     }
                 } else {
                     next();
                 }
             })
+
         }
     }
 

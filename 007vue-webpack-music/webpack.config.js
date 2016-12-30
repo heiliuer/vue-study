@@ -28,6 +28,7 @@ var loaders = [
 
 module.exports = {
     devtool: 'eval-source-map',
+    // devtool: false,
     entry: path.resolve('src', 'app.js'),
     debug: false,
     output: {
@@ -48,8 +49,7 @@ module.exports = {
             filename: 'index.html'
         }),
         new CopyWebpackPlugin([
-            {from: 'vendor/**'},
-            {from: 'src/sm-config.js'},
+            {from: 'vendor/**'}
         ]),
         new webpack.optimize.UglifyJsPlugin({
             sourceMap: false,

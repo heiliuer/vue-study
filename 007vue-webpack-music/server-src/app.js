@@ -94,6 +94,8 @@ wsServer.on('request', function (request) {
 
     connection.send(JSON.stringify({type: "comments", data: comments}))
 
+    connection.send(JSON.stringify({type: "init"}))
+
     sendStrExclude(getSendConnJson(), null)
 
 
@@ -113,6 +115,8 @@ wsServer.on('request', function (request) {
                 let comment = getSendComment(connection, data.data.content);
                 pushcomment(comment)
                 sendStrExclude(JSON.stringify({type: "comment", data: comment}), null)
+            }else if (data.type == "setUser") {
+                connection.name= data.data.name
             }
         }
         else if (message.type === 'binary') {
