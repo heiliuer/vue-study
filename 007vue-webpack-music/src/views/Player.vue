@@ -40,6 +40,9 @@
                                 </p>
                             </li>
                         </ul>
+                        <form class="form-comment" @submit="comment" onsubmit="return false">
+                            <input v-model="commentContent" type="text" name="" placeholder="说点什么吧" id="">
+                        </form>
                     </div>
 
                     <div class="audio-wrapper">
@@ -49,10 +52,7 @@
                 </div>
 
                 <nav class="bar bar-tab bar-player-bottom">
-                    <form class="form-comment" @submit="comment" onsubmit="return false">
-                        <input v-model="commentContent" type="text" name="" placeholder="说点什么吧" id="">
-                    </form>
-                    <a class="icon icon-menu" @click="hidePlayer()"></a>
+                    <a class="icon icon-menu pull-right" @click="hidePlayer()"></a>
                 </nav>
             </div>
         </div>
@@ -61,13 +61,15 @@
 </template>
 
 <style lang="less" rel="stylesheet/less">
-    .bar-player-bottom {
-        display: flex;
+    .comments {
+        background-color: rgba(255, 255, 255, 0.68);
         width: 100%;
-        align-items: center;
+        overflow-x: hidden;
+        padding: 8px;
+
         .form-comment {
             flex: 1;
-            padding: 4px 11px;
+            padding: 0;
             input {
                 width: 100%;
                 border: none;
@@ -75,23 +77,19 @@
                 padding: 4px;
             }
         }
-    }
 
-    .comments {
-        background-color: rgba(255, 255, 255, 0.68);
-        max-height: 250px;
-        min-height: 200px;
-        overflow: scroll;
-        width: 100%;
-        overflow-x: hidden;
-        padding: 8px;
         > ul {
+            max-height: 220px;
+            min-height: 180px;
+            overflow: scroll;
             -webkit-margin-start: 0;
             -webkit-margin-before: 0;
             list-style: none;
             -webkit-margin-after: 0;
-            -webkit-padding-start: 0;
+            -webkit-padding-start: 10px;
+            -webkit-padding-end: 10px;
         }
+
         li.comment {
             color: #111;
             font-size: 13px;
@@ -204,7 +202,7 @@
                         vm.loadSong(data.data)
                     } else if (data.type == "comments") {
                         vm.comments = data.data;
-                        let $comments = $(".comments");
+                        let $comments = $(".comments ul");
                         vm.$nextTick(function () {
                             $comments.scrollTop($comments[0].scrollHeight - $comments.height() + 10000)
                         })
