@@ -1,7 +1,7 @@
 <template>
     <div>
         <header class="bar bar-nav" v-title="title">
-            <a @click="ret" href="javascript:void(0)" class="icon icon-down pull-right"></a>
+            <a @click="ret" href="javascript:void(0)" class="icon icon-left pull-left"></a>
 
             <h1 class="title">{{title}}</h1>
         </header>

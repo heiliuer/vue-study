@@ -2,7 +2,8 @@
 
 call webpack
 
+
+set /p PORT=<port.txt
 cd server-src
-set PORT=5369
 echo running port %PORT% ...
 node app.js %PORT%

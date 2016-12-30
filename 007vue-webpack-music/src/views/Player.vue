@@ -39,7 +39,7 @@
                             </li>
                         </ul>
                         <form class="form-comment" @submit="comment" onsubmit="return false">
-                            <input v-model="commentContent" type="text" name="" placeholder="说点什么吧" id="">
+                            <input maxlength="200" v-model="commentContent" type="text" name="" placeholder="说点什么吧" id="">
                         </form>
                     </div>
 
