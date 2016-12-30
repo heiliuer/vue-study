@@ -33,7 +33,7 @@
                         </p>
                         <p class="comments-title">
                             <span>直播: <a href="javascript:void(0)" @click="switchOnline"
-                                         v-text="onlineSong.name"></a></span>
+                                         v-text="onlineSong.name"></a> 来自 <b v-text="onlineSong.user.name"></b></span>
                         </p>
                         <ul>
                             <li class="comment" v-for="comment in comments">
@@ -167,7 +167,7 @@
 
     export default{
         data(){
-            return {song: {}, user: {}, commentContent: "", comments: [], connInfo: {}, onlineSong: {}};
+            return {song: {}, user: {}, commentContent: "", comments: [], connInfo: {}, onlineSong: {name:"",user:{}}};
         },
         computed: {
             songinfo(){
@@ -182,7 +182,7 @@
         },
         methods: {
             sendOnline(){
-                let songOnline = {"songId": this.songinfo.song_id, "name": this.songinfo.title};
+                let songOnline = {"songId": this.songinfo.song_id, "name": this.songinfo.title,user:this.user};
                 this.onlineSong = songOnline
                 SyncCtrl.get().send(JSON.stringify({
                     type: "song",
@@ -251,6 +251,8 @@
 
             var vm = this
 
+            vm.user = JSON.parse(localStorage.getItem("user")) || {'name': ''+(Math.floor(Math.random() * 10000))}
+
             if (config.enableSyncCtrl) {
                 var syncCtrl = SyncCtrl.init();
                 syncCtrl.onmessage(function (event) {
@@ -261,7 +263,14 @@
                     //console.log("event.data:",event.data);
 
                     if (data.type == "song") {
-                        vm.loadSong(data.data)
+                        console.log(vm.songinfo.song_id,data.data.songId)
+                        if(vm.songinfo.song_id!=data.data.songId){
+                            vm.loadSong(data.data)
+                            console.log("load and play")
+                        }else if(!vm.songinfo.song_id){
+                            PlayerHandler.getHandler().play();
+                            console.log("play")
+                        }
                         vm.onlineSong = data.data
                     } else if (data.type == "comments") {
                         vm.comments = data.data;
@@ -272,7 +281,6 @@
                     } else if (data.type == "connChange") {
                         vm.connInfo = data.data;
                     }else if(data.type == "init"){
-                        vm.user = JSON.parse(localStorage.getItem("user")) || {'name': ''+(Math.floor(Math.random() * 10000))}
                         SyncCtrl.get().send(JSON.stringify({
                             type: "setUser",
                             data: vm.user

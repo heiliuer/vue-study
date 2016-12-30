@@ -110,13 +110,12 @@ wsServer.on('request', function (request) {
             if (data.type == "song") {
                 song = data.data;
                 sendStrExclude(JSON.stringify({type: "song", data: song}), connection)
-
             } else if (data.type == "comment") {
                 let comment = getSendComment(connection, data.data.content);
                 pushcomment(comment)
                 sendStrExclude(JSON.stringify({type: "comment", data: comment}), null)
-            }else if (data.type == "setUser") {
-                connection.name= data.data.name
+            } else if (data.type == "setUser") {
+                connection.name = data.data.name
             }
         }
         else if (message.type === 'binary') {
