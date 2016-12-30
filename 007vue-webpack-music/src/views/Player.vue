@@ -26,7 +26,11 @@
                     <!--<div class="img-song" :style="{backgroundImage:bgImg}"></div>-->
 
                     <div class="comments">
-                        <p class="comments-title">在线人数 <span v-text="connInfo.size"></span></p>
+                        <p class="comments-title">
+                            <span>在线 <b v-text="connInfo.size"></b></span>
+                            <span>直播: <a href="javascript:void(0)" @click="switchOnline" v-text="onlineSong.name"></a></span>
+                            <span class="s_btn" @click="sendOnline">推送</span>
+                        </p>
                         <ul>
                             <li class="comment" v-for="comment in comments">
                                 <p>
@@ -79,9 +83,12 @@
             background-color: rgba(255, 255, 255, 0.33);
             text-align: center;
             > span {
-                color: #222;
-                font-weight: bold;
+                display: inline-block;
+                margin: 0 5px;
             }
+        }
+        .s_btn:active{
+            color: darken(#757575,50%);
         }
         .form-comment {
             flex: 1;
@@ -147,7 +154,7 @@
 
     export default{
         data(){
-            return {song: {}, commentContent: "", comments: [], connInfo: {}};
+            return {song: {}, commentContent: "", comments: [], connInfo: {}, onlineSong: {}};
         },
         computed: {
             songinfo(){
@@ -161,6 +168,17 @@
             }
         },
         methods: {
+            sendOnline(){
+                let songOnline = {"songId": this.songinfo.song_id, "name": this.songinfo.title};
+                this.onlineSong=songOnline
+                SyncCtrl.get().send(JSON.stringify({
+                    type: "song",
+                    data: songOnline
+                }));
+            },
+            switchOnline(){
+                this.loadSong(this.onlineSong)
+            },
             comment(){
                 SyncCtrl.get().send(JSON.stringify({type: "comment", data: {"content": this.commentContent}}));
                 this.commentContent = ""
@@ -221,6 +239,7 @@
 
                     if (data.type == "song") {
                         vm.loadSong(data.data)
+                        vm.onlineSong = data.data
                     } else if (data.type == "comments") {
                         vm.comments = data.data;
                         vm.scrollCToBottom();
@@ -240,7 +259,7 @@
                 if (to.name == "player") {
                     vm.routeIn(to)
                     if (config.enableSyncCtrl) {
-                        syncCtrl.send(JSON.stringify({type: "song", data: to.query}))
+
                     }
                 } else {
                     next();

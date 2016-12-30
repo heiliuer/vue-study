@@ -10,6 +10,9 @@
         color: #777;
         font-weight: normal;
     }
+    .card:active{
+        opacity: 0.5;
+    }
 </style>
 <script>
     import BottomTab from './components/BottomTab.vue'
