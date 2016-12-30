@@ -29,7 +29,7 @@
 
     </div>
 </template>
-<style lang="less">
+<style lang="less" rel="stylesheet/less">
     .media-list-song {
         color: #5f646e;
     }

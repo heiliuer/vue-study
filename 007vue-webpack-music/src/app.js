@@ -15,11 +15,14 @@ const router = new VueRouter({
 })
 
 
-
-
 router.beforeEach((to, from, next) => {
     // console.log("beforeEach", to, from, next);
-    next();
+
+    if (to == "/##prev") {
+        router.go(-1)
+    } else {
+        next()
+    }
 })
 
 Vue.directive(titleSetter.name, titleSetter.directive)
@@ -32,7 +35,6 @@ const app = new Vue({
     mounted(){
         //初始化
         $.init()
-
     }
 }).$mount("#app")
 

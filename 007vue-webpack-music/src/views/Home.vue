@@ -1,7 +1,7 @@
 <template>
     <div>
         <header v-title="title" class="bar bar-nav">
-            <router-link class="icon iconfont icon-ttpodicon pull-right" :to="{path: '/about'}"></router-link>
+            <router-link class="icon pull-right" :class="[isHome?'icon-settings':'icon-left']"  :to="{path: isHome?'/about':'/##prev'}"></router-link>
             <router-link class="icon icon-home pull-left" :to="{path: '/'}"></router-link>
             <h1 class="title">歌曲库</h1>
         </header>
@@ -22,14 +22,14 @@
         </div>
     </div>
 </template>
-<style lang="less">
-    .content-home{
-        .buttons-tab{
+<style lang="less" rel="stylesheet/less">
+    .content-home {
+        .buttons-tab {
             position: fixed;
             width: 100%;
             z-index: 100;
         }
-        .tabs:before{
+        .tabs:before {
             content: '';
             display: block;
             width: 100%;
@@ -41,7 +41,12 @@
     export default{
         data(){
             return {
-                title:"歌曲库"
+                title: "歌曲库"
+            }
+        },
+        computed:{
+            isHome:function () {
+                return this.$route.path=="/home"
             }
         }
     }
