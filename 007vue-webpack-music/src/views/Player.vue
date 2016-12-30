@@ -38,14 +38,17 @@
                                 </p>
                             </li>
                         </ul>
+
+                        <div class="audio-wrapper">
+                            <audio class="audio-controls" controls="controls" autoplay="autoplay" width="100%"></audio>
+                        </div>
                         <form class="form-comment" @submit="comment" onsubmit="return false">
-                            <input maxlength="200" v-model="commentContent" type="text" name="" placeholder="说点什么吧" id="">
+                            <input maxlength="200" v-model="commentContent" type="text" name="" placeholder="说点什么吧"
+                                   id="">
                         </form>
+
                     </div>
 
-                    <div class="audio-wrapper">
-                        <audio class="audio-controls" controls="controls" autoplay="autoplay" width="100%"></audio>
-                    </div>
 
                 </div>
 
@@ -63,7 +66,9 @@
         background-color: hsla(0, 0%, 100%, 0.76);
         width: 100%;
         overflow-x: hidden;
-        margin-top: 2em;
+
+        position: absolute;
+        bottom: ~'calc(55% - 150px)';
 
         .comments-title {
             -webkit-margin-before: 0em;
@@ -287,9 +292,9 @@
             background-size: cover;
             -webkit-filter: blur(10px); /* Chrome, Opera */
             filter: blur(10px);
-            &:after{
+            &:after {
                 content: '';
-                height:100%;
+                height: 100%;
                 width: 100%;
                 display: inline-block;
                 background-color: rgba(0, 0, 0, 0.33);
@@ -330,9 +335,12 @@
     .audio-wrapper {
         width: 100%;
         text-align: center;
-        position: absolute;
-        bottom: 3rem;
-        left: 0;
+        padding: 8px;
+        padding-bottom: 0;
+        background-color: hsla(0, 0%, 100%, .33);
+        > audio {
+            width: 100%;
+        }
     }
 
     @-webkit-keyframes rotation {
