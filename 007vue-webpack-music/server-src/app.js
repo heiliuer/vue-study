@@ -50,26 +50,31 @@ var connections = []
 var song;
 var comments = []//{"time":"","name":"","content":"hahaha"}
 
-function pushcomment(connection, content) {
-    if (comments.length > 50) {
-        comments.shift()
-    }
-    var comment = {
+function getSendComment(connection, content) {
+    return {
         "time": (new Date().format("yyyy-MM-dd hh:mm:ss")),
         "name": connection.name || "匿名用户",
         "content": content
+    }
+}
+function pushcomment(comment) {
+    if (comments.length > 50) {
+        comments.shift()
     }
     comments.push(comment)
 }
 
 function sendStrExclude(str, excludeConn) {
     var t_conns = connections.slice();
-    if(excludeConn){
+    if (excludeConn) {
         t_conns.splice(t_conns.indexOf(excludeConn), 1);
     }
     t_conns.forEach(function (t_conn) {
         t_conn.send(str)
     })
+}
+function getSendConnJson() {
+    return JSON.stringify({type: "connChange", data: {size: connections.length}});
 }
 wsServer.on('request', function (request) {
     if (!originIsAllowed(request.origin)) {
@@ -89,6 +94,9 @@ wsServer.on('request', function (request) {
 
     connection.send(JSON.stringify({type: "comments", data: comments}))
 
+    sendStrExclude(getSendConnJson(), null)
+
+
     console.log((new Date().format("yyyy-MM-dd hh:mm:ss")) + ' Peer ' + connection.remoteAddress + ' connected.');
 
 
@@ -102,10 +110,10 @@ wsServer.on('request', function (request) {
                 sendStrExclude(JSON.stringify({type: "song", data: song}), connection)
 
             } else if (data.type == "comment") {
-                pushcomment(connection, data.data.content)
-                sendStrExclude(JSON.stringify({type: "comments", data: comments}), null)
+                let comment = getSendComment(connection, data.data.content);
+                pushcomment(comment)
+                sendStrExclude(JSON.stringify({type: "comment", data: comment}), null)
             }
-            connection.sendUTF(message.utf8Data);
         }
         else if (message.type === 'binary') {
             //console.log('Received Binary Message of ' + message.binaryData.length + ' bytes');
@@ -119,5 +127,6 @@ wsServer.on('request', function (request) {
         if (id != -1) {
             connections.splice(id, 1)
         }
+        sendStrExclude(getSendConnJson(), null)
     });
 })

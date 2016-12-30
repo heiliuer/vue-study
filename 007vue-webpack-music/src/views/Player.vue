@@ -16,19 +16,17 @@
                 <!--磨砂背景 >30px 卡顿-->
                 <div class="player-bg" :style="{backgroundImage:bgImg}"></div>
 
-
                 <header class="bar bar-nav">
                     <h1 class="title" v-text="songinfo.title">></h1>
                 </header>
 
                 <div class="content">
-                    <h6 class="text-center text-muted" v-text="songinfo.album_title"></h6>
-                    <h5 class="text-center">
-
+                    <h6 class="text-center text-muted sub-title" v-text="songinfo.album_title"></h6>
                     </h5>
                     <!--<div class="img-song" :style="{backgroundImage:bgImg}"></div>-->
 
                     <div class="comments">
+                        <p class="comments-title">在线人数 <span v-text="connInfo.size"></span></p>
                         <ul>
                             <li class="comment" v-for="comment in comments">
                                 <p>
@@ -65,11 +63,25 @@
         background-color: hsla(0, 0%, 100%, 0.76);
         width: 100%;
         overflow-x: hidden;
-        padding: 8px;
+        margin-top: 2em;
 
+        .comments-title {
+            -webkit-margin-before: 0em;
+            -webkit-margin-after: 0em;
+            font-size: 12px;
+            color: #757575;
+            padding: 8px;
+            background-color: rgba(255, 255, 255, 0.33);
+            text-align: center;
+            > span {
+                color: #222;
+                font-weight: bold;
+            }
+        }
         .form-comment {
             flex: 1;
-            padding: 0;
+            padding: 8px;
+            background-color: rgba(255, 255, 255, 0.33);
             input {
                 width: 100%;
                 border: none;
@@ -80,17 +92,12 @@
         }
 
         > ul {
-            max-height: 220px;
-            min-height: 180px;
-            overflow: scroll;
-            -webkit-margin-start: 0;
-            -webkit-margin-before: 0;
+            padding: 8px;
+            height: 180px;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            margin: 0;
             list-style: none;
-            -webkit-margin-after: 0;
-            -webkit-padding-before: 5px;
-            -webkit-padding-after: 5px;
-            -webkit-padding-start: 0px;
-            -webkit-padding-end: 0px;
         }
 
         li.comment {
@@ -135,7 +142,7 @@
 
     export default{
         data(){
-            return {song: {}, commentContent: "", comments: []};
+            return {song: {}, commentContent: "", comments: [], connInfo: {}};
         },
         computed: {
             songinfo(){
@@ -179,6 +186,12 @@
                         vm.song = song
                     });
                 }
+            },
+            scrollCToBottom(){
+                let $comments = $(".comments ul");
+                this.$nextTick(function () {
+                    $comments.scrollTop($comments[0].scrollHeight - $comments.height() + 200)
+                })
             }
         },
         props: ['playerShow'],
@@ -205,10 +218,12 @@
                         vm.loadSong(data.data)
                     } else if (data.type == "comments") {
                         vm.comments = data.data;
-                        let $comments = $(".comments ul");
-                        vm.$nextTick(function () {
-                            $comments.scrollTop($comments[0].scrollHeight - $comments.height() + 10000)
-                        })
+                        vm.scrollCToBottom();
+                    } else if (data.type == "comment") {
+                        vm.comments.push(data.data)
+                        vm.scrollCToBottom();
+                    } else if (data.type == "connChange") {
+                        vm.connInfo = data.data;
                     }
                 })
             }
@@ -272,6 +287,13 @@
             background-size: cover;
             -webkit-filter: blur(10px); /* Chrome, Opera */
             filter: blur(10px);
+            &:after{
+                content: '';
+                height:100%;
+                width: 100%;
+                display: inline-block;
+                background-color: rgba(0, 0, 0, 0.33);
+            }
         }
 
         .bar-nav {
@@ -283,8 +305,16 @@
             color: @colorTxt;
         }
 
-        .content .text-muted {
-            color: @colorTxt;
+        .content {
+            .text-muted {
+                color: @colorTxt;
+            }
+        }
+
+        .sub-title {
+            -webkit-margin-before: 0;
+            -webkit-margin-after: 0;
+            color: #bdbdbd !important;
         }
 
         .bar-nav:after {

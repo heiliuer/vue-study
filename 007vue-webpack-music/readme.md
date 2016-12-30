@@ -1,6 +1,6 @@
 ## vue-router-music
 
-> 基于百度音乐接口的简单音乐播放器
+> 基于百度音乐接口的简单音乐播放器--悦动
 
 - [vue 2.x](https://cn.vuejs.org/v2/guide/)
 - [vue route 2.x](http://router.vuejs.org/zh-cn/index.html)
@@ -30,6 +30,6 @@
     
     > 访问 [http://localhost:8080/](http://localhost:8080/)
     
-![](screenshots/1.png) ![](screenshots/3.png)
+![](screenshots/1.png) ![](screenshots/3.png) ![](screenshots/4.png)
 
 
