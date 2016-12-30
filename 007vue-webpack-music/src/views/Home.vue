@@ -1,8 +1,8 @@
 <template>
     <div>
         <header v-title="title" class="bar bar-nav">
-            <router-link class="icon pull-right" :class="[isHome?'icon-settings':'icon-left']"  :to="{path: isHome?'/about':'/##prev'}"></router-link>
-            <router-link class="icon icon-home pull-left" :to="{path: '/'}"></router-link>
+            <router-link class="icon pull-left" :class="[isHome?'icon-settings':'icon-left']"  :to="{path: isHome?'/about':'/##prev'}"></router-link>
+            <router-link class="icon icon-home pull-right" :to="{path: '/'}"></router-link>
             <h1 class="title">歌曲库</h1>
         </header>
 

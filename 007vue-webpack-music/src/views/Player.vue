@@ -62,7 +62,7 @@
 
 <style lang="less" rel="stylesheet/less">
     .comments {
-        background-color: rgba(255, 255, 255, 0.68);
+        background-color: hsla(0, 0%, 100%, 0.76);
         width: 100%;
         overflow-x: hidden;
         padding: 8px;
@@ -75,6 +75,7 @@
                 border: none;
                 background-color: rgba(255, 255, 255, 0.68);
                 padding: 4px;
+                border-radius: 5px;
             }
         }
 
@@ -86,8 +87,10 @@
             -webkit-margin-before: 0;
             list-style: none;
             -webkit-margin-after: 0;
-            -webkit-padding-start: 10px;
-            -webkit-padding-end: 10px;
+            -webkit-padding-before: 5px;
+            -webkit-padding-after: 5px;
+            -webkit-padding-start: 0px;
+            -webkit-padding-end: 0px;
         }
 
         li.comment {
