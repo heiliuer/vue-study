@@ -32,8 +32,9 @@
                             <span class="s_btn" @click="sendOnline">推送</span>
                         </p>
                         <p class="comments-title">
-                            <span>直播: <a href="javascript:void(0)" @click="switchOnline"
+                            <span v-if="onlineSong.user.name">直播: <a href="javascript:void(0)" @click="switchOnline"
                                          v-text="onlineSong.name"></a> 来自 <b v-text="onlineSong.user.name"></b></span>
+                            <span v-if="!(onlineSong.user.name)">暂无直播</span>
                         </p>
                         <ul>
                             <li class="comment" v-for="comment in comments">
@@ -191,7 +192,9 @@
                 }));
             },
             switchOnline(){
-                this.loadSong(this.onlineSong)
+                if(this.onlineSong.songId){
+                    this.loadSong(this.onlineSong)
+                }
             },
             comment(){
                 SyncCtrl.get().send(JSON.stringify({type: "comment", data: {"content": this.commentContent}}));
@@ -206,8 +209,8 @@
             routeIn(to){
                 this.loadSong(to.query)
             },
-            loadSong(query){
-                var songId = query.songId
+            loadSong(song){
+                var songId = song.songId
                 if (songId != "") {
                     var vm = this
                     api.getDetail(songId).then(function (song) {
