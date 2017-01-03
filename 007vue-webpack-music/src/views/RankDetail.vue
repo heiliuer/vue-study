@@ -58,32 +58,29 @@
                 if (typeof type != 'undefined') {
                     api.getOnline(type, vm.page).then(function (data) {
 //                        console.log("load page ", vm.page)
-                        vm.hasMore = !vm.hasMore?false:((data.song_list || []).length)==api.config.limit
+                        vm.hasMore = !vm.hasMore ? false : ((data.song_list || []).length) == api.config.limit
                         vm.songs = vm.songs.concat(data.song_list || [])
                         vm.page++
                         vm.loading = false
-                        $.refreshScroller()
-                        if (!vm.hasMore) {
-                            $.detachInfiniteScroll($('.infinite-scroll'))
-                            $('.infinite-scroll-preloader').remove()
-                        }
+                    }, function () {
+                        vm.loading = false
                     })
+                } else {
+                    vm.loading = false;
                 }
             }
         },
         mounted(){
-            try{
-                var $infinte=$('.infinite-scroll')
-                $.detachInfiniteScroll($infinte)
-                $.attachInfiniteScroll($infinte)
-            }catch(e){
-            }
-            this.fetch()
-            var vm = this;
-            //console.log("init listener infinite; vm.loading:",vm.loading);
-            $(document).on('infinite', '.infinite-scroll-bottom', function () {
-                //console.log("trigger infinite; vm.loading:",vm.loading);
-                if (!vm.loading) vm.fetch()
+            var vm = this
+            vm.hasMore = true
+            vm.fetch()
+            var $infinte = $('.infinite-scroll')
+            var infinte = $infinte[0]
+            var distance = 20
+            $infinte.on("scroll", function () {
+                if ($infinte.scrollTop() + $infinte.height() >= infinte.scrollHeight - distance) {
+                    if (!vm.loading) vm.fetch()
+                }
             })
         },
         components: {SongList}
