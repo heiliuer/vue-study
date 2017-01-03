@@ -61,6 +61,10 @@
     .media-list-song {
         color: #5f646e;
     }
+
+    .card-content{
+        cursor: pointer;
+    }
 </style>
 <script>
     export default{

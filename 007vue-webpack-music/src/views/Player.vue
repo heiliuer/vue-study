@@ -89,6 +89,7 @@
             > span {
                 display: inline-block;
                 margin: 0 5px;
+                cursor: pointer;
             }
             input{
                 border: 1px solid rgba(169, 169, 169, 0.59);
