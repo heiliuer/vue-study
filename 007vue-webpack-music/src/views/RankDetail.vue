@@ -56,15 +56,19 @@
 //                console.log(type, this.typeName)
                 vm.loading = true;
                 if (typeof type != 'undefined') {
-                    api.getOnline(type, vm.page).then(function (data) {
-//                        console.log("load page ", vm.page)
-                        vm.hasMore = !vm.hasMore ? false : ((data.song_list || []).length) == api.config.limit
-                        vm.songs = vm.songs.concat(data.song_list || [])
-                        vm.page++
+                    try {
+                        api.getOnline(type, vm.page).then(function (data) {
+    //                        console.log("load page ", vm.page)
+                            vm.hasMore = !vm.hasMore ? false : ((data.song_list || []).length) == api.config.limit
+                            vm.songs = vm.songs.concat(data.song_list || [])
+                            vm.page++
+                            vm.loading = false
+                        }, function () {
+                            vm.loading = false
+                        })
+                    } catch (e) {
                         vm.loading = false
-                    }, function () {
-                        vm.loading = false
-                    })
+                    }
                 } else {
                     vm.loading = false;
                 }
