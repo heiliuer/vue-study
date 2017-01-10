@@ -26,6 +26,10 @@
                     <!--<div class="img-song" :style="{backgroundImage:bgImg}"></div>-->
 
                     <div class="comments">
+                        <div class="dancers">
+                            <canvas id='dancer1' width="100" height="200"></canvas>
+                            <canvas id='dancer4' width="100" height="200"></canvas>
+                        </div>
                         <p class="comments-title">
                             <span>用户：<input maxlength="5" type="text" name="" v-model="user.name"></span>
                             <span>在线 <b v-text="connInfo.size"></b></span>
@@ -33,7 +37,8 @@
                         </p>
                         <p class="comments-title">
                             <span v-if="onlineSong.user.name">直播: <a href="javascript:void(0)" @click="switchOnline"
-                                         v-text="onlineSong.name"></a> 来自 <b v-text="onlineSong.user.name"></b></span>
+                                                                     v-text="onlineSong.name"></a> 来自 <b
+                                    v-text="onlineSong.user.name"></b></span>
                             <span v-if="!(onlineSong.user.name)">暂无直播</span>
                         </p>
                         <ul>
@@ -56,6 +61,7 @@
                                    id="">
                         </form>
 
+
                     </div>
 
 
@@ -71,6 +77,18 @@
 </template>
 
 <style lang="less" rel="stylesheet/less">
+    .dancers {
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        opacity: 0.3;
+        margin-top: 42px;
+        box-sizing: border-box;
+        padding-bottom: 42px;
+        canvas {
+        }
+    }
+
     .comments {
         background-color: hsla(0, 0%, 100%, 0.76);
         width: 100%;
@@ -92,13 +110,13 @@
                 margin: 0 5px;
                 cursor: pointer;
             }
-            input{
+            input {
                 border: 1px solid rgba(169, 169, 169, 0.59);
                 background: transparent;
                 padding: 2px;
                 width: 4em
             }
-            &:first-of-type{
+            &:first-of-type {
                 padding-bottom: 0;
             }
         }
@@ -151,6 +169,7 @@
     import SyncCtrl from '../utils/SyncCtrl'
     import config from '../config'
 
+
     function filterSrc(src) {
         if (src == "") {
             return src
@@ -167,9 +186,46 @@
         }
     }
 
+    //预加载舞者资源
+    function preDownloadSrc(src) {
+        $.ajaxSettings.cache = true;
+        for (var i in src) {
+            $.get(src[i]);
+        }
+    }
+
+    function initDancer() {
+        var SOURCES = {
+            rebot: [],
+            sb: []
+        }
+        for (var i = 0; i < 82; i++) {
+            SOURCES.rebot.push("/static/dancesrc/rebot/man_" + i + ".png");
+        }
+        for (var i = 0; i < 51; i++) {
+            SOURCES.sb.push("/static/dancesrc/sb/sb" + i + ".jpg");
+        }
+        preDownloadSrc(SOURCES.rebot);
+        preDownloadSrc(SOURCES.sb);
+        var dancer1 = new Dancer({name: "dancer1", canvasSelector: "#dancer1"}).init(SOURCES.rebot).start();
+        var dancer4 = new Dancer({name: "dancer4", canvasSelector: "#dancer4"}).init(SOURCES.sb).start();
+
+        PlayerHandler.getHandler().setOnFrame(function (frequencyData) {
+            dancer1.handlerBuffer(frequencyData)
+            dancer4.handlerBuffer(frequencyData)
+        })
+    }
+
     export default{
         data(){
-            return {song: {}, user: {}, commentContent: "", comments: [], connInfo: {}, onlineSong: {name:"",user:{}}};
+            return {
+                song: {},
+                user: {},
+                commentContent: "",
+                comments: [],
+                connInfo: {},
+                onlineSong: {name: "", user: {}}
+            };
         },
         computed: {
             songinfo(){
@@ -184,7 +240,7 @@
         },
         methods: {
             sendOnline(){
-                let songOnline = {"songId": this.songinfo.song_id, "name": this.songinfo.title,user:this.user};
+                let songOnline = {"songId": this.songinfo.song_id, "name": this.songinfo.title, user: this.user};
                 this.onlineSong = songOnline
                 SyncCtrl.get().send(JSON.stringify({
                     type: "song",
@@ -192,7 +248,7 @@
                 }));
             },
             switchOnline(){
-                if(this.onlineSong.songId){
+                if (this.onlineSong.songId) {
                     this.loadSong(this.onlineSong)
                 }
             },
@@ -222,8 +278,8 @@
 //                            console.log("showPlayer");
                         }
                         handler.setSong(song)
-                        handler.play()
                         vm.song = song
+                        handler.play()
                     });
                 }
             },
@@ -236,14 +292,14 @@
         },
         props: ['playerShow'],
         components: {},
-        watch:{
-            "user.name":function () {
-                let vm=this
+        watch: {
+            "user.name": function () {
+                let vm = this
                 SyncCtrl.get().send(JSON.stringify({
                     type: "setUser",
                     data: vm.user
                 }));
-                localStorage.setItem("user",JSON.stringify(vm.user))
+                localStorage.setItem("user", JSON.stringify(vm.user))
             }
         },
         mounted(){
@@ -255,7 +311,7 @@
 
             var vm = this
 
-            vm.user = JSON.parse(localStorage.getItem("user")) || {'name': ''+(Math.floor(Math.random() * 10000))}
+            vm.user = JSON.parse(localStorage.getItem("user")) || {'name': '' + (Math.floor(Math.random() * 10000))}
 
             if (config.enableSyncCtrl) {
                 var syncCtrl = SyncCtrl.init();
@@ -267,11 +323,11 @@
                     //console.log("event.data:",event.data);
 
                     if (data.type == "song") {
-                        console.log(vm.songinfo.song_id,data.data.songId)
-                        if(vm.songinfo.song_id!=data.data.songId){
+                        console.log(vm.songinfo.song_id, data.data.songId)
+                        if (vm.songinfo.song_id != data.data.songId) {
                             vm.loadSong(data.data)
                             console.log("load and play")
-                        }else if(!vm.songinfo.song_id){
+                        } else if (!vm.songinfo.song_id) {
                             PlayerHandler.getHandler().play();
                             console.log("play")
                         }
@@ -284,7 +340,7 @@
                         vm.scrollCToBottom();
                     } else if (data.type == "connChange") {
                         vm.connInfo = data.data;
-                    }else if(data.type == "init"){
+                    } else if (data.type == "init") {
                         SyncCtrl.get().send(JSON.stringify({
                             type: "setUser",
                             data: vm.user
@@ -295,7 +351,7 @@
 
             //拦截路由
             //console.log("player mounted");
-            ROUTER.beforeEach((to, from, next) => {
+            ROUTER.beforeEach(function (to, from, next) {
 //                console.log("player beforeEach");
                 if (to.name == "player") {
                     vm.routeIn(to)
@@ -305,6 +361,8 @@
                     next();
                 }
             })
+
+            initDancer(vm)
 
         }
     }

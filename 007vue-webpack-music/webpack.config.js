@@ -49,7 +49,7 @@ module.exports = {
             filename: 'index.html'
         }),
         new CopyWebpackPlugin([
-            {from: 'vendor/**'}
+            {from: 'static/**'}
         ]),
         new webpack.optimize.UglifyJsPlugin({
             sourceMap: false,
