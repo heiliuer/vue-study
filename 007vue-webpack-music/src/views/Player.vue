@@ -26,10 +26,7 @@
                     <!--<div class="img-song" :style="{backgroundImage:bgImg}"></div>-->
 
                     <div class="comments">
-                        <div class="dancers">
-                            <canvas id='dancer1' width="100" height="200"></canvas>
-                            <canvas id='dancer4' width="100" height="200"></canvas>
-                        </div>
+                        <div class="dancers" id="dancers"></div>
                         <p class="comments-title">
                             <span>用户：<input maxlength="5" type="text" name="" v-model="user.name"></span>
                             <span>在线 <b v-text="connInfo.size"></b></span>
@@ -207,11 +204,20 @@
         }
         preDownloadSrc(SOURCES.rebot);
         preDownloadSrc(SOURCES.sb);
-        var dancer1 = new Dancer({name: "dancer1", canvasSelector: "#dancer1"}).init(SOURCES.rebot).start();
-        var dancer4 = new Dancer({name: "dancer4", canvasSelector: "#dancer4"}).init(SOURCES.sb).start();
+
+        var dancers = document.getElementById("dancers")
+
+//        var dId = "dancer1";
+//        $('<canvas id="' + dId + '" width="100" height="200">').appendTo(dancers)
+//        var dancer1 = new Dancer({name: dId, canvasSelector: "#" + dId}).init(SOURCES.rebot).start();
+
+
+        var dId = "dancer4";
+        $('<canvas id="' + dId + '" width="100" height="200">').appendTo(dancers)
+        var dancer4 = new Dancer({name: dId, canvasSelector: "#" + dId}).init(SOURCES.sb).start();
 
         PlayerHandler.getHandler().setOnFrame(function (frequencyData) {
-            dancer1.handlerBuffer(frequencyData)
+//            dancer1.handlerBuffer(frequencyData)
             dancer4.handlerBuffer(frequencyData)
         })
     }
