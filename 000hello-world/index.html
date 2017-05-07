@@ -3,25 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <title>000HelloWorld</title>
+    <script src="../vendor/vue1.0.26.js"></script>
 </head>
-
 <body>
 
+<!--region hello world-->
 <fieldset>
-    <legend>app</legend>
+    <legend>app hello world</legend>
     <div id="app">{{message}}</div>
 </fieldset>
 
+<script>
+    //hello world
+    new Vue({
+        el: "#app",
+        data: {
+            message: "Hello Vue!"
+        }
+    })
+</script>
+<!--endregion-->
+
+<!--region 双向bind-->
 <fieldset>
-    <legend>app1</legend>
+    <legend>app1 双向bind</legend>
     <div id="app1">
         <input type="text" v-model="message">
         <span>{{message}}</span>
     </div>
 </fieldset>
 
+<script>
+    //双向bind
+    new Vue({
+        el: "#app1",
+        data: {
+            message: "Hello Vue!"
+        }
+    })
+</script>
+<!--endregion-->
+
 <fieldset>
-    <legend>app2</legend>
+    <legend>app2 列表</legend>
     <div id="app2">
         <ul>
             <li v-for="todo in todos">
@@ -31,48 +55,7 @@
     </div>
 </fieldset>
 
-<fieldset>
-    <legend>app3</legend>
-    <div id="app3">
-        <p>{{message}}</p>
-        <button v-on:click="reverseMsg">reversMsg</button>
-    </div>
-</fieldset>
-
-<fieldset>
-    <legend>app4</legend>
-    <div id="app4">
-        <input type="text" v-model="newTodo" v-on:keyup.enter="addTodo">
-        <ul>
-            <li v-for="todo in todos"><span>{{todo.text}}</span>
-                <button v-on:click="removeTodo($index)">X</button>
-            </li>
-        </ul>
-    </div>
-
-</fieldset>
-
-
-</body>
-<script src="../vendor/vue1.0.26.js"></script>
 <script>
-
-    //HelloWorld
-    new Vue({
-        el: "#app",
-        data: {
-            message: "Hello Vue!"
-        }
-    });
-
-    //双向bind
-    new Vue({
-        el: "#app1",
-        data: {
-            message: "Hello Vue!"
-        }
-    });
-
     //输出列表
     new Vue({
         el: "#app2",
@@ -80,7 +63,17 @@
             todos: [{text: "learn vue"}, {text: "use vue"}]
         }
     });
+</script>
 
+<fieldset>
+    <legend>app3 处理用户事件</legend>
+    <div id="app3">
+        <p>{{message}}</p>
+        <button v-on:click="reverseMsg">reversMsg</button>
+    </div>
+</fieldset>
+
+<script>
     //处理用户事件
     new Vue({
         el: "#app3",
@@ -93,7 +86,22 @@
             }
         }
     });
+</script>
 
+<fieldset>
+    <legend>app4 综合</legend>
+    <div id="app4">
+        <input type="text" v-model="newTodo" placeholder="todo内容，回车添加" v-on:keyup.enter="addTodo">
+        <ul>
+            <li v-for="todo in todos"><span>{{todo.text}}</span>
+                <button v-on:click="removeTodo($index)">X</button>
+            </li>
+        </ul>
+    </div>
+
+</fieldset>
+
+<script>
     //综合
     new Vue({
         el: "#app4",
@@ -113,7 +121,7 @@
             }
         }
     });
-
 </script>
 
+</body>
 </html>

@@ -1,0 +1,32 @@
+.todo__title___3xjQ7 {
+    margin: 30px 0;
+    font-weight: 400;
+    font-size: 34px;
+    color: #3cc51f;
+    text-align: center
+}
+
+.todo__completed {
+    color: #999;
+    text-decoration: line-through
+}
+
+.bottom_bar_right {
+    position: absolute;
+    right: 4%;
+    top: 33%;
+}
+
+.bottom_bar_right > a {
+    border: 1px solid rgba(220, 220, 220, 0);
+    border-radius: 2px;
+    padding: 3px;
+    text-decoration: none;
+    color: rgb(220, 220, 220);
+}
+
+.bottom_bar_right > a.selected {
+    /*border: 1px solid #888;*/
+    color: #888;
+}
+
