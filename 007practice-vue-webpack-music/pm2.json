@@ -1,0 +1,13 @@
+{
+  "name": "hiplayer",
+  "script": "./server-src/app.js",
+  "min_uptime": "200s",
+  "max_restarts": 10,
+  "output": "./logs/out.log",
+  "error": "./logs/error.log",
+  "log": "./logs/combined.outerr.log",
+  "env": {
+    "NODE_ENV": "production"
+  }
+}
+

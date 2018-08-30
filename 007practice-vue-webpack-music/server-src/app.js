@@ -18,7 +18,9 @@ PORT = PORT || 5369;
 var WebSocketServer = require('websocket').server;
 var express = require('express');
 var app = express();
-var server = app.listen(PORT);
+var server = app.listen(PORT, () => {
+  console.log(`## running on ${PORT} ....`)
+});
 var wsServer = new WebSocketServer({httpServer: server, autoAcceptConnections: false});
 
 // this will make Express serve your static files
