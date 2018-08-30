@@ -1,6 +1,6 @@
 {
   "name": "hiplayer",
-  "script": "./server-src/app.js",
+  "script": "./server/app.js",
   "min_uptime": "200s",
   "max_restarts": 10,
   "output": "./logs/out.log",
