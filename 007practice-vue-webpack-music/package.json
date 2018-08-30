@@ -1,6 +1,9 @@
 {
   "name": "HtmlWebpackPlugin",
   "version": "0.0.1",
+  "scripts": {
+    "start": "node server/app.js"
+  },
   "devDependencies": {
     "babel-core": "^6.18.0",
     "babel-loader": "6.2.4",
