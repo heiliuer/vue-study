@@ -22,7 +22,6 @@
 
                 <div class="content">
                     <h6 class="text-center text-muted sub-title" v-text="songinfo.album_title"></h6>
-                    </h5>
                     <!--<div class="img-song" :style="{backgroundImage:bgImg}"></div>-->
 
                     <div class="comments">

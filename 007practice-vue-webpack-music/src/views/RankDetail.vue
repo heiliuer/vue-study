@@ -8,7 +8,7 @@
                         <router-link class="item-content" :to="{name: 'player',query:{songId:song.song_id}}" tag="li"
                                      append>
                             <div class="item-media">
-                                <img width="44" :src="song.pic_big">
+                                <img width="44" :src="$fixImgUrl(song.pic_big)">
                             </div>
                             <div class="item-inner">
                                 <div class="item-title-row">

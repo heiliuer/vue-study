@@ -29,6 +29,10 @@ Vue.directive(titleSetter.name, titleSetter.directive)
 
 window.ROUTER = router
 
+Vue.prototype.$fixImgUrl = function (url) {
+  return url.replace('http://www.beihaiw.com/pic.php?url=','')
+}
+
 const app = new Vue({
     router: router,
     components: {App},
