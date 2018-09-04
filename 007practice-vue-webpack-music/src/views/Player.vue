@@ -27,7 +27,7 @@
                     <div class="comments">
                         <div class="dancers" id="dancers"></div>
                         <p class="comments-title">
-                            <span>用户：<input maxlength="5" type="text" name="" v-model="user.name"></span>
+                            <span>用户：<input maxlength="20" type="text" name="" v-model="user.name"></span>
                             <span>在线 <b v-text="connInfo.size"></b></span>
                             <span class="s_btn" @click="sendOnline">推送</span>
                         </p>
