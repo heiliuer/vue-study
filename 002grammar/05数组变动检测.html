@@ -8,6 +8,7 @@
             display: block;
         }
     </style>
+    <script src="../vendor/vue.js"></script>
 </head>
 
 <body>
@@ -16,17 +17,17 @@
     <!--在 v-for 块内我们能完全访问父组件作用域内的属性，另有一个特殊变量 $index，
     正如你猜到的，它是当前数组元素的索引：-->
     <!--从 1.0.17 开始可以使用 of 分隔符，更接近 JavaScript 遍历器语法-->
-    <ul v-for="p in persons">
+    <ul v-for="(p, $index) in persons">
         <li><span>{{$index+1}}</span>  {{p.name}}</li>
     </ul>
-    <ul v-for="p of persons">
+    <ul v-for="(p, $index) of persons">
         <li><span>{{$index+1}}</span>  {{p.name}}</li>
     </ul>
 
     <!--然后在替换数组 items 时，
     如果 Vue.js 遇到一个包含 _uid: '88f869d' 的新对象，
     它知道它可以复用这个已有对象的作用域与 DOM 元素。-->
-    <ul v-for="p of personsUUId" track-by="uuid">
+    <ul v-for="(p, $index)  of personsUUId" track-by="uuid">
         <li><span>{{$index+1}}</span>  {{p.name}}</li>
     </ul>
 
@@ -38,7 +39,7 @@
     因为这时 DOM 节点不再映射数组元素顺序的改变，
     不能同步临时状态（比如 <input> 元素的值）以及组件的私有状态。
     因此，如果 v-for 块包含 <input> 元素或子组件，要小心使用-->
-    <ul v-for="p of personsUUId" track-by="$index">
+    <ul v-for="(p, $index)  of personsUUId" track-by="$index">
         <li><span>{{$index+1}}</span>  {{p.name}}</li>
     </ul>
 
@@ -60,11 +61,60 @@
             <td v-for="n in 10">{{$index+1}}</td>
         </tr>
     </table>
-
 </div>
 
+<fieldset>
+    <legend>修改数组长度</legend>
+    <div id="app5">
+        <table>
+            <tr v-for="(item, index) in arr" :key="index"><td>
+                {{item}}
+            </td></tr>
+        </table>
+        <button @click="changeLen">修改长度</button>
+    </div>
+    <script>
+        new Vue({
+            el: '#app5',
+            data: {
+                arr: ['1','2','3']
+            },
+            methods: {
+                changeLen: function () {
+                    this.arr.splice(1)
+                }
+            }
+        })
+    </script>
+</fieldset>
+
+<fieldset>
+    <legend>批量赋值属性</legend>
+    <div id="app6">
+        {{name.firstName}} {{name.lastName}}
+    </div>
+    <script>
+        new Vue({
+            el: '#app6',
+            data: {
+                name: {
+                    firstName: 'w',
+                    lastName: 'h',
+                }
+            },
+            methods: {
+                setValues: function () {
+                  this.name = Object.assign({}, this.name,{
+                      firstName: 'w1',
+                      lastName: 'h1',
+                  })
+                }
+            }
+        })
+    </script>
+</fieldset>
+
 </body>
-<script src="../vendor/vue.js"></script>
 <script>
     var persons=[{name:"chenwenlin"},{name:"yangwenyu",isBG:true},{name:"heiliuer"}]
     var personsUUId=[{uuid:"11",name:"chenwenlin"},{uuid:"121",name:"yangwenyu",isBG:true},{uuid:"131",name:"heiliuer"}]
