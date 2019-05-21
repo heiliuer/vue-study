@@ -13,17 +13,16 @@ export interface TodoState {
     todoList: Todo[]
 }
 
-
 const state: TodoState = {
-    todoList: []
+  todoList: []
 }
 
 export default new Vuex.Store({
-    state,
-    mutations: {
+  state,
+  mutations: {
 
-    },
-    actions: {
+  },
+  actions: {
 
-    },
+  }
 })
