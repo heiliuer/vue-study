@@ -1,10 +1,10 @@
 <template>
-  <li
-    class="house-group_item-item"
-    :class="{'active': status,'disabled': disabled}"
-  >
-    {{ item }}
-  </li>
+    <li
+        class="house-group_item-item"
+        :class="{'active': status,'disabled': disabled}"
+    >
+        {{ item }}
+    </li>
 </template>
 <style lang="scss">
     .house-group_item-item {

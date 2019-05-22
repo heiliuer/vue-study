@@ -1,22 +1,22 @@
 <template>
-  <div class="home">
-    <div class="house-group_wrap">
-      <ul class="house-group">
-        <transition-group
-          name="list"
-          tag="li"
-        >
-          <HouseGroupItem
-            v-for="(items, itemsIndex) in showList"
-            :key="items._index"
-            :disabled="itemsIndex!==showList.length-1"
-            :items="items"
-            @complete="onItemsComplete(itemsIndex)"
-          />
-        </transition-group>
-      </ul>
+    <div class="home">
+        <div class="house-group_wrap">
+            <ul class="house-group">
+                <transition-group
+                    name="list"
+                    tag="li"
+                >
+                    <HouseGroupItem
+                        v-for="(items, itemsIndex) in showList"
+                        :key="items._index"
+                        :disabled="itemsIndex!==showList.length-1"
+                        :items="items"
+                        @complete="onItemsComplete(itemsIndex)"
+                    />
+                </transition-group>
+            </ul>
+        </div>
     </div>
-  </div>
 </template>
 <style lang="scss">
     .home {
@@ -66,46 +66,58 @@
 </style>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+    import { Component, Prop, Vue } from 'vue-property-decorator'
 
-import HouseGroupItem from '../components/HouseGroupItem.vue'
+    import HouseGroupItem from '../components/HouseGroupItem.vue'
 
-@Component({
-  components: {
-    HouseGroupItem
-  }
-})
-export default class Home extends Vue {
-  private list: number[][]
+    interface HouseItemItem {
+        num: number;
+    }
 
-  constructor() {
-    super(...arguments)
+    interface HouseItem extends Array<HouseItemItem[]>{
+        [index: number]: HouseItemItem[];
 
-    this.list = this.initList()
-  }
+        _index: number
+    }
 
-  private initList(): number[][] {
-    let refIndex = 1
-    const list = Array.apply(0, new Array(200)).map((value, index) => {
-      const length = Math.ceil(Math.random() * 3)
-      refIndex += length
-      const result: number[] = Array.apply(0, new Array(length)).map((value2, index2) => {
-        return refIndex - (length - index2)
-      })
-      // @ts-ignore
-      result._index = index
-      return result
+    @Component({
+        components: {
+            HouseGroupItem
+        }
     })
-    return list.reverse()
-  }
+    export default class Home extends Vue {
+        private list: HouseItem
 
-  private get showList(): number[][] {
-    const listLength = this.list.length
-    return this.list.slice(listLength - 10, listLength)
-  }
+        constructor() {
+            super(...arguments)
 
-  private onItemsComplete() {
-    this.list.splice(this.list.length - 1, 1)
-  }
-}
+            this.list = this.initList()
+        }
+
+        private initList(): HouseItem {
+            let refIndex = 1
+            const list: HouseItem = Array.apply(0, new Array(200)).map((value, index) => {
+                const length = Math.ceil(Math.random() * 3)
+                refIndex += length
+                const result: HouseItemItem[] = Array.apply(0, new Array(length)).map((value2, index2) => {
+                    return {
+                        num: refIndex - (length - index2)
+                    }
+                })
+                // @ts-ignore
+                result._index = index
+                return result
+            })
+            return list.reverse()
+        }
+
+        private get showList(): number[][] {
+            const listLength = this.list.length
+            return this.list.slice(listLength - 10, listLength)
+        }
+
+        private onItemsComplete() {
+            this.list.splice(this.list.length - 1, 1)
+        }
+    }
 </script>

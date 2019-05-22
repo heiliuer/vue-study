@@ -1,21 +1,17 @@
 module.exports = {
     root: true,
-
     env: {
         browser: true,
         node: true,
         es6: true
     },
-
     parserOptions: {
         parser: '@typescript-eslint/parser',
         sourceType: 'module'
     },
-
     plugins: [
         'vue'
     ],
-
     rules: {
         'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
         'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
@@ -32,9 +28,10 @@ module.exports = {
         'vue/match-component-file-name': 'error',
         'vue/object-curly-spacing': 'error',
         'indent': 'off',
+        'vue/html-indent': ["error", 4],
         "vue/script-indent": ["error", 4, {"baseIndent": 1}]
     },
-    'extends': [
+    extends: [
         'eslint:recommended',
         'plugin:vue/recommended',
         '@vue/standard',

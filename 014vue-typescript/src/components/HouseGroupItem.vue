@@ -1,14 +1,15 @@
 <template>
-  <ul class="house-group_item">
-    <HouseItem
-      v-for="(item,index) in items"
-      :key="index"
-      :disabled="disabled"
-      :item="item"
-      @touchActive="touchActive(index, $event)"
-    />
-  </ul>
+    <ul class="house-group_item">
+        <HouseItem
+            v-for="(item,index) in items"
+            :key="index"
+            :disabled="disabled"
+            :item="item"
+            @touchActive="touchActive(index, $event)"
+        />
+    </ul>
 </template>
+
 <style lang="scss">
     .house-group_item {
         display: flex;
