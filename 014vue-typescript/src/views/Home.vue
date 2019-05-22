@@ -76,36 +76,36 @@ import HouseGroupItem from '../components/HouseGroupItem.vue'
   }
 })
 export default class Home extends Vue {
-    private list: number[][]
+  private list: number[][]
 
-    constructor() {
-      super(...arguments)
+  constructor() {
+    super(...arguments)
 
-      this.list = this.initList()
-    }
+    this.list = this.initList()
+  }
 
-    private initList(): number[][] {
-      let refIndex = 1
-      const list = Array.apply(0, new Array(200)).map((value, index) => {
-        const length = Math.ceil(Math.random() * 3)
-        refIndex += length
-        const result: number[] = Array.apply(0, new Array(length)).map((value2, index2) => {
-          return refIndex - (length - index2)
-        })
-        // @ts-ignore
-        result._index = index
-        return result
+  private initList(): number[][] {
+    let refIndex = 1
+    const list = Array.apply(0, new Array(200)).map((value, index) => {
+      const length = Math.ceil(Math.random() * 3)
+      refIndex += length
+      const result: number[] = Array.apply(0, new Array(length)).map((value2, index2) => {
+        return refIndex - (length - index2)
       })
-      return list.reverse()
-    }
+      // @ts-ignore
+      result._index = index
+      return result
+    })
+    return list.reverse()
+  }
 
-    private get showList(): number[][] {
-      const listLength = this.list.length
-      return this.list.slice(listLength - 10, listLength)
-    }
+  private get showList(): number[][] {
+    const listLength = this.list.length
+    return this.list.slice(listLength - 10, listLength)
+  }
 
-    private onItemsComplete() {
-      this.list.splice(this.list.length - 1, 1)
-    }
+  private onItemsComplete() {
+    this.list.splice(this.list.length - 1, 1)
+  }
 }
 </script>

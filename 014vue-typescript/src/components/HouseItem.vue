@@ -1,10 +1,10 @@
 <template>
-    <li
-            class="house-group_item-item"
-            :class="{'active': status,'disabled': disabled}"
-    >
-        {{ item }}
-    </li>
+  <li
+    class="house-group_item-item"
+    :class="{'active': status,'disabled': disabled}"
+  >
+    {{ item }}
+  </li>
 </template>
 <style lang="scss">
     .house-group_item-item {
@@ -39,8 +39,8 @@
 </style>
 
 <script lang="ts">
-    import {Component, Prop, Vue} from 'vue-property-decorator'
-    import {supportsPassive} from '@/util'
+    import { Component, Prop, Vue } from 'vue-property-decorator'
+    import { supportsPassive } from '@/util'
 
     export type TouchStatus = 'start' | 'move' | ''
 
@@ -70,7 +70,7 @@
                 this.status = ''
                 // @ts-ignore
                 // console.log('touchend touches', event.touches)
-            }, supportsPassive ? {passive: true} : false)
+            }, supportsPassive ? { passive: true } : false)
 
             // el.addEventListener('touchmove', event => {
             //     if (this.disabled) {
@@ -94,7 +94,7 @@
                 this.$emit('touchActive', data)
                 // @ts-ignore
                 // console.log('touchstart touches', event.touches)
-            }, supportsPassive ? {passive: true} : false)
+            }, supportsPassive ? { passive: true } : false)
         }
     }
 </script>

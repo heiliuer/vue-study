@@ -30,7 +30,9 @@ module.exports = {
         'vue/eqeqeq': 'error',
         'vue/key-spacing': 'error',
         'vue/match-component-file-name': 'error',
-        'vue/object-curly-spacing': 'error'
+        'vue/object-curly-spacing': 'error',
+        'indent': 'off',
+        "vue/script-indent": ["error", 4, {"baseIndent": 1}]
     },
     'extends': [
         'eslint:recommended',

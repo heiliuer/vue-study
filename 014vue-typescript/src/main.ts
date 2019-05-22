@@ -7,9 +7,9 @@ Vue.config.productionTip = false
 
 let preLoadPromise = Promise.resolve()
 if (process.env.NODE_ENV !== 'production') {
-  // @ts-ignore
-  preLoadPromise = import(/* vconsole */'vconsole').then(({ default: VConsole }) => {
-    /*eslint-disable*/
+    // @ts-ignore
+    preLoadPromise = import(/* vconsole */'vconsole').then(({ default: VConsole }) => {
+        /*eslint-disable*/
         new VConsole()
     })
 }
