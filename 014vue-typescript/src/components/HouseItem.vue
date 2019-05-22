@@ -3,7 +3,7 @@
         class="house-group_item-item"
         :class="{'active': status,'disabled': disabled}"
     >
-        {{ item }}
+        {{ item.num }}
     </li>
 </template>
 <style lang="scss">

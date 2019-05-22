@@ -7,10 +7,10 @@
                     tag="li"
                 >
                     <HouseGroupItem
-                        v-for="(items, itemsIndex) in showList"
-                        :key="items._index"
+                        v-for="(item, itemsIndex) in showList"
+                        :key="item.index"
                         :disabled="itemsIndex!==showList.length-1"
-                        :items="items"
+                        :items="item.items"
                         @complete="onItemsComplete(itemsIndex)"
                     />
                 </transition-group>
@@ -74,10 +74,9 @@
         num: number;
     }
 
-    interface HouseItem extends Array<HouseItemItem[]>{
-        [index: number]: HouseItemItem[];
-
-        _index: number
+    interface HouseItem {
+        items: HouseItemItem[];
+        index: number
     }
 
     @Component({
@@ -86,7 +85,7 @@
         }
     })
     export default class Home extends Vue {
-        private list: HouseItem
+        private list: HouseItem[]
 
         constructor() {
             super(...arguments)
@@ -94,24 +93,26 @@
             this.list = this.initList()
         }
 
-        private initList(): HouseItem {
+        private initList(): HouseItem[] {
             let refIndex = 1
-            const list: HouseItem = Array.apply(0, new Array(200)).map((value, index) => {
+            const list: HouseItem[] = Array.apply(0, new Array(200)).map((value, index) => {
                 const length = Math.ceil(Math.random() * 3)
                 refIndex += length
-                const result: HouseItemItem[] = Array.apply(0, new Array(length)).map((value2, index2) => {
+                const items: HouseItemItem[] = Array.apply(0, new Array(length)).map((value2, index2) => {
                     return {
                         num: refIndex - (length - index2)
                     }
                 })
-                // @ts-ignore
-                result._index = index
-                return result
+                const item: HouseItem = {
+                    items,
+                    index
+                }
+                return item
             })
             return list.reverse()
         }
 
-        private get showList(): number[][] {
+        private get showList(): HouseItem[] {
             const listLength = this.list.length
             return this.list.slice(listLength - 10, listLength)
         }
