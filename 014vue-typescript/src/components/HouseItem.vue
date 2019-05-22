@@ -1,10 +1,10 @@
 <template>
-  <li
-    class="house-group_item-item"
-    :class="{'active': status,'disabled': disabled}"
-  >
-    {{ item }}
-  </li>
+    <li
+            class="house-group_item-item"
+            :class="{'active': status,'disabled': disabled}"
+    >
+        {{ item }}
+    </li>
 </template>
 <style lang="scss">
     .house-group_item-item {
@@ -39,18 +39,18 @@
 </style>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
-import { supportsPassive } from '@/util'
+    import {Component, Prop, Vue} from 'vue-property-decorator'
+    import {supportsPassive} from '@/util'
 
-export type TouchStatus = 'start' | 'move' | ''
+    export type TouchStatus = 'start' | 'move' | ''
 
-export interface TouchActiveEvent {
+    export interface TouchActiveEvent {
         item: number
         timestamp: number
     }
 
     @Component
-export default class HouseItem extends Vue {
+    export default class HouseItem extends Vue {
         @Prop() private item!: number
 
         @Prop() private disabled!: boolean
@@ -58,43 +58,43 @@ export default class HouseItem extends Vue {
         private status: TouchStatus = ''
 
         public mounted() {
-          this.bindEvent()
+            this.bindEvent()
         }
 
         private bindEvent() {
-          const el = this.$el
-          el.addEventListener('touchend', (event) => {
-            if (this.disabled) {
-              return
-            }
-            this.status = ''
-            // @ts-ignore
-            // console.log('touchend touches', event.touches)
-          }, supportsPassive ? { passive: true } : false)
+            const el = this.$el
+            el.addEventListener('touchend', (event) => {
+                if (this.disabled) {
+                    return
+                }
+                this.status = ''
+                // @ts-ignore
+                // console.log('touchend touches', event.touches)
+            }, supportsPassive ? {passive: true} : false)
 
-          // el.addEventListener('touchmove', event => {
-          //     if (this.disabled) {
-          //         return
-          //     }
-          //     event.preventDefault();
-          //     this.status = 'move'
-          //     console.log('touchmove touches', event.touches)
-          // });
+            // el.addEventListener('touchmove', event => {
+            //     if (this.disabled) {
+            //         return
+            //     }
+            //     event.preventDefault();
+            //     this.status = 'move'
+            //     console.log('touchmove touches', event.touches)
+            // });
 
-          el.addEventListener('touchstart', (event) => {
-            if (this.disabled) {
-              return
-            }
-            this.status = 'start'
-            this.$forceUpdate()
-            const data: TouchActiveEvent = {
-              item: this.item,
-              timestamp: Date.now()
-            }
-            this.$emit('touchActive', data)
-            // @ts-ignore
-            // console.log('touchstart touches', event.touches)
-          }, supportsPassive ? { passive: true } : false)
+            el.addEventListener('touchstart', (event) => {
+                if (this.disabled) {
+                    return
+                }
+                this.status = 'start'
+                this.$forceUpdate()
+                const data: TouchActiveEvent = {
+                    item: this.item,
+                    timestamp: Date.now()
+                }
+                this.$emit('touchActive', data)
+                // @ts-ignore
+                // console.log('touchstart touches', event.touches)
+            }, supportsPassive ? {passive: true} : false)
         }
-}
+    }
 </script>

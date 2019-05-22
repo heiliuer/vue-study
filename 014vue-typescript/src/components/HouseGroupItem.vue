@@ -21,16 +21,16 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import HouseItem, { TouchActiveEvent } from './HouseItem.vue'
 
-    interface NumberMap {
-        [index: number]: number
-    }
+interface NumberMap {
+    [index: number]: number
+}
 
-    @Component({
-      name: 'HouseGroupItem',
-      components: {
-        HouseItem
-      }
-    })
+@Component({
+  name: 'HouseGroupItem',
+  components: {
+    HouseItem
+  }
+})
 export default class HouseGroupItem extends Vue {
         @Prop() private items!: number[]
         @Prop() private disabled!: boolean
@@ -45,7 +45,8 @@ export default class HouseGroupItem extends Vue {
           if (!this.isComplete) {
             this.touchActiveMap[index] = timestamp
             console.log('touchActiveMap', this.touchActiveMap)
-            let min = Infinity; let max = 0
+            let min = Infinity
+            let max = 0
             const activeList = Object.values(this.touchActiveMap)
             if (activeList.length >= this.items.length) {
               activeList.forEach((t) => {
