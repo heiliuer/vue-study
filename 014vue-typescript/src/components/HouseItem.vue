@@ -7,16 +7,18 @@
     </li>
 </template>
 <style lang="scss">
+    $size: 80px;
+    $margin: 10px;
     .house-group_item-item {
         $color: #485bff;
-        $size: 80px;
+
         border-radius: 20px;
         box-shadow: 4px 3px 4px 3px lighten($color, 12%);
         /*border: 1px solid $color;*/
         display: inline-block;
         width: $size;
         height: $size;
-        margin: 10px;
+        margin: $margin;
         text-align: center;
         line-height: $size;
         box-sizing: border-box;
@@ -35,6 +37,18 @@
             box-shadow: none;
             border: 1px solid lighten($color, 12%);
         }
+    }
+
+    .list-enter-active, .list-leave-active {
+        transition: all .2s;
+        height: $size + $margin * 2;
+        overflow: hidden;
+    }
+
+    .list-enter, .list-leave-to {
+        opacity: 0;
+        height: 0;
+        transform: translateY(10px);
     }
 </style>
 

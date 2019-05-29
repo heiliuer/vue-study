@@ -1,20 +1,19 @@
 <template>
     <div class="home">
         <div class="house-group_wrap">
-            <ul class="house-group">
-                <transition-group
-                    name="list"
-                    tag="li"
-                >
-                    <HouseGroupItem
-                        v-for="(item, itemsIndex) in showList"
-                        :key="item.index"
-                        :disabled="itemsIndex!==showList.length-1"
-                        :items="item.items"
-                        @complete="onItemsComplete(itemsIndex)"
-                    />
-                </transition-group>
-            </ul>
+            <transition-group
+                name="list"
+                class="house-group"
+                tag="div"
+            >
+                <HouseGroupItem
+                    v-for="(item, itemsIndex) in showList"
+                    :key="item.index"
+                    :disabled="itemsIndex!==showList.length-1"
+                    :items="item.items"
+                    @complete="onItemsComplete(itemsIndex)"
+                />
+            </transition-group>
         </div>
     </div>
 </template>
@@ -51,18 +50,6 @@
         left: 0;
         z-index: 1;
     }
-
-    .list-enter-active, .list-leave-active {
-        transition: all .2s;
-        height: 120px;
-        overflow: hidden;
-    }
-
-    .list-enter, .list-leave-to {
-        opacity: 0;
-        height: 0;
-        transform: translateX(30px);
-    }
 </style>
 
 <script lang="ts">
@@ -70,55 +57,55 @@
 
     import HouseGroupItem from '../components/HouseGroupItem.vue'
 
-    interface HouseItemItem {
-        num: number;
-    }
+interface HouseItemItem {
+    num: number;
+}
 
-    interface HouseItem {
-        items: HouseItemItem[];
-        index: number
-    }
+interface HouseItem {
+    items: HouseItemItem[];
+    index: number
+}
 
-    @Component({
-        components: {
-            HouseGroupItem
-        }
-    })
+@Component({
+    components: {
+        HouseGroupItem
+    }
+})
     export default class Home extends Vue {
-        private list: HouseItem[]
+    private list: HouseItem[]
 
-        constructor() {
-            super(...arguments)
+    constructor() {
+        super(...arguments)
 
-            this.list = this.initList()
-        }
+        this.list = this.initList()
+    }
 
-        private initList(): HouseItem[] {
-            let refIndex = 1
-            const list: HouseItem[] = Array.apply(0, new Array(200)).map((value, index) => {
-                const length = Math.ceil(Math.random() * 3)
-                refIndex += length
-                const items: HouseItemItem[] = Array.apply(0, new Array(length)).map((value2, index2) => {
-                    return {
-                        num: refIndex - (length - index2)
-                    }
-                })
-                const item: HouseItem = {
-                    items,
-                    index
+    private initList(): HouseItem[] {
+        let refIndex = 1
+        const list: HouseItem[] = Array.apply(0, new Array(200)).map((value, index) => {
+            const length = Math.ceil(Math.random() * 1)
+            refIndex += length
+            const items: HouseItemItem[] = Array.apply(0, new Array(length)).map((value2, index2) => {
+                return {
+                    num: refIndex - (length - index2)
                 }
-                return item
             })
-            return list.reverse()
-        }
+            const item: HouseItem = {
+                items,
+                index
+            }
+            return item
+        })
+        return list.reverse()
+    }
 
-        private get showList(): HouseItem[] {
-            const listLength = this.list.length
-            return this.list.slice(listLength - 10, listLength)
-        }
+    private get showList(): HouseItem[] {
+        const listLength = this.list.length
+        return this.list.slice(listLength - 10, listLength)
+    }
 
-        private onItemsComplete() {
-            this.list.splice(this.list.length - 1, 1)
-        }
+    private onItemsComplete() {
+        this.list.splice(this.list.length - 1, 1)
+    }
     }
 </script>
