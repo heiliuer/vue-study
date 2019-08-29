@@ -1,26 +1,26 @@
 <template>
-    <ul class="house-group_item">
-        <HouseItem
-            v-for="(item,index) in items"
-            :key="index"
-            :disabled="disabled"
-            :item="item"
-            @touchActiveChange="touchActive(index, $event)"
-        />
-    </ul>
+  <ul class="house-group_item">
+    <HouseItem
+      v-for="(item,index) in items"
+      :key="index"
+      :disabled="disabled"
+      :item="item"
+      @touchActiveChange="touchActive(index, $event)"
+    />
+  </ul>
 </template>
 
 <style lang="scss">
-    .house-group_item {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+  .house-group_item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 </style>
 
 <script lang="ts">
-    import { Component, Prop, Vue } from 'vue-property-decorator'
-    import HouseItem, { TouchActiveEvent } from './HouseItem.vue'
+import {Component, Prop, Vue} from 'vue-property-decorator'
+import HouseItem, {TouchActiveEvent} from './HouseItem.vue'
 
 interface ActiveMap {
     [index: number]: boolean
@@ -32,7 +32,7 @@ interface ActiveMap {
         HouseItem
     }
 })
-    export default class HouseGroupItem extends Vue {
+export default class HouseGroupItem extends Vue {
     @Prop() private items!: number[]
     @Prop() private disabled!: boolean
     private touchActiveMap: ActiveMap = {}
@@ -69,7 +69,7 @@ interface ActiveMap {
     //     }
     // }
 
-    private touchActive(index: number, { item, timestamp, active }: TouchActiveEvent) {
+    private touchActive(index: number, {item, timestamp, active}: TouchActiveEvent) {
         if (this.disabled) {
             return
         }
@@ -83,5 +83,5 @@ interface ActiveMap {
             }
         }
     }
-    }
+}
 </script>
