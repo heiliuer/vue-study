@@ -1,7 +1,7 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from 'vue';
+import Vuex from 'vuex';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export interface Todo {
   content: string;
@@ -14,15 +14,11 @@ export interface TodoState {
 }
 
 const state: TodoState = {
-  todoList: []
-}
+  todoList: [],
+};
 
 export default new Vuex.Store({
   state,
-  mutations: {
-
-  },
-  actions: {
-
-  }
-})
+  mutations: {},
+  actions: {},
+});

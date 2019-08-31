@@ -1,16 +1,12 @@
 {
-  "defaultSeverity": "error",
-  "extends": [
-    "tslint:latest"
-  ],
-  "include": [
-    "src//*.ts",
-    "src//*.vue"
-  ],
-  "jsRules": {},
-  "rules": {
-    "object-literal-sort-keys": false,
-    "interface-name": false
+  "defaultSeverity": "warning",
+  "extends": ["tslint-plugin-prettier", "tslint-config-prettier"],
+  "linterOptions": {
+    "exclude": ["node_modules/**"]
   },
-  "rulesDirectory": []
+  "include": ["src//*.ts", "src//*.vue"],
+  "rules": {
+    "prettier": true,
+    "quotemark": [true, "single"]
+  }
 }
