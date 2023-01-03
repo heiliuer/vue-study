@@ -18,9 +18,9 @@
     "vuex-module-decorators": "^0.9.9"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.7.0",
+    "@vue/cli-plugin-babel": "^5.0.8",
     "@vue/cli-plugin-typescript": "^3.7.0",
-    "@vue/cli-service": "^3.7.0",
+    "@vue/cli-service": "^5.0.8",
     "husky": "^3.0.4",
     "lint-staged": "^8.1.5",
     "tslint-config-prettier": "^1.18.0",
